@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <h1>{{ appMessages.app.title }}</h1>
-    
-    <MessageForm 
+
+    <MessageForm
       @message-saved="handleMessageSaved"
     />
-    
-    <MessageList 
+
+    <MessageList
       :messages="messages"
       :loading="loading"
       @refresh="refreshMessages"

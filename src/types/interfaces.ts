@@ -7,10 +7,3 @@ export interface MessageRecord {
 export interface SaveMessageRequest {
   message: string
 }
-
-export interface ApiResponse<T = any> {
-  success?: boolean
-  message?: string
-  error?: string
-  data?: T
-}

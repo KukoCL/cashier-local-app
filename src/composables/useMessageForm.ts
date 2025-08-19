@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import axios from 'axios'
-import type { MessageRecord, SaveMessageRequest, ApiResponse } from '../types/interfaces'
+import type { MessageRecord, SaveMessageRequest } from '../types/interfaces'
 import { API_ENDPOINTS } from '../infraestructure/constants'
 import appMessages from '../infraestructure/appMessages'
 
@@ -12,34 +12,39 @@ export function useMessageForm() {
     type: 'success' | 'error' | ''
   }>({
     message: '',
-    type: ''
+    type: '',
   })
 
   const saveMessage = async (): Promise<boolean> => {
     if (!newMessage.value.trim()) return false
-    
+
     loading.value = true
     status.value = { message: '', type: '' }
-    
+
     try {
       const request: SaveMessageRequest = {
-        message: newMessage.value
+        message: newMessage.value,
       }
-      
-      await axios.post<ApiResponse>(API_ENDPOINTS.MESSAGES, request)
-      
+
+      await axios.post(API_ENDPOINTS.MESSAGES, request)
+
       status.value = {
         message: appMessages.messageForm.successMessage,
-        type: 'success'
+        type: 'success',
       }
-      
+
       newMessage.value = ''
       return true
-      
-    } catch (error: any) {
+
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+      const errorResponse = error && typeof error === 'object' && 'response' in error
+        ? (error as { response?: { data?: { error?: string } } }).response
+        : undefined
+
       status.value = {
-        message: `${appMessages.messageForm.errorPrefix}${error.response?.data?.error || error.message}`,
-        type: 'error'
+        message: `${appMessages.messageForm.errorPrefix}${errorResponse?.data?.error || errorMessage}`,
+        type: 'error',
       }
       return false
     } finally {
@@ -61,11 +66,11 @@ export function useMessageForm() {
     newMessage,
     loading,
     status,
-    
+
     // Actions
     saveMessage,
     clearStatus,
-    resetForm
+    resetForm,
   }
 }
 
@@ -75,7 +80,7 @@ export function useMessageList() {
 
   const loadMessages = async (): Promise<void> => {
     loading.value = true
-    
+
     try {
       const response = await axios.get<MessageRecord[]>(API_ENDPOINTS.MESSAGES)
       messages.value = response.data
@@ -94,9 +99,9 @@ export function useMessageList() {
     // State
     messages,
     loading,
-    
+
     // Actions
     loadMessages,
-    refreshMessages
+    refreshMessages,
   }
 }

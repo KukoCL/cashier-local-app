@@ -1,6 +1,7 @@
 {
   "name": "cashier-local-app",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
@@ -8,7 +9,9 @@
     "preview": "vite preview",
     "electron:dev": "dotnet run",
     "electron:build": "npm run build && electronize build /target win",
-    "start": "concurrently \"npm run electron:dev\" \"npm run dev\""
+    "start": "concurrently \"npm run electron:dev\" \"npm run dev\"",
+    "lint": "eslint . --ext .vue,.js,.ts",
+    "lint:fix": "eslint . --ext .vue,.js,.ts --fix"
   },
   "keywords": [],
   "author": "",
@@ -19,8 +22,15 @@
     "vue": "^3.5.18"
   },
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
     "@vitejs/plugin-vue": "^6.0.1",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.6.0",
     "concurrently": "^9.2.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-vue": "^10.4.0",
     "typescript": "^5.9.2",
     "vite": "^7.1.2",
     "vite-plugin-vue-devtools": "^7.7.7",
