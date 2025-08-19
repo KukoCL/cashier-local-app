@@ -103,21 +103,15 @@ npm run electron:build
 
 This creates a distributable Windows executable in the `bin/Desktop` folder.
 
-## 🎯 How to Use
-
-1. **Start the application** using the instructions above
-2. **Enter a message** in the text area
-3. **Click "Save Message to Database"** to store it in LiteDB
-4. **View saved messages** in the list below
-5. **Click "Refresh Messages"** to reload from the database
-
 ## 🔧 Development
 
 ### Available Scripts
 
-- `npm run electron:dev` - Run the app in development mode
-- `npm run electron:build` - Build for Windows distribution
-- `dotnet run` - Run the .NET application directly
+- `npm run install` - Install all dependencies and setup the project
+- `npm run start` - Start the application in development mode
+- `npm run dev` - Start the frontend in development mode (Vue 3 + Vite)
+- `npm run electron:build` - Build the desktop application for Windows distribution
+- `dotnet run` - Run the .NET application directly (backend only)
 - `dotnet build` - Build the .NET project
 
 ### API Endpoints
