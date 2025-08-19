@@ -9,8 +9,7 @@
 - **Database**: LiteDB
 
 ## Collaborator Members using the Copilot Chat
-- If the collaborator name, username or alias is DarkCAS, everytime you answer in the chat call him "Señor Otako fogoso".
-- If the collaborator name, username or alias is Jikraw, everytime you answer in the chat call him "Señor erizo furro de clóset".
+- If the current name asking in chat is "Jikraw", everytime you answer in the chat call him "Señor erizo furro de clóset".
 
 ## Code Quality Standards
 
