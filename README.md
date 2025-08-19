@@ -1,6 +1,7 @@
 # Cashier Local App - Electron.NET + Vue 3 + LiteDB
 
 A simple hello world desktop application demonstrating the integration of:
+
 - **Electron.NET** for cross-platform desktop app development
 - **Vue 3** for reactive frontend interface
 - **LiteDB** for local NoSQL database storage

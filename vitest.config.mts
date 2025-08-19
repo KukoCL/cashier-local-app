@@ -35,7 +35,6 @@ export default defineConfig({
         'src/infraestructure/appMessages.ts',
         'src/infraestructure/constants.ts',
         'src/types/interfaces.ts',
-        'src/types/index.ts',
         'src/main.ts',
         'src/App.vue',
       ],
