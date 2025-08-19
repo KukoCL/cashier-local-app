@@ -49,6 +49,10 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Test coverage
+coverage/
+*.lcov
+
 # Database files
 data.db
 *.db-shm
