@@ -1,22 +1,22 @@
 ﻿using ElectronNET.API;
 using ElectronNET.API.Entities;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using LiteDB;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddSingleton<DatabaseService>();
+builder.Services.AddSingleton<SeedDataService>();
 
 // Add Electron.NET
 builder.WebHost.UseElectron(args);
 
 var app = builder.Build();
+
+// Seed the database with sample data on first run
+var seedService = app.Services.GetRequiredService<SeedDataService>();
+seedService.SeedDatabase();
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())

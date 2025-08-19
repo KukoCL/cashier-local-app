@@ -14,7 +14,37 @@ A simple hello world desktop application demonstrating the integration of:
 - ✅ RESTful API backend
 - ✅ Responsive Vue.js frontend
 
-## 🛠 Technology Stack
+## �️ Database & Seed Data
+
+The app uses **LiteDB** for local data storage with an automatic seed data system:
+
+### Seed Data System
+- **Automatic**: Creates sample data on first run if database is empty
+- **Configurable**: Edit `seedData.json` to customize sample messages
+- **Optional**: Set `"Enabled": false` in `seedData.json` to disable seeding
+
+### Database File
+- **Location**: `data.db` (created automatically)
+- **Ignored**: Not tracked in git (each developer starts fresh)
+- **Persistent**: Data survives app restarts
+
+### Customizing Seed Data
+Edit `seedData.json`:
+```json
+{
+  "SeedData": {
+    "Enabled": true,
+    "Messages": [
+      {
+        "message": "Your custom message here",
+        "minutesAgo": 30
+      }
+    ]
+  }
+}
+```
+
+## �🛠 Technology Stack
 
 - **Backend**: ASP.NET Core 9.0 with Electron.NET
 - **Frontend**: Vue 3 with Axios for HTTP requests

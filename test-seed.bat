@@ -1,0 +1,6 @@
+@echo off
+echo Cleaning database and testing seed system...
+if exist data.db del data.db
+if exist bin\Debug\net9.0\data.db del bin\Debug\net9.0\data.db
+echo Starting application with fresh database...
+dotnet run --project ElectronApp.csproj
