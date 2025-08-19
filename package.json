@@ -1,0 +1,32 @@
+{
+  "name": "cashier-local-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "electron:dev": "dotnet run",
+    "electron:build": "npm run build && electronize build /target win",
+    "start": "concurrently \"npm run electron:dev\" \"npm run dev\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Electron.NET app with Vue 3 and LiteDB",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "vue": "^3.5.18"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "concurrently": "^9.2.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.2",
+    "vite-plugin-vue-devtools": "^7.7.7",
+    "vue-tsc": "^3.0.5"
+  },
+  "overrides": {
+    "vite-plugin-inspect": "^11.3.0"
+  }
+}
