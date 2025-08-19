@@ -79,32 +79,19 @@ Edit `seedData.json`:
 ### Installation & Running
 
 1. **Clone and navigate to the project:**
-   ```bash
-   cd cashier-local-app
-   ```
+  ```bash
+  cd cashier-local-app
+  ```
 
-2. **Restore .NET packages:**
-   ```bash
-   dotnet restore
-   ```
+2. **Install dependencies and run the application:**
+  ```bash
+  npm run install
+  npm run start
+  ```
 
-3. **Install npm dependencies:**
-   ```bash
-   npm install
-   ```
-
-4. **Run the application:**
-   ```bash
-   dotnet run
-   ```
-   Or use the npm script:
-   ```bash
-   npm run electron:dev
-   ```
-
-5. **Access the app:**
-   - The app will open in an Electron window automatically
-   - Or visit http://localhost:5000 in your browser
+3. **Access the app:**
+  - The app will open in an Electron window automatically
+  - Or visit http://localhost:3001 in your browser
 
 ### Building for Production
 
