@@ -10,6 +10,7 @@ wwwroot/assets/
 *.dll
 *.exe
 *.pdb
+*.db
 
 # .NET specific
 *.user
