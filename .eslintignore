@@ -1,9 +1,0 @@
-node_modules/
-dist/
-bin/
-obj/
-wwwroot/
-*.min.js
-*.d.ts
-.markdownlintignore
-.markdownlintrc.json
