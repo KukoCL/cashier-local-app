@@ -12,11 +12,7 @@
     "start": "concurrently \"npm run electron:dev\" \"npm run dev\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "vitest",
-    "test:run": "vitest run",
-    "test:unit": "vitest run --coverage --coverage.thresholds.lines=80 --coverage.thresholds.functions=80 --coverage.thresholds.branches=80 --coverage.thresholds.statements=80",
-    "test:coverage": "vitest run --coverage --coverage.thresholds.lines=80 --coverage.thresholds.functions=80 --coverage.thresholds.branches=80 --coverage.thresholds.statements=80",
-    "test:ui": "vitest --ui"
+    "test:unit": "vitest --config ./vitest.config.mts --run --coverage --coverage.thresholds.lines=80 --coverage.thresholds.functions=80 --coverage.thresholds.branches=80 --coverage.thresholds.statements=80"
   },
   "keywords": [],
   "author": "",
