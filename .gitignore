@@ -6,7 +6,7 @@ jspm_packages/
 bin/
 obj/
 dist/
-wwwroot/assets/
+wwwroot/
 *.dll
 *.exe
 *.pdb
