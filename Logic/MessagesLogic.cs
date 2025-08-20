@@ -1,13 +1,14 @@
-﻿using Persistence;
+﻿using Persistence.Interfaces;
 using Persistence.Models;
+using Logic.Interfaces;
 
 namespace Logic;
 
-public class MessagesLogic
+public class MessagesLogic : IMessagesLogic
 {
-    private readonly MessagesPersistence _messagesPersistence;
+    private readonly IMessagesPersistence _messagesPersistence;
 
-    public MessagesLogic(MessagesPersistence messagesPersistence)
+    public MessagesLogic(IMessagesPersistence messagesPersistence)
     {
         _messagesPersistence = messagesPersistence;
     }

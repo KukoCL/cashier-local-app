@@ -1,9 +1,10 @@
 ﻿using LiteDB;
 using Persistence.Models;
+using Persistence.Interfaces;
 
 namespace Persistence;
 
-public class MessagesPersistence
+public class MessagesPersistence : IMessagesPersistence
 {
     private readonly string _dbPath = "data.db";
 

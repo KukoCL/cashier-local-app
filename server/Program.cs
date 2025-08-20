@@ -1,14 +1,16 @@
 using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Logic;
+using Logic.Interfaces;
 using Persistence;
+using Persistence.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
-builder.Services.AddSingleton<MessagesPersistence>();
-builder.Services.AddSingleton<MessagesLogic>();
+builder.Services.AddSingleton<IMessagesPersistence, MessagesPersistence>();
+builder.Services.AddSingleton<IMessagesLogic, MessagesLogic>();
 builder.Services.AddSingleton<SeedDataService>();
 
 // Add Electron.NET

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Logic;
+using Logic.Interfaces;
 using Persistence.Models;
 
 namespace ElectronApp.Controllers;
@@ -8,9 +8,9 @@ namespace ElectronApp.Controllers;
 [Route("api/[controller]")]
 public class MessagesController : ControllerBase
 {
-    private readonly MessagesLogic _messagesLogic;
+    private readonly IMessagesLogic _messagesLogic;
 
-    public MessagesController(MessagesLogic messagesLogic)
+    public MessagesController(IMessagesLogic messagesLogic)
     {
         _messagesLogic = messagesLogic;
     }
@@ -30,7 +30,7 @@ public class MessagesController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult SaveMessage([FromBody] SaveMessageRequest request)
+    public ActionResult SaveMessage(MessageRecord request)
     {
         try
         {
@@ -51,9 +51,4 @@ public class MessagesController : ControllerBase
             return StatusCode(500, new { error = ex.Message });
         }
     }
-}
-
-public class SaveMessageRequest
-{
-    public string Message { get; set; } = string.Empty;
 }
