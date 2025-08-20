@@ -1,33 +1,68 @@
 <template>
-  <div class="container">
-    <h1>{{ appMessages.app.title }}</h1>
+  <div class="app">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <h2>Cashier Local App</h2>
+      </div>
+      <div class="nav-links">
+        <router-link to="/" class="nav-link">Home</router-link>
+        <router-link to="/messages" class="nav-link">Messages</router-link>
+      </div>
+    </nav>
 
-    <MessageForm
-      @message-saved="handleMessageSaved"
-    />
-
-    <MessageList
-      :messages="messages"
-      :loading="loading"
-      @refresh="refreshMessages"
-    />
+    <main class="main-content">
+      <router-view />
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import MessageForm from './components/MessageForm.vue'
-import MessageList from './components/MessageList.vue'
-import { useMessageList } from './composables/useMessages'
-import appMessages from './infraestructure/appMessages'
+// App-level logic can be added here
+</script>
 
-const { messages, loading, loadMessages, refreshMessages } = useMessageList()
-
-const handleMessageSaved = () => {
-  refreshMessages()
+<style scoped>
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-onMounted(() => {
-  loadMessages()
-})
-</script>
+.navbar {
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-brand h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.router-link-active {
+  background-color: #34495e;
+}
+
+.main-content {
+  flex: 1;
+  background-color: #f8f9fa;
+}
+</style>
