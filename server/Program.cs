@@ -1,12 +1,14 @@
 using ElectronNET.API;
 using ElectronNET.API.Entities;
-using LiteDB;
+using Logic;
+using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
-builder.Services.AddSingleton<DatabaseService>();
+builder.Services.AddSingleton<MessagesPersistence>();
+builder.Services.AddSingleton<MessagesLogic>();
 builder.Services.AddSingleton<SeedDataService>();
 
 // Add Electron.NET
@@ -57,37 +59,4 @@ async void CreateWindow()
 
     window.OnReadyToShow += () => window.Show();
     window.OnClosed += () => Electron.App.Quit();
-}
-
-// Database service
-public class DatabaseService
-{
-    private readonly string _dbPath = "data.db";
-
-    public void SaveMessage(string message)
-    {
-        using var db = new LiteDatabase(_dbPath);
-        var messages = db.GetCollection<MessageRecord>("messages");
-        
-        messages.Insert(new MessageRecord
-        {
-            Id = Guid.NewGuid(),
-            Message = message,
-            Timestamp = DateTime.Now
-        });
-    }
-
-    public List<MessageRecord> GetMessages()
-    {
-        using var db = new LiteDatabase(_dbPath);
-        var messages = db.GetCollection<MessageRecord>("messages");
-        return messages.FindAll().OrderByDescending(m => m.Timestamp).ToList();
-    }
-}
-
-public class MessageRecord
-{
-    public Guid Id { get; set; }
-    public string Message { get; set; } = string.Empty;
-    public DateTime Timestamp { get; set; }
 }

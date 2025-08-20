@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Logic;
+using Persistence.Models;
 
 namespace ElectronApp.Controllers;
 
@@ -6,11 +8,11 @@ namespace ElectronApp.Controllers;
 [Route("api/[controller]")]
 public class MessagesController : ControllerBase
 {
-    private readonly DatabaseService _databaseService;
+    private readonly MessagesLogic _messagesLogic;
 
-    public MessagesController(DatabaseService databaseService)
+    public MessagesController(MessagesLogic messagesLogic)
     {
-        _databaseService = databaseService;
+        _messagesLogic = messagesLogic;
     }
 
     [HttpGet]
@@ -18,7 +20,7 @@ public class MessagesController : ControllerBase
     {
         try
         {
-            var messages = _databaseService.GetMessages();
+            var messages = _messagesLogic.GetMessages();
             return Ok(messages);
         }
         catch (Exception ex)
@@ -37,8 +39,12 @@ public class MessagesController : ControllerBase
                 return BadRequest(new { error = "Message cannot be empty" });
             }
 
-            _databaseService.SaveMessage(request.Message);
+            _messagesLogic.SaveMessage(request.Message);
             return Ok(new { success = true, message = "Message saved successfully" });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
         }
         catch (Exception ex)
         {
