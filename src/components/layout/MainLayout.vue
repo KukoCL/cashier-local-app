@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TopBar from './TopBar.vue'
 import SideBar from './SideBar.vue'
@@ -28,6 +28,15 @@ const currentSection = ref<string>('')
 const showSideBar = computed(() => {
   return currentSection.value !== '' && currentSection.value !== 'home'
 })
+
+const updateCurrentSection = () => {
+  const pathSegments = route.path.split('/').filter(segment => segment)
+  if (pathSegments.length > 0) {
+    currentSection.value = pathSegments[0]
+  } else {
+    currentSection.value = 'home'
+  }
+}
 
 const handleNavigation = (section: string) => {
   currentSection.value = section
@@ -51,12 +60,12 @@ const handleSideNavigation = (view: string) => {
 
 // Set current section based on route
 onMounted(() => {
-  const pathSegments = route.path.split('/').filter(segment => segment)
-  if (pathSegments.length > 0) {
-    currentSection.value = pathSegments[0]
-  } else {
-    currentSection.value = 'home'
-  }
+  updateCurrentSection()
+})
+
+// Watch for route changes and update current section
+watch(() => route.path, () => {
+  updateCurrentSection()
 })
 </script>
 
