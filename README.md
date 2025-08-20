@@ -55,14 +55,17 @@ Edit `seedData.json`:
 ## 📁 Project Structure
 
 ```
-├── Controllers/
-│   └── MessagesController.cs     # API endpoints for messages
-├── wwwroot/
-│   └── index.html               # Vue 3 frontend application
+├── server/
+│   ├── Controllers/
+│   │   └── MessagesController.cs     # API endpoints for messages
+│   ├── Program.cs                    # Main application entry point
+│   ├── ElectronApp.csproj           # .NET project file
+│   ├── electron.manifest.json       # Electron configuration
+│   ├── seedData.json                # Seed data config
+│   └── wwwroot/                     # Built frontend assets (from Vite)
 ├── .github/
 │   └── copilot-instructions.md  # Project setup instructions
-├── Program.cs                   # Main application entry point
-├── ElectronApp.csproj          # .NET project file
+├── vite.config.ts              # Frontend build config (outputs to server/wwwroot)
 ├── package.json                # NPM dependencies and scripts
 ├── electron.manifest.json     # Electron configuration
 └── README.md                   # This file
@@ -111,8 +114,8 @@ This creates a distributable Windows executable in the `bin/Desktop` folder.
 - `npm run start` - Start the application in development mode
 - `npm run dev` - Start the frontend in development mode (Vue 3 + Vite)
 - `npm run electron:build` - Build the desktop application for Windows distribution
-- `dotnet run` - Run the .NET application directly (backend only)
-- `dotnet build` - Build the .NET project
+- `dotnet run --project ./server/ElectronApp.csproj` - Run the .NET application directly (backend only)
+- `dotnet build ./server/ElectronApp.csproj` - Build the .NET project
 
 ### API Endpoints
 

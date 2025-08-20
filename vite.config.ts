@@ -10,7 +10,7 @@ export default defineConfig({
   ],
   root: './src',
   build: {
-    outDir: '../wwwroot',
+    outDir: '../server/wwwroot',
     emptyOutDir: true,
     rollupOptions: {
       input: {

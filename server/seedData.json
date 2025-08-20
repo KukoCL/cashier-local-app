@@ -1,0 +1,31 @@
+{
+  "SeedData": {
+    "Enabled": true,
+    "Messages": [
+      {
+        "message": "Welcome to the Cashier Local App! 🎉",
+        "minutesAgo": 30
+      },
+      {
+        "message": "This is a sample message demonstrating the Vue 3 + TypeScript + Electron.NET stack.",
+        "minutesAgo": 25
+      },
+      {
+        "message": "LiteDB is working perfectly for local data storage! 📁",
+        "minutesAgo": 20
+      },
+      {
+        "message": "Try adding your own message using the form above ⬆️",
+        "minutesAgo": 15
+      },
+      {
+        "message": "The frontend is built with Vue 3 Composition API and TypeScript for better development experience.",
+        "minutesAgo": 10
+      },
+      {
+        "message": "All API calls are handled through Vue composables for better code organization! 🚀",
+        "minutesAgo": 5
+      }
+    ]
+  }
+}
