@@ -1,6 +1,6 @@
 // API Endpoints
 export const API_ENDPOINTS = {
-  MESSAGES: '/api/messages',
+  PRODUCTS: '/api/products',
 } as const
 
 // HTTP Status Codes
@@ -13,7 +13,7 @@ export const HTTP_STATUS = {
 
 // Application Constants
 export const APP_CONFIG = {
-  MESSAGE_MIN_LENGTH: 1,
+  // MESSAGE_MIN_LENGTH: 1,
   DEBOUNCE_DELAY: 300,
 } as const
 

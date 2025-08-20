@@ -44,11 +44,33 @@
 - Define interfaces for complex objects
 - Use generic types where appropriate
 
+### .NET/C# Specific
+- Try to keep one Controller per Vue View, and one Logic per Controller
+- Follow C# naming conventions (PascalCase for classes/methods, camelCase for fields)
+- Use dependency injection for services and repositories
+- Implement proper interface-based abstractions
+- Follow Clean Architecture patterns (App → Logic → Persistence) → Shared
+- Implement proper error handling with try-catch blocks
+- Use meaningful exception types and messages
+
+### Database/LiteDB
+- Use using statements for database connections
+- Implement proper CRUD operations in persistence layer
+- Keep database operations in the Persistence project only
+- Use models from Shared project for data transfer
+
 ### File Structure
 - `/composables/` - Reusable Vue composition functions including the ones with API calls
 - `/constants/` - Application constants and configuration
 - `/types/` - TypeScript type and interfaces definitions
 - `/utils/` - Pure utility functions
+
+### .NET Project Structure
+- `/Shared/` - Domain models and shared interfaces
+- `/Persistence/` - Database access layer with interfaces
+- `/Logic/` - Business logic layer with interfaces
+- `/App/` (server) - Controllers and API endpoints
+- Follow interface-based dependency injection patterns
 
 ## Example Patterns
 

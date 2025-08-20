@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import MessagesView from '../views/MessagesView.vue'
+import ProductsListView from '../views/products/ProductsListView.vue'
 
 const routes = [
   {
@@ -9,9 +9,13 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/messages',
-    name: 'Messages',
-    component: MessagesView,
+    path: '/productos',
+    redirect: '/productos/list',
+  },
+  {
+    path: '/productos/list',
+    name: 'ProductsList',
+    component: ProductsListView,
   },
 ]
 

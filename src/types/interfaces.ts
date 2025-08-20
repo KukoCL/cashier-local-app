@@ -1,9 +1,27 @@
-export interface MessageRecord {
+export interface Product {
   id: string
-  message: string
-  timestamp: string
+  creationDate: string
+  lastUpdateDate: string
+  barCode: string
+  name: string
+  description: string
+  price: number
+  stock: number
+  productType: string
+  unitType: string
+  isActive: boolean
 }
 
-export interface SaveMessageRequest {
-  message: string
+export interface CreateProductRequest {
+  name: string
+  description: string
+  price: number
+  barCode: string
+  stock: number
+  productType: string
+  unitType: string
+}
+
+export interface UpdateProductRequest extends CreateProductRequest {
+  id: string
 }

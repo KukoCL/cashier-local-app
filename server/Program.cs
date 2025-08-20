@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
-builder.Services.AddSingleton<IMessagesPersistence, MessagesPersistence>();
-builder.Services.AddSingleton<IMessagesLogic, MessagesLogic>();
+builder.Services.AddSingleton<IProductsPersistence, ProductsPersistence>();
+builder.Services.AddSingleton<IProductsLogic, ProductsLogic>();
 builder.Services.AddSingleton<SeedDataService>();
 
 // Add Electron.NET
@@ -18,7 +18,7 @@ builder.WebHost.UseElectron(args);
 
 var app = builder.Build();
 
-// Seed the database with sample data on first run
+// Seed the database with sample data on first run (currently disabled)
 var seedService = app.Services.GetRequiredService<SeedDataService>();
 seedService.SeedDatabase();
 

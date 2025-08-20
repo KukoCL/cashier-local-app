@@ -10,7 +10,7 @@ A simple hello world desktop application demonstrating the integration of:
 ## 🚀 Features
 
 - ✅ Desktop application with modern web UI
-- ✅ Real-time message storage and retrieval
+- ✅ Real-time data storage and retrieval
 - ✅ Local database (no external dependencies)
 - ✅ RESTful API backend
 - ✅ Responsive Vue.js frontend
@@ -21,7 +21,7 @@ The app uses **LiteDB** for local data storage with an automatic seed data syste
 
 ### Seed Data System
 - **Automatic**: Creates sample data on first run if database is empty
-- **Configurable**: Edit `seedData.json` to customize sample messages
+- **Configurable**: Edit `seedData.json` to customize seed data
 - **Optional**: Set `"Enabled": false` in `seedData.json` to disable seeding
 
 ### Database File
@@ -34,13 +34,8 @@ Edit `seedData.json`:
 ```json
 {
   "SeedData": {
-    "Enabled": true,
-    "Messages": [
-      {
-        "message": "Your custom message here",
-        "minutesAgo": 30
-      }
-    ]
+    "Enabled": false,
+    "Messages": []
   }
 }
 ```
@@ -57,7 +52,7 @@ Edit `seedData.json`:
 ```
 ├── server/
 │   ├── Controllers/
-│   │   └── MessagesController.cs     # API endpoints for messages
+│   │   └── placeholder.cs            # Add your API controllers here
 │   ├── Program.cs                    # Main application entry point
 │   ├── ElectronApp.csproj           # .NET project file
 │   ├── electron.manifest.json       # Electron configuration
@@ -119,13 +114,17 @@ This creates a distributable Windows executable in the `bin/Desktop` folder.
 
 ### API Endpoints
 
-- `GET /api/messages` - Retrieve all saved messages
-- `POST /api/messages` - Save a new message
-  ```json
-  {
-    "message": "Your message text"
-  }
-  ```
+Currently no API endpoints implemented. Add your endpoints here:
+
+```
+// Example:
+// - `GET /api/products` - Retrieve all products
+// - `POST /api/products` - Create a new product
+//   {
+//     "name": "Product Name",
+//     "price": 29.99
+//   }
+```
 
 ### Database
 

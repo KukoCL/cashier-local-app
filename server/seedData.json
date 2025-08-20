@@ -1,30 +1,42 @@
 {
   "SeedData": {
     "Enabled": true,
-    "Messages": [
+    "Products": [
       {
-        "message": "Welcome to the Cashier Local App! 🎉",
-        "minutesAgo": 30
+        "name": "Coca Cola 350ml",
+        "description": "Bebida gaseosa sabor cola",
+        "price": 1200,
+        "barCode": "123456789001",
+        "stock": 50,
+        "productType": "Bebidas",
+        "unitType": "Unit"
       },
       {
-        "message": "This is a sample message demonstrating the Vue 3 + TypeScript + Electron.NET stack.",
-        "minutesAgo": 25
+        "name": "Pan de Molde",
+        "description": "Pan de molde integral",
+        "price": 2500,
+        "barCode": "123456789002",
+        "stock": 25,
+        "productType": "Alimentos",
+        "unitType": "Unit"
       },
       {
-        "message": "LiteDB is working perfectly for local data storage! 📁",
-        "minutesAgo": 20
+        "name": "Leche Entera 1L",
+        "description": "Leche entera pasteurizada",
+        "price": 1800,
+        "barCode": "123456789003",
+        "stock": 30,
+        "productType": "Lacteos",
+        "unitType": "Unit"
       },
       {
-        "message": "Try adding your own message using the form above ⬆️",
-        "minutesAgo": 15
-      },
-      {
-        "message": "The frontend is built with Vue 3 Composition API and TypeScript for better development experience.",
-        "minutesAgo": 10
-      },
-      {
-        "message": "All API calls are handled through Vue composables for better code organization! 🚀",
-        "minutesAgo": 5
+        "name": "Manzanas",
+        "description": "Manzanas rojas premium",
+        "price": 3200,
+        "barCode": "123456789004",
+        "stock": 100,
+        "productType": "Frutas",
+        "unitType": "Kg"
       }
     ]
   }
