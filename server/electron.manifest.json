@@ -1,15 +1,15 @@
 {
-  "executable": "ElectronApp",
+  "executable": "App",
   "splashscreen": {
     "imageFile": ""
   },
-  "name": "ElectronApp",
+  "name": "App",
   "author": "",
   "singleInstance": false,
   "environment": "Production",
   "build": {
-    "appId": "com.ElectronApp.app",
-    "productName": "ElectronApp",
+    "appId": "com.App.app",
+    "productName": "App",
     "copyright": "Copyright © 2020",
     "buildVersion": "1.0.0",
     "compression": "maximum",

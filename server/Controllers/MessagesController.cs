@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Logic.Interfaces;
 using Persistence.Models;
 
-namespace ElectronApp.Controllers;
+namespace App.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

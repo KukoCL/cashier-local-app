@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronApp", "server\\ElectronApp.csproj", "{F7394E8E-7EA2-A95E-1F43-27EBDF3960EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "server\\App.csproj", "{F7394E8E-7EA2-A95E-1F43-27EBDF3960EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{993BB1D3-13CB-47A7-B772-2CC650912A11}"
 EndProject

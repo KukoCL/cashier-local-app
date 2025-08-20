@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "electron:dev": "dotnet run --project ./server/ElectronApp.csproj",
+    "electron:dev": "dotnet run --project ./server/App.csproj",
     "electron:build": "npm run build && cd server && electronize build /target win && cd ..",
     "start": "concurrently \"npm run electron:dev\" \"npm run dev\"",
     "lint": "eslint .",
