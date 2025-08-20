@@ -1,4 +1,4 @@
-using Persistence.Models;
+using Shared.Models;
 
 namespace Logic.Interfaces;
 

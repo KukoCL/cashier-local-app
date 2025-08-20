@@ -1,4 +1,4 @@
-namespace Persistence.Models;
+namespace Shared.Models;
 
 public class MessageRecord
 {

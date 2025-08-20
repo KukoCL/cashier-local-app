@@ -1,5 +1,5 @@
 using LiteDB;
-using Persistence.Models;
+using Shared.Models;
 
 public class SeedDataService
 {

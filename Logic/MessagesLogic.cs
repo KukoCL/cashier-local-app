@@ -1,5 +1,5 @@
 ﻿using Persistence.Interfaces;
-using Persistence.Models;
+using Shared.Models;
 using Logic.Interfaces;
 
 namespace Logic;

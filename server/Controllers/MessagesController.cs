@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Logic.Interfaces;
-using Persistence.Models;
+using Shared.Models;
 
 namespace App.Controllers;
 
