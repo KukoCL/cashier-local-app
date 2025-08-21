@@ -44,6 +44,7 @@
 - Use global styles in `style.css` for common styles used across multiple components
 - Use global classes for elements like buttons, inputs, etc., to maintain consistency across components.
 - All global styles should be made in a way that can simplify applying a "skin" or theme to the application.
+- When creating unit tests remember that `test-setup.ts` is a good place to set up global configurations and mocks, and use shallowMount when possible.
 
 ### TypeScript
 - Always use proper typing

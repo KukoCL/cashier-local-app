@@ -32,6 +32,8 @@ export default defineConfig({
         '**/App.vue',
         '**/infraestructure/**',
         '**/types/**',
+        '**/router/**',
+        '**/views/**',
         'src/infraestructure/appMessages.ts',
         'src/infraestructure/constants.ts',
         'src/types/interfaces.ts',
