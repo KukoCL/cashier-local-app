@@ -35,7 +35,7 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProducts } from '../../composables/useProducts'
-import ProductCard from './components/ProductCard.vue'
+import ProductCard from '../../components/products/ProductCard.vue'
 import type { Product } from '../../types/interfaces'
 
 const router = useRouter()

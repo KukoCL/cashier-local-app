@@ -40,6 +40,9 @@
 - Use `storeToRefs` for accessing store state and getters
 - All information displayed in components should come from the store, and when something needs to be updated, it should be done to the LiteDB database and then refresh the store
 - Follow Vue 3 best practices for reactivity and lifecycle
+- Use global styles in `style.css` for common styles used across multiple components
+- Use global classes for elements like buttons, inputs, etc., to maintain consistency across components.
+- All global styles should be made in a way that can simplify applying a "skin" or theme to the application.
 
 ### TypeScript
 - Always use proper typing
