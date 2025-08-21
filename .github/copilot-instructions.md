@@ -10,7 +10,7 @@
 
 ## Code Quality Standards
 
-### General Guidelines
+### General Guidelines 
 - Always follow linter rules and conventions
 - Keep code clean and avoid code smells
 - Write short, specific, and reusable code
