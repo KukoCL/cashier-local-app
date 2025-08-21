@@ -1,4 +1,4 @@
-import { vi } from 'vitest'
+import { vi, beforeEach, afterEach } from 'vitest'
 
 // Mock axios for testing
 vi.mock('axios', () => ({
@@ -16,3 +16,13 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }))
+
+// Suppress console errors during testing to avoid noise from intentional error scenarios
+const originalConsoleError = console.error
+beforeEach(() => {
+  console.error = vi.fn()
+})
+
+afterEach(() => {
+  console.error = originalConsoleError
+})

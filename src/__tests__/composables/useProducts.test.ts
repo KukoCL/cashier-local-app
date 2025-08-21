@@ -54,7 +54,7 @@ describe('useProducts', () => {
     // These should be functions that call the store getters
     expect(typeof findProductById).toBe('function')
     expect(typeof findProductByBarcode).toBe('function')
-    
+
     // Since no products exist initially, should return undefined
     expect(findProductById('1')).toBeUndefined()
     expect(findProductByBarcode('123')).toBeUndefined()
@@ -66,11 +66,11 @@ describe('useProducts', () => {
     // These should be async functions
     expect(typeof fetchProductById).toBe('function')
     expect(typeof fetchProductByBarcode).toBe('function')
-    
+
     // Test that they return promises (they will be null due to mocked axios)
     const result1 = await fetchProductById('1')
     const result2 = await fetchProductByBarcode('123')
-    
+
     expect(result1).toBeNull()
     expect(result2).toBeNull()
   })

@@ -10,7 +10,7 @@ describe('useSidebar', () => {
   describe('useProductsSidebar', () => {
     it('should return products sidebar configuration', () => {
       const sidebar = useProductsSidebar()
-      
+
       expect(sidebar).toHaveLength(1)
       expect(sidebar[0]).toEqual({
         id: 'products',
@@ -36,7 +36,7 @@ describe('useSidebar', () => {
   describe('useReportsSidebar', () => {
     it('should return reports sidebar configuration', () => {
       const sidebar = useReportsSidebar()
-      
+
       expect(sidebar).toHaveLength(1)
       expect(sidebar[0]).toEqual({
         id: 'reports',
@@ -68,7 +68,7 @@ describe('useSidebar', () => {
   describe('useSalesSidebar', () => {
     it('should return sales sidebar configuration', () => {
       const sidebar = useSalesSidebar()
-      
+
       expect(sidebar).toHaveLength(1)
       expect(sidebar[0]).toEqual({
         id: 'sales',
@@ -101,33 +101,33 @@ describe('useSidebar', () => {
     it('should return products sidebar for products context', () => {
       const sidebar = useSidebarConfig('products')
       const expectedSidebar = useProductsSidebar()
-      
+
       expect(sidebar).toEqual(expectedSidebar)
     })
 
     it('should return reports sidebar for reports context', () => {
       const sidebar = useSidebarConfig('reports')
       const expectedSidebar = useReportsSidebar()
-      
+
       expect(sidebar).toEqual(expectedSidebar)
     })
 
     it('should return sales sidebar for sales context', () => {
       const sidebar = useSidebarConfig('sales')
       const expectedSidebar = useSalesSidebar()
-      
+
       expect(sidebar).toEqual(expectedSidebar)
     })
 
     it('should return empty array for unknown context', () => {
       const sidebar = useSidebarConfig('unknown')
-      
+
       expect(sidebar).toEqual([])
     })
 
     it('should handle empty string context', () => {
       const sidebar = useSidebarConfig('')
-      
+
       expect(sidebar).toEqual([])
     })
   })

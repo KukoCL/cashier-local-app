@@ -20,11 +20,11 @@ describe('BaseModal', () => {
       },
       attachTo: document.body,
     })
-    
+
     // Check if modal content exists in the DOM
     expect(document.querySelector('.modal-overlay')).toBeTruthy()
     expect(document.body.textContent).toContain('Test Modal')
-    
+
     wrapper.unmount()
   })
 
@@ -36,10 +36,10 @@ describe('BaseModal', () => {
       },
       attachTo: document.body,
     })
-    
+
     // Modal should not be in the DOM when isOpen is false
     expect(document.querySelector('.modal-overlay')).toBeFalsy()
-    
+
     wrapper.unmount()
   })
 
@@ -52,9 +52,9 @@ describe('BaseModal', () => {
       },
       attachTo: document.body,
     })
-    
+
     expect(document.querySelector('.modal-close-btn')).toBeTruthy()
-    
+
     wrapper.unmount()
   })
 
@@ -67,14 +67,14 @@ describe('BaseModal', () => {
       },
       attachTo: document.body,
     })
-    
+
     const closeBtn = document.querySelector('.modal-close-btn') as HTMLElement
     closeBtn?.click()
-    
+
     await wrapper.vm.$nextTick()
-    
+
     expect(wrapper.emitted('close')).toBeTruthy()
-    
+
     wrapper.unmount()
   })
 
@@ -89,10 +89,10 @@ describe('BaseModal', () => {
       },
       attachTo: document.body,
     })
-    
+
     expect(document.body.innerHTML).toContain('<p>Body content</p>')
     expect(document.body.innerHTML).toContain('<button>Footer button</button>')
-    
+
     wrapper.unmount()
   })
 
@@ -105,14 +105,14 @@ describe('BaseModal', () => {
       },
       attachTo: document.body,
     })
-    
+
     const overlay = document.querySelector('.modal-overlay') as HTMLElement
     overlay?.click()
-    
+
     await wrapper.vm.$nextTick()
-    
+
     expect(wrapper.emitted('close')).toBeTruthy()
-    
+
     wrapper.unmount()
   })
 })

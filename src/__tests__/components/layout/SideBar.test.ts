@@ -59,21 +59,21 @@ describe('SideBar', () => {
 
   it('should render sidebar structure', () => {
     const wrapper = createWrapper()
-    
+
     expect(wrapper.find('.sidebar').exists()).toBe(true)
     expect(wrapper.find('.sidebar-content').exists()).toBe(true)
   })
 
   it('should render all sections and their titles', () => {
     const wrapper = createWrapper()
-    
+
     expect(wrapper.text()).toContain('Products')
     expect(wrapper.text()).toContain('Reports')
   })
 
   it('should render all menu items', () => {
     const wrapper = createWrapper()
-    
+
     expect(wrapper.text()).toContain('📋 All Products')
     expect(wrapper.text()).toContain('➕ Add Product')
     expect(wrapper.text()).toContain('💰 Sales Report')
@@ -81,20 +81,20 @@ describe('SideBar', () => {
 
   it('should emit navigate event when string action item is clicked', async () => {
     const wrapper = createWrapper()
-    
+
     const listButton = wrapper.find('.sidebar-button')
     await listButton.trigger('click')
-    
+
     expect(wrapper.emitted('navigate')).toBeTruthy()
     expect(wrapper.emitted('navigate')?.[0]).toEqual(['list'])
   })
 
   it('should emit itemClick event when any item is clicked', async () => {
     const wrapper = createWrapper()
-    
+
     const listButton = wrapper.find('.sidebar-button')
     await listButton.trigger('click')
-    
+
     expect(wrapper.emitted('itemClick')).toBeTruthy()
     expect(wrapper.emitted('itemClick')?.[0]).toEqual([mockSections[0].items[0]])
   })
@@ -102,7 +102,7 @@ describe('SideBar', () => {
   it('should mark active item based on current route', () => {
     mockRoute.path = '/products/list'
     const wrapper = createWrapper()
-    
+
     const buttons = wrapper.findAll('.sidebar-button')
     // First button should be active since route contains 'list'
     expect(buttons[0].classes()).toContain('active')
@@ -124,9 +124,9 @@ describe('SideBar', () => {
         ],
       },
     ]
-    
+
     const wrapper = createWrapper(sectionsWithActiveItem)
-    
+
     const button = wrapper.find('.sidebar-button')
     expect(button.classes()).toContain('active')
   })
@@ -147,12 +147,12 @@ describe('SideBar', () => {
         ],
       },
     ]
-    
+
     const wrapper = createWrapper(sectionsWithFunction)
-    
+
     const button = wrapper.find('.sidebar-button')
     await button.trigger('click')
-    
+
     expect(mockFunction).toHaveBeenCalled()
     expect(wrapper.emitted('itemClick')).toBeTruthy()
     // Should NOT emit navigate for function actions
@@ -161,7 +161,7 @@ describe('SideBar', () => {
 
   it('should handle empty sections gracefully', () => {
     const wrapper = createWrapper([])
-    
+
     expect(wrapper.find('.sidebar').exists()).toBe(true)
     expect(wrapper.findAll('.sidebar-section')).toHaveLength(0)
   })
@@ -174,9 +174,9 @@ describe('SideBar', () => {
         items: [],
       },
     ]
-    
+
     const wrapper = createWrapper(emptySections)
-    
+
     expect(wrapper.text()).toContain('Empty Section')
     expect(wrapper.findAll('.sidebar-button')).toHaveLength(0)
   })
@@ -184,7 +184,7 @@ describe('SideBar', () => {
   it('should not mark item as active when route does not match', () => {
     mockRoute.path = '/different/path'
     const wrapper = createWrapper()
-    
+
     const buttons = wrapper.findAll('.sidebar-button')
     buttons.forEach(button => {
       expect(button.classes()).not.toContain('active')
@@ -193,7 +193,7 @@ describe('SideBar', () => {
 
   it('should render correct number of sections and items', () => {
     const wrapper = createWrapper()
-    
+
     expect(wrapper.findAll('.sidebar-section')).toHaveLength(2)
     expect(wrapper.findAll('.sidebar-button')).toHaveLength(3)
   })

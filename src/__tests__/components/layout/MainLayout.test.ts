@@ -38,7 +38,7 @@ describe('MainLayout', () => {
 
   it('should render the main layout structure', () => {
     const wrapper = createWrapper()
-    
+
     expect(wrapper.find('.main-layout').exists()).toBe(true)
     expect(wrapper.find('.layout-content').exists()).toBe(true)
     expect(wrapper.find('.main-content').exists()).toBe(true)
@@ -46,46 +46,39 @@ describe('MainLayout', () => {
 
   it('should handle navigation from TopBar', async () => {
     const wrapper = createWrapper()
-    
+
     // Test the handleNavigation method directly
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(wrapper.vm as any).handleNavigation('products')
-    
+
     expect(mockRouter.push).toHaveBeenCalledWith('/products')
   })
 
   it('should handle home navigation', async () => {
     const wrapper = createWrapper()
-    
+
     // Test the handleNavigation method directly
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(wrapper.vm as any).handleNavigation('home')
-    
+
     expect(mockRouter.push).toHaveBeenCalledWith('/')
   })
 
   it('should handle side navigation', async () => {
     const wrapper = createWrapper()
-    
+
     // Test the method directly
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(wrapper.vm as any).handleSideNavigation('list')
-    
+
     expect(mockRouter.push).toHaveBeenCalledWith('/products/list')
   })
 
   it('should handle sidebar item click', async () => {
     const wrapper = createWrapper()
-    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
-    
-    const mockItem = { id: 'test', label: 'Test', icon: '📋', action: 'test' }
-    
-    // Test the method directly
+
+    // Test the method directly - should not throw any errors
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ;(wrapper.vm as any).handleItemClick(mockItem)
-    
-    expect(consoleSpy).toHaveBeenCalledWith('Sidebar item clicked:', mockItem)
-    
-    consoleSpy.mockRestore()
+    expect(() => (wrapper.vm as any).handleItemClick()).not.toThrow()
   })
 })

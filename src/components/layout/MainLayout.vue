@@ -21,7 +21,6 @@ import { useRoute, useRouter } from 'vue-router'
 import TopBar from './TopBar.vue'
 import SideBar from './SideBar.vue'
 import { useSidebarConfig } from '../../composables/useSidebar'
-import type { SidebarItem } from '../../types/interfaces'
 
 const route = useRoute()
 const router = useRouter()
@@ -34,8 +33,6 @@ const showSideBar = computed(() => {
 
 const sidebarSections = computed(() => {
   const sections = useSidebarConfig(currentSection.value)
-  console.log('Current section:', currentSection.value)
-  console.log('Sidebar sections:', sections)
   return sections
 })
 
@@ -68,8 +65,9 @@ const handleSideNavigation = (view: string) => {
   router.push(`/${currentSection.value}/${view}`)
 }
 
-const handleItemClick = (item: SidebarItem) => {
-  console.log('Sidebar item clicked:', item)
+const handleItemClick = () => {
+  // Handle sidebar item click
+  // Could add analytics or other side effects here
 }
 
 // Set current section based on route

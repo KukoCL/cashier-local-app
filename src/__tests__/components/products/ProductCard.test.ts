@@ -42,7 +42,7 @@ describe('ProductCard', () => {
         product: mockProduct,
       },
     })
-    
+
     expect(wrapper.text()).toContain('Test Product')
     expect(wrapper.text()).toContain('Test Description')
     expect(wrapper.text()).toContain('123456789')
@@ -56,7 +56,7 @@ describe('ProductCard', () => {
         product: mockProduct,
       },
     })
-    
+
     expect(wrapper.text()).toContain('$1.000')
   })
 
@@ -66,9 +66,9 @@ describe('ProductCard', () => {
         product: mockProduct,
       },
     })
-    
+
     await wrapper.find('.edit-btn').trigger('click')
-    
+
     expect(wrapper.emitted('edit')).toBeTruthy()
     expect(wrapper.emitted('edit')?.[0]).toEqual([mockProduct])
   })
@@ -79,9 +79,9 @@ describe('ProductCard', () => {
         product: mockProduct,
       },
     })
-    
+
     await wrapper.find('.delete-btn').trigger('click')
-    
+
     // Check if the confirmation dialog is shown
     expect(wrapper.find('.confirmation-dialog').exists()).toBe(true)
   })
@@ -93,7 +93,7 @@ describe('ProductCard', () => {
         product: productWithoutDesc,
       },
     })
-    
+
     expect(wrapper.find('.product-description').exists()).toBe(false)
   })
 
@@ -104,7 +104,7 @@ describe('ProductCard', () => {
         product: productWithoutCode,
       },
     })
-    
+
     expect(wrapper.text()).toContain('No code')
   })
 
@@ -114,14 +114,14 @@ describe('ProductCard', () => {
         product: mockProduct,
       },
     })
-    
+
     // Open delete confirmation
     await wrapper.find('.delete-btn').trigger('click')
-    
+
     // Simulate confirming delete via the dialog component
     const confirmationDialog = wrapper.findComponent({ name: 'ConfirmationDialog' })
     await confirmationDialog.vm.$emit('confirm')
-    
+
     expect(wrapper.emitted('delete')).toBeTruthy()
     expect(wrapper.emitted('delete')?.[0]).toEqual([mockProduct])
   })

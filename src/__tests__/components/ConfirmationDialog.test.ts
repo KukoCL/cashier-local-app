@@ -22,7 +22,7 @@ describe('ConfirmationDialog', () => {
     const wrapper = mount(ConfirmationDialog, {
       props: defaultProps,
     })
-    
+
     expect(wrapper.text()).toContain('Are you sure?')
     expect(wrapper.text()).toContain('Confirm')
     expect(wrapper.text()).toContain('Cancel')
@@ -38,7 +38,7 @@ describe('ConfirmationDialog', () => {
         details: 'Additional details',
       },
     })
-    
+
     expect(wrapper.text()).toContain('Yes')
     expect(wrapper.text()).toContain('No')
     expect(wrapper.text()).toContain('Additional details')
@@ -48,9 +48,9 @@ describe('ConfirmationDialog', () => {
     const wrapper = mount(ConfirmationDialog, {
       props: defaultProps,
     })
-    
+
     await wrapper.find('.confirm-btn').trigger('click')
-    
+
     expect(wrapper.emitted('confirm')).toBeTruthy()
   })
 
@@ -58,9 +58,9 @@ describe('ConfirmationDialog', () => {
     const wrapper = mount(ConfirmationDialog, {
       props: defaultProps,
     })
-    
+
     await wrapper.find('.cancel-btn').trigger('click')
-    
+
     expect(wrapper.emitted('cancel')).toBeTruthy()
   })
 
@@ -71,7 +71,7 @@ describe('ConfirmationDialog', () => {
         loading: true,
       },
     })
-    
+
     expect(wrapper.text()).toContain('Processing...')
     expect(wrapper.find('.confirm-btn').attributes('disabled')).toBeDefined()
     expect(wrapper.find('.cancel-btn').attributes('disabled')).toBeDefined()
@@ -79,7 +79,7 @@ describe('ConfirmationDialog', () => {
 
   it('should render different variants with correct icons', () => {
     const variants: Array<'danger' | 'warning' | 'success' | 'info'> = ['danger', 'warning', 'success', 'info']
-    
+
     variants.forEach(variant => {
       const wrapper = mount(ConfirmationDialog, {
         props: {
@@ -87,7 +87,7 @@ describe('ConfirmationDialog', () => {
           variant,
         },
       })
-      
+
       expect(wrapper.find('.icon').classes()).toContain(`icon-${variant}`)
       expect(wrapper.find('.confirm-btn').classes()).toContain(`btn-${variant}`)
     })
@@ -97,7 +97,7 @@ describe('ConfirmationDialog', () => {
     const wrapper = mount(ConfirmationDialog, {
       props: defaultProps,
     })
-    
+
     expect(wrapper.find('.confirmation-details').exists()).toBe(false)
   })
 })

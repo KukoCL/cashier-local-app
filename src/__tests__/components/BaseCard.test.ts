@@ -5,7 +5,7 @@ import BaseCard from '../../components/BaseCard.vue'
 describe('BaseCard', () => {
   it('should render with default props', () => {
     const wrapper = mount(BaseCard)
-    
+
     expect(wrapper.classes()).toContain('card')
     expect(wrapper.classes()).toContain('card--default')
     expect(wrapper.classes()).toContain('card--hover')
@@ -17,7 +17,7 @@ describe('BaseCard', () => {
         variant: 'product',
       },
     })
-    
+
     expect(wrapper.classes()).toContain('card')
     expect(wrapper.classes()).toContain('card--product')
     expect(wrapper.classes()).toContain('card--hover')
@@ -29,7 +29,7 @@ describe('BaseCard', () => {
         hover: false,
       },
     })
-    
+
     expect(wrapper.classes()).toContain('card')
     expect(wrapper.classes()).toContain('card--default')
     expect(wrapper.classes()).not.toContain('card--hover')
@@ -41,7 +41,7 @@ describe('BaseCard', () => {
         default: '<p>Test content</p>',
       },
     })
-    
+
     expect(wrapper.html()).toContain('<p>Test content</p>')
   })
 
@@ -51,7 +51,7 @@ describe('BaseCard', () => {
         variant: 'stat',
       },
     })
-    
+
     expect(wrapper.classes()).toContain('card--stat')
   })
 })
