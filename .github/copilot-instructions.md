@@ -18,6 +18,7 @@
 - Keep code clean and avoid code smells
 - Write short, specific, and reusable code
 - Use meaningful variable and function names
+- Don't create example files to show usage
 
 ### String Handling
 - Use template literals instead of string concatenation with "+"

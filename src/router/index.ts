@@ -9,11 +9,11 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/productos',
-    redirect: '/productos/list',
+    path: '/products',
+    redirect: '/products/list',
   },
   {
-    path: '/productos/list',
+    path: '/products/list',
     name: 'ProductsList',
     component: ProductsListView,
   },

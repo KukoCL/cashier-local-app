@@ -13,10 +13,10 @@
       </button>
       <button
         class="nav-button"
-        :class="{ active: currentSection === 'productos' }"
-        @click="$emit('navigate', 'productos')"
+        :class="{ active: isProductsActive }"
+        @click="$emit('navigate', 'products')"
       >
-        📦 Productos
+        📦 Products
       </button>
     </div>
   </nav>
@@ -35,6 +35,10 @@ const route = useRoute()
 const currentSection = computed(() => {
   const pathSegments = route.path.split('/').filter(segment => segment)
   return pathSegments.length > 0 ? pathSegments[0] : 'home'
+})
+
+const isProductsActive = computed(() => {
+  return currentSection.value === 'products'
 })
 </script>
 

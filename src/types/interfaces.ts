@@ -25,3 +25,18 @@ export interface CreateProductRequest {
 export interface UpdateProductRequest extends CreateProductRequest {
   id: string
 }
+
+// Sidebar interfaces
+export interface SidebarItem {
+  id: string
+  label: string
+  icon: string
+  action: string | (() => void)
+  isActive?: boolean
+}
+
+export interface SidebarSection {
+  id: string
+  title: string
+  items: SidebarItem[]
+}

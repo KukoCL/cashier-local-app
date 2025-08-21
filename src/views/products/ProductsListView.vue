@@ -1,9 +1,9 @@
 <template>
   <div class="products-list-view">
     <div class="view-header">
-      <h1>Lista de Productos</h1>
+      <h1>Products List</h1>
       <button class="refresh-btn" @click="refreshProducts" :disabled="loading">
-        {{ loading ? 'Cargando...' : '🔄 Actualizar' }}
+        {{ loading ? 'Loading...' : '🔄 Refresh' }}
       </button>
     </div>
 
@@ -12,11 +12,11 @@
     </div>
 
     <div v-if="loading && products.length === 0" class="loading-message">
-      Cargando productos...
+      Loading products...
     </div>
 
     <div v-else-if="products.length === 0" class="empty-message">
-      No hay productos registrados
+      No products registered
     </div>
 
     <div v-else class="products-grid">
@@ -46,15 +46,13 @@ const refreshProducts = async () => {
 }
 
 const handleEdit = (product: Product) => {
-  router.push(`/productos/edit/${product.id}`)
+  router.push(`/products/edit/${product.id}`)
 }
 
 const handleDelete = async (product: Product) => {
-  if (confirm(`¿Estás seguro de eliminar el producto "${product.name}"?`)) {
-    const success = await deleteProduct(product.id)
-    if (success) {
-      console.log('Product deleted successfully')
-    }
+  const success = await deleteProduct(product.id)
+  if (success) {
+    console.log('Product deleted successfully')
   }
 }
 

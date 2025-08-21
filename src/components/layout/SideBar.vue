@@ -1,25 +1,16 @@
 <template>
   <aside class="sidebar">
     <div class="sidebar-content">
-      <div v-if="currentSection === 'productos'" class="sidebar-section">
-        <h3>Productos</h3>
+      <div v-for="section in sections" :key="section.id" class="sidebar-section">
+        <h3>{{ section.title }}</h3>
         <ul class="sidebar-menu">
-          <li>
+          <li v-for="item in section.items" :key="item.id">
             <button
               class="sidebar-button"
-              :class="{ active: isCurrentView('list') }"
-              @click="$emit('navigate', 'list')"
+              :class="{ active: isActiveItem(item) }"
+              @click="handleItemClick(item)"
             >
-              📋 Lista de Productos
-            </button>
-          </li>
-          <li>
-            <button
-              class="sidebar-button"
-              :class="{ active: isCurrentView('create') }"
-              @click="$emit('navigate', 'create')"
-            >
-              ➕ Crear Producto
+              {{ item.icon }} {{ item.label }}
             </button>
           </li>
         </ul>
@@ -31,26 +22,48 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import type { SidebarItem, SidebarSection } from '../../types/interfaces'
 
 interface Props {
-  currentSection: string
+  sections: SidebarSection[]
 }
 
 defineProps<Props>()
 
-defineEmits<{
-  navigate: [view: string]
+const emit = defineEmits<{
+  navigate: [action: string]
+  itemClick: [item: SidebarItem]
 }>()
 
 const route = useRoute()
 
-const currentView = computed(() => {
-  const pathSegments = route.path.split('/').filter(segment => segment)
-  return pathSegments.length > 1 ? pathSegments[1] : 'list'
-})
+const currentPath = computed(() => route.path)
 
-const isCurrentView = (view: string): boolean => {
-  return currentView.value === view
+const isActiveItem = (item: SidebarItem): boolean => {
+  // Check if item has custom isActive logic
+  if (item.isActive !== undefined) {
+    return item.isActive
+  }
+
+  // Default logic: check if the action matches current route
+  if (typeof item.action === 'string') {
+    return currentPath.value.includes(item.action)
+  }
+
+  return false
+}
+
+const handleItemClick = (item: SidebarItem) => {
+  if (typeof item.action === 'string') {
+    // Emit navigate for string actions (routes)
+    emit('navigate', item.action)
+  } else if (typeof item.action === 'function') {
+    // Execute function actions directly
+    item.action()
+  }
+
+  // Always emit itemClick for parent to handle
+  emit('itemClick', item)
 }
 </script>
 

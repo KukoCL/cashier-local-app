@@ -1,30 +1,30 @@
 <template>
   <div class="home-view">
-    <h1>Bienvenido al Sistema de Caja</h1>
-    <p>Selecciona una opción del menú principal para comenzar.</p>
+    <h1>Welcome to the Cashier System</h1>
+    <p>Select an option from the main menu to get started.</p>
 
     <div class="quick-stats">
       <BaseCard variant="stat">
-        <h3>📦 Productos</h3>
-        <p>Gestiona tu inventario</p>
-        <router-link to="/productos" class="stat-link">
-          Ver Productos
+        <h3>📦 Products</h3>
+        <p>Manage your inventory</p>
+        <router-link to="/products" class="stat-link">
+          View Products
         </router-link>
       </BaseCard>
 
       <BaseCard variant="stat">
-        <h3>💰 Ventas</h3>
-        <p>Próximamente</p>
+        <h3>💰 Sales</h3>
+        <p>Coming soon</p>
         <span class="stat-link disabled">
-          Próximamente
+          Coming soon
         </span>
       </BaseCard>
 
       <BaseCard variant="stat">
-        <h3>📊 Reportes</h3>
-        <p>Próximamente</p>
+        <h3>📊 Reports</h3>
+        <p>Coming soon</p>
         <span class="stat-link disabled">
-          Próximamente
+          Coming soon
         </span>
       </BaseCard>
     </div>

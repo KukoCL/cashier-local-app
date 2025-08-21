@@ -11,43 +11,71 @@
       </p>
       <div class="product-info">
         <span class="info-item">
-          <strong>Código:</strong> {{ product.barCode || 'Sin código' }}
+          <strong>Code:</strong> {{ product.barCode || 'No code' }}
         </span>
         <span class="info-item">
           <strong>Stock:</strong> {{ product.stock }} {{ product.unitType }}
         </span>
         <span class="info-item">
-          <strong>Categoría:</strong> {{ product.productType }}
+          <strong>Category:</strong> {{ product.productType }}
         </span>
       </div>
     </div>
 
     <div class="product-actions">
       <button class="edit-btn" @click="$emit('edit', product)">
-        ✏️ Editar
+        ✏️ Edit
       </button>
-      <button class="delete-btn" @click="$emit('delete', product)">
-        🗑️ Eliminar
+      <button class="delete-btn" @click="showDeleteConfirmation = true">
+        🗑️ Delete
       </button>
     </div>
+
+    <ConfirmationDialog
+      :is-open="showDeleteConfirmation"
+      title="Delete Product"
+      :message="`Are you sure you want to delete the product '${product.name}'?`"
+      details="This action cannot be undone."
+      confirm-text="Delete"
+      cancel-text="Cancel"
+      variant="danger"
+      :loading="isDeleting"
+      @confirm="handleDeleteConfirm"
+      @cancel="showDeleteConfirmation = false"
+    />
   </BaseCard>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { Product } from '../../types/interfaces'
 import { useCurrencyFormatter } from '../../composables/useCurrencyFormatter'
 import BaseCard from '../BaseCard.vue'
+import ConfirmationDialog from '../ConfirmationDialog.vue'
 
 interface Props {
   product: Product
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
-defineEmits<{
+const emit = defineEmits<{
   edit: [product: Product]
   delete: [product: Product]
 }>()
 
 const { formatCLP } = useCurrencyFormatter()
+
+const showDeleteConfirmation = ref(false)
+const isDeleting = ref(false)
+
+const handleDeleteConfirm = async () => {
+  isDeleting.value = true
+  try {
+    emit('delete', props.product)
+    showDeleteConfirmation.value = false
+  } finally {
+    isDeleting.value = false
+  }
+}
 </script>

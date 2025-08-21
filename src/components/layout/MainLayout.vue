@@ -4,8 +4,9 @@
     <div class="layout-content">
       <SideBar
         v-if="showSideBar"
-        :current-section="currentSection"
+        :sections="sidebarSections"
         @navigate="handleSideNavigation"
+        @item-click="handleItemClick"
       />
       <main class="main-content" :class="{ 'with-sidebar': showSideBar }">
         <router-view />
@@ -19,6 +20,8 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TopBar from './TopBar.vue'
 import SideBar from './SideBar.vue'
+import { useSidebarConfig } from '../../composables/useSidebar'
+import type { SidebarItem } from '../../types/interfaces'
 
 const route = useRoute()
 const router = useRouter()
@@ -27,6 +30,13 @@ const currentSection = ref<string>('')
 
 const showSideBar = computed(() => {
   return currentSection.value !== '' && currentSection.value !== 'home'
+})
+
+const sidebarSections = computed(() => {
+  const sections = useSidebarConfig(currentSection.value)
+  console.log('Current section:', currentSection.value)
+  console.log('Sidebar sections:', sections)
+  return sections
 })
 
 const updateCurrentSection = () => {
@@ -43,8 +53,8 @@ const handleNavigation = (section: string) => {
 
   // Navigate to the default view for each section
   switch (section) {
-  case 'productos':
-    router.push('/productos')
+  case 'products':
+    router.push('/products')
     break
   case 'home':
     router.push('/')
@@ -56,6 +66,10 @@ const handleNavigation = (section: string) => {
 
 const handleSideNavigation = (view: string) => {
   router.push(`/${currentSection.value}/${view}`)
+}
+
+const handleItemClick = (item: SidebarItem) => {
+  console.log('Sidebar item clicked:', item)
 }
 
 // Set current section based on route
