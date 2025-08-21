@@ -36,6 +36,9 @@
 ### Vue 3 Specific
 - Place reusable functions inside composables (`composables/` directory)
 - Use Composition API consistently
+- When creating components place them in the `src/components/` directory, and if they are for a specific feature, consider creating a subdirectory for that feature, for example "Products"
+- Use `storeToRefs` for accessing store state and getters
+- All information displayed in components should come from the store, and when something needs to be updated, it should be done to the LiteDB database and then refresh the store
 - Follow Vue 3 best practices for reactivity and lifecycle
 
 ### TypeScript
