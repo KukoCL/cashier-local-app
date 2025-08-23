@@ -1,103 +1,154 @@
-# Cashier Local App - Electron.NET + Vue 3 + LiteDB
+# Fennec Cashier App - Desktop Application
 
-A simple hello world desktop application demonstrating the integration of:
+A professional point of sale (POS) desktop application built with modern technologies:
 
-- **Electron.NET** for cross-platform desktop app development
-- **Vue 3** for reactive frontend interface
-- **LiteDB** for local NoSQL database storage
-- **ASP.NET Core** for backend API
+- **Electron.NET** for a robust cross-platform desktop experience
+- **Vue 3** for a responsive and dynamic user interface
+- **LiteDB** for efficient local data storage
+- **ASP.NET Core** for a powerful backend API
+
+This application is designed to help businesses manage their sales, inventory, and basic operations efficiently in a desktop environment.
 
 ## 🚀 Features
 
-- ✅ Desktop application with modern web UI
-- ✅ Real-time data storage and retrieval
-- ✅ Local database (no external dependencies)
-- ✅ RESTful API backend
-- ✅ Responsive Vue.js frontend
+- ✅ Modern and intuitive desktop interface
+- ✅ Local database for reliable data storage
+- ✅ Product management and inventory tracking
+- ✅ Customizable application icon
+- ✅ Responsive Vue.js frontend with component-based architecture
+- ✅ Secure local data storage with LiteDB
+- ✅ Offline-first architecture
+- ✅ Fast and efficient performance
 
-## �️ Database & Seed Data
+## 💾 Data Management
 
-The app uses **LiteDB** for local data storage with an automatic seed data system:
+The application uses **LiteDB** as its database engine, providing robust local data storage:
 
-### Seed Data System
-- **Automatic**: Creates sample data on first run if database is empty
-- **Configurable**: Edit `seedData.json` to customize seed data
-- **Optional**: Set `"Enabled": false` in `seedData.json` to disable seeding
+### Database Configuration
+- **Database File**: `data.db` (created automatically)
+- **Location**: Generated in the application directory
+- **Persistence**: Data is preserved between application sessions
+- **Git Status**: Not tracked in version control for clean development environments
 
-### Database File
-- **Location**: `data.db` (created automatically)
-- **Ignored**: Not tracked in git (each developer starts fresh)
-- **Persistent**: Data survives app restarts
+### Initial Data Setup
+- **Automatic Seeding**: First-run initialization with sample data
+- **Configuration**: Customizable through `seedData.json`
+- **Products Data**: Initial product catalog can be configured
+- **Optional**: Seeding can be disabled by setting `"Enabled": false`
 
-### Customizing Seed Data
-Edit `seedData.json`:
-```json
-{
-  "SeedData": {
-    "Enabled": false,
-    "Messages": []
-  }
-}
-```
+### Data Security
+- **Local Storage**: All data stays on the local machine
+- **No External Dependencies**: Works completely offline
+- **Data Integrity**: Built-in LiteDB data protection
 
-## �🛠 Technology Stack
+## 🛠 Technology Stack
 
-- **Backend**: ASP.NET Core 9.0 with Electron.NET
-- **Frontend**: Vue 3 with Axios for HTTP requests
-- **Database**: LiteDB (embedded NoSQL database)
-- **Desktop**: Electron.NET for cross-platform desktop deployment
+### Backend
+- **Framework**: ASP.NET Core 9.0
+- **Desktop Runtime**: Electron.NET
+- **Architecture**: Clean Architecture with separate Logic and Persistence layers
+- **API**: RESTful endpoints with ASP.NET Core controllers
+
+### Frontend
+- **Framework**: Vue 3 with Composition API
+- **State Management**: Vue stores
+- **HTTP Client**: Axios for API communication
+- **Build Tool**: Vite for fast development and optimized production builds
+
+### Database
+- **Engine**: LiteDB (embedded NoSQL)
+- **Features**: 
+  - Document-based storage
+  - ACID compliance
+  - Zero configuration
+  - Single file database
 
 ## 📁 Project Structure
 
 ```
-├── server/
-│   ├── Controllers/
-│   │   └── placeholder.cs            # Add your API controllers here
-│   ├── Program.cs                    # Main application entry point
-│   ├── ElectronApp.csproj           # .NET project file
-│   ├── electron.manifest.json       # Electron configuration
-│   ├── seedData.json                # Seed data config
-│   └── wwwroot/                     # Built frontend assets (from Vite)
+├── Logic/                      # Business logic layer
+│   ├── Interfaces/            # Logic interfaces
+│   └── ProductsLogic.cs       # Products business logic
+├── Persistence/               # Data access layer
+│   ├── Interfaces/           # Persistence interfaces
+│   └── ProductsPersistence.cs # Data access for products
+├── server/                    # Main application
+│   ├── assets/               # Application assets
+│   │   └── fennecIcon.ico    # Custom application icon
+│   ├── Controllers/          # API controllers
+│   │   └── ProductsController.cs
+│   ├── Program.cs            # Application entry point
+│   ├── App.csproj           # Main project file
+│   ├── electron.manifest.json # Electron configuration
+│   ├── seedData.json        # Initial data configuration
+│   └── wwwroot/             # Built frontend assets
+├── Shared/                   # Shared components
+│   ├── Constants/           # Application constants
+│   ├── Models/              # Data models
+│   └── Enums/              # Shared enumerations
+├── src/                     # Frontend source code
+│   ├── components/         # Vue components
+│   │   └── products/      # Product-related components
+│   ├── composables/       # Vue composables
+│   ├── stores/           # State management
+│   ├── views/           # Page components
+│   └── App.vue          # Root component
 ├── .github/
-│   └── copilot-instructions.md  # Project setup instructions
-├── vite.config.ts              # Frontend build config (outputs to server/wwwroot)
-├── package.json                # NPM dependencies and scripts
-├── electron.manifest.json     # Electron configuration
-└── README.md                   # This file
+│   └── copilot-instructions.md
+├── vite.config.ts          # Frontend build configuration
+├── package.json            # NPM configuration
+└── README.md              # Documentation
 ```
 
-## 🏃‍♂️ Getting Started
+## 🏃‍♂️ Development Guide
 
 ### Prerequisites
 
-- .NET 9.0 SDK
-- Node.js and npm
-- Electron.NET CLI (installed automatically)
+- **.NET SDK**: Version 9.0 or later
+- **Node.js**: Latest LTS version recommended
+- **npm**: Included with Node.js
+- **IDE**: Visual Studio 2022 or VS Code recommended
 
-### Installation & Running
+### Setup & Development
 
-1. **Clone and navigate to the project:**
-  ```bash
-  cd cashier-local-app
-  ```
+1. **Clone the repository and install dependencies:**
+   ```bash
+   git clone https://github.com/KukoCL/cashier-local-app.git
+   cd cashier-local-app
+   npm install
+   ```
 
-2. **Install dependencies and run the application:**
-  ```bash
-  npm run install
-  npm run start
-  ```
+2. **Development Mode:**
+   ```bash
+   npm run start
+   ```
+   This will:
+   - Start the development server
+   - Open the Electron window
+   - Enable hot-reload for frontend changes
 
-3. **Access the app:**
-  - The app will open in an Electron window automatically
-  - Or visit http://localhost:3001 in your browser
+3. **Development Options:**
+   - Electron window opens automatically
+   - Access http://localhost:3001 for browser debugging
+   - Use Vue DevTools for component inspection
 
-### Building for Production
+### Building for Distribution
 
-To build the desktop application for distribution:
+1. **Create production build:**
+   ```bash
+   npm run electron:build
+   ```
 
-```bash
-npm run electron:build
-```
+2. **Output Location:**
+   - Windows: `server/bin/Desktop/Fennec Cashier App Setup 1.0.0.exe`
+   - Includes custom application icon
+   - Ready for distribution to end users
+
+### Additional Scripts
+
+- `npm run build`: Build frontend assets only
+- `npm run dev`: Run frontend in development mode
+- `npm test`: Run unit tests
 
 This creates a distributable Windows executable in the `bin/Desktop` folder.
 

@@ -1,33 +1,42 @@
 {
-  "executable": "App",
+  "executable": "FennecCashierApp",
   "splashscreen": {
     "imageFile": ""
   },
-  "name": "App",
+  "name": "fennecCashierApp",
   "author": "",
+  "icon": "assets/fennecIcon.ico",
   "singleInstance": false,
   "environment": "Production",
   "build": {
-    "appId": "com.App.app",
-    "productName": "App",
-    "copyright": "Copyright © 2020",
+    "appId": "com.fennec.cashier",
+    "productName": "Fennec Cashier App",
+    "copyright": "Copyright © 2025",
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"
     },
+    "win": {
+      "target": "nsis",
+      "icon": "bin/assets/fennecIcon.ico"
+    },
+    "extraMetadata": {
+      "description": "Aplicación de caja desktop creada for FennecSoft.",
+      "author": "FennecSoft SPA"
+    },
     "extraResources": [
       {
         "from": "./bin",
         "to": "bin",
-        "filter": [ "**/*" ]
+        "filter": ["**/*"]
       }
     ],
     "files": [
       {
         "from": "./ElectronHostHook/node_modules",
         "to": "ElectronHostHook/node_modules",
-        "filter": [ "**/*" ]
+        "filter": ["**/*"]
       },
       "**/*"
     ]
