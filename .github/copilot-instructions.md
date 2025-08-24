@@ -16,6 +16,8 @@
 - Write short, specific, and reusable code
 - Use meaningful variable and function names
 - Don't create example files to show usage
+- Unit tests should not check for form structure, only if it renders and its functionality
+- Unit tests files should be as short as possible to cover lines, branches, statements and functions according to coverage report, not every case scenario
 
 ### String Handling
 - Use template literals instead of string concatenation with "+"
@@ -32,12 +34,16 @@
 - Group related constants logically
 
 ### Vue 3 Specific
+- Focus on keeping all designs modern, even when provided with pictures as reference it should be modernized
 - Place reusable functions inside composables (`composables/` directory)
 - Use Composition API consistently
 - When creating components place them in the `src/components/` directory, and if they are for a specific feature, consider creating a subdirectory for that feature, for example "Products"
+- `views/` - Only Vue views should be placed in this directory
+- Don't use snapshots
 - Use `storeToRefs` for accessing store state and getters
 - All information displayed in components should come from the store, and when something needs to be updated, it should be done to the LiteDB database and then refresh the store
 - Follow Vue 3 best practices for reactivity and lifecycle
+- Don't allow parent components access child component internals
 - Use global styles in `style.css` for common styles used across multiple components
 - Use global classes for elements like buttons, inputs, etc., to maintain consistency across components.
 - All global styles should be made in a way that can simplify applying a "skin" or theme to the application.
@@ -59,13 +65,14 @@
 - Use meaningful exception types and messages
 
 ### Database/LiteDB
-- Use using statements for database connections
+- Use using statements for database connections when possible
 - Implement proper CRUD operations in persistence layer
 - Keep database operations in the Persistence project only
 - Use models from Shared project for data transfer
 
-### File Structure
+### Vue File Structure
 - `/composables/` - Reusable Vue composition functions including the ones with API calls
+- `/components/` - Vue components. Context-specific components should be placed in their respective feature folders, for example `/components/Products/` for product-related components.
 - `/constants/` - Application constants and configuration
 - `/types/` - TypeScript type and interfaces definitions
 - `/utils/` - Pure utility functions
