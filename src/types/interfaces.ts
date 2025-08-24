@@ -20,6 +20,12 @@ export interface CreateProductRequest {
   stock: number
   productType: string
   unitType: string
+  isActive: boolean
+  category: string
+  quantity: number
+  priceWithVat: number
+  profitPercentage: number
+  salePrice: number
 }
 
 export interface UpdateProductRequest extends CreateProductRequest {

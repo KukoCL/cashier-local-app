@@ -43,6 +43,14 @@
 - All global styles should be made in a way that can simplify applying a "skin" or theme to the application.
 - When creating unit tests remember that `test-setup.ts` is a good place to set up global configurations and mocks, and use shallowMount when possible.
 
+### Internationalization/Messages
+- Never use hardcoded text strings in components or logic
+- All user-facing text must be defined in `appMessages.ts`
+- Use descriptive keys for message identification
+- Group related messages logically within the messages object
+- Example: Use `appMessages.product.addSuccess` instead of "Product added successfully"
+- All text must always be in Spanish
+
 ### TypeScript
 - Always use proper typing
 - Avoid `any` type unless absolutely necessary
