@@ -13,6 +13,3 @@ import ProductsCreateForm from '../../components/products/ProductsCreateForm.vue
 
 const messages = appMessages.products.create
 </script>
-
-<style scoped>
-</style>
