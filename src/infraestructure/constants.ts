@@ -17,6 +17,7 @@ export const APP_CONFIG = {
   DEBOUNCE_DELAY: 300,
 } as const
 
+//TODO: Obtener valores desde BD.
 // Product Types
 export const PRODUCT_TYPES = {
   ARTICULOS_DE_ASEO: 'Articulos de aseo',
@@ -26,6 +27,7 @@ export const PRODUCT_TYPES = {
 
 export const PRODUCT_TYPES_ARRAY = Object.values(PRODUCT_TYPES)
 
+//TODO: Obtener valores desde BD.
 // Unit Types
 export const UNIT_TYPES = {
   UNIT: 'Unidad',
