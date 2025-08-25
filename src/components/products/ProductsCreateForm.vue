@@ -42,14 +42,16 @@
     <div class="form-row">
       <div class="form-group">
         <label for="productType">{{ messages.form.category.label }}:</label>
-        <select id="productType" v-model="product.productType" required>
-          <option value="" disabled>
-            {{ messages.form.category.placeholder }}
-          </option>
-          <option v-for="type in productTypes" :key="type" :value="type">
-            {{ type }}
-          </option>
-        </select>
+        <div class="select-wrapper">
+          <select id="productType" v-model="product.productType" required>
+            <option value="" disabled>
+              {{ messages.form.category.placeholder }}
+            </option>
+            <option v-for="type in productTypes" :key="type" :value="type">
+              {{ type }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -272,13 +274,30 @@ textarea {
   min-height: 80px;
 }
 
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #6b7280;
+  pointer-events: none;
+}
+
 select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.5rem center;
-  background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
   padding-right: 2.5rem;
+  width: 100%;
 }
 
 .error-message {
