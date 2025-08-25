@@ -21,6 +21,11 @@ describe('ProductsCreateForm', () => {
     wrapper = mount(ProductsCreateForm)
   })
 
+  it('renders correctly', () => {
+    expect(wrapper.exists()).toBe(true)
+    expect(wrapper.find('form').exists()).toBe(true)
+  })
+
   it('renders submit button with correct text', () => {
     const submitButton = wrapper.find('button[type="submit"]')
     expect(submitButton.text()).toBe('+ Crear Producto')
