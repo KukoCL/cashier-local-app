@@ -46,8 +46,6 @@
           <option value="" disabled>
             {{ messages.form.category.placeholder }}
           </option>
-          <option value="Bebestible">Bebestible</option>
-          <option value="Embutidos">Embutidos</option>
           <option v-for="type in productTypes" :key="type" :value="type">
             {{ type }}
           </option>

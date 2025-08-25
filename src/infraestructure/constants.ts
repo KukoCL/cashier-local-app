@@ -23,6 +23,8 @@ export const PRODUCT_TYPES = {
   ARTICULOS_DE_ASEO: 'Articulos de aseo',
   ALIMENTOS: 'Alimentos',
   BEBIDAS: 'Bebidas',
+  BEBESTIBLES: 'Bebestibles',
+  EMBUTIDOS: 'Embutidos',
 } as const
 
 export const PRODUCT_TYPES_ARRAY = Object.values(PRODUCT_TYPES)
