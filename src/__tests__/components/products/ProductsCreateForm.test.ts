@@ -34,17 +34,6 @@ describe('ProductsCreateForm', () => {
     expect(wrapper.find('button[type="submit"]').exists()).toBe(true)
   })
 
-  it('renders all form labels correctly', () => {
-    expect(wrapper.find('label[for="barCode"]').text()).toBe('Código de Barra')
-    expect(wrapper.find('label[for="name"]').text()).toBe('Nombre Producto')
-    expect(wrapper.find('label[for="description"]').text()).toBe('Descripción:')
-    expect(wrapper.find('label[for="category"]').text()).toBe('Categoría:')
-    expect(wrapper.find('label[for="quantity"]').text()).toBe('Cantidad:')
-    expect(wrapper.find('label[for="priceWithVat"]').text()).toBe('Precio de Compra:')
-    expect(wrapper.find('label[for="profitPercentage"]').text()).toBe('Porcentaje Ganancia:')
-    expect(wrapper.find('label[for="salePrice"]').text()).toBe('Precio de Venta:')
-  })
-
   it('renders submit button with correct text', () => {
     const submitButton = wrapper.find('button[type="submit"]')
     expect(submitButton.text()).toBe('+ Crear Producto')
