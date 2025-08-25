@@ -253,7 +253,7 @@ describe('ProductsCreateForm', () => {
     await nextTick()
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Error creating product:',
+      'Error al crear producto',
       expect.any(Error),
     )
 

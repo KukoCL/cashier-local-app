@@ -1,9 +1,9 @@
 <template>
   <div class="products-list-view">
     <div class="view-header">
-      <h1>Products List</h1>
+      <h1>{{ appMessages.products.list.title }}</h1>
       <button class="refresh-btn" @click="refreshProducts" :disabled="loading">
-        {{ loading ? 'Loading...' : '🔄 Refresh' }}
+        {{ loading ? appMessages.common.loading : `🔄 ${appMessages.products.list.actions.refresh}` }}
       </button>
     </div>
 
@@ -12,11 +12,11 @@
     </div>
 
     <div v-if="loading && products.length === 0" class="loading-message">
-      Loading products...
+      {{ appMessages.common.loading }}
     </div>
 
     <div v-else-if="products.length === 0" class="empty-message">
-      No products registered
+      No hay productos registrados
     </div>
 
     <div v-else class="products-grid">
@@ -37,6 +37,7 @@ import { useRouter } from 'vue-router'
 import { useProducts } from '../../composables/useProducts'
 import ProductCard from '../../components/products/ProductCard.vue'
 import type { Product } from '../../types/interfaces'
+import { appMessages } from '../../infraestructure/appMessages'
 
 const router = useRouter()
 const { products, loading, error, loadProducts, deleteProduct } = useProducts()

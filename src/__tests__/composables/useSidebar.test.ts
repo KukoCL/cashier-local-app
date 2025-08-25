@@ -5,6 +5,7 @@ import {
   useSalesSidebar,
   useSidebarConfig,
 } from '../../composables/useSidebar'
+import { appMessages } from '../../infraestructure/appMessages'
 
 describe('useSidebar', () => {
   describe('useProductsSidebar', () => {
@@ -14,17 +15,17 @@ describe('useSidebar', () => {
       expect(sidebar).toHaveLength(1)
       expect(sidebar[0]).toEqual({
         id: 'products',
-        title: 'Products',
+        title: 'Productos',
         items: [
           {
             id: 'products-list',
-            label: 'All Products',
+            label: appMessages.products.list.sidebar.allProducts,
             icon: '📋',
             action: 'list',
           },
           {
             id: 'products-create',
-            label: 'Add Product',
+            label: appMessages.products.list.sidebar.addProduct,
             icon: '➕',
             action: 'create',
           },

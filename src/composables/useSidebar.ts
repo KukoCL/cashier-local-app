@@ -1,21 +1,22 @@
 import type { SidebarSection } from '../types/interfaces'
+import { appMessages } from '../infraestructure/appMessages'
 
 // Products sidebar configuration
 export const useProductsSidebar = (): SidebarSection[] => {
   return [
     {
       id: 'products',
-      title: 'Products',
+      title: 'Productos',
       items: [
         {
           id: 'products-list',
-          label: 'All Products',
+          label: appMessages.products.list.sidebar.allProducts,
           icon: '📋',
           action: 'list',
         },
         {
           id: 'products-create',
-          label: 'Add Product',
+          label: appMessages.products.list.sidebar.addProduct,
           icon: '➕',
           action: 'create',
         },
