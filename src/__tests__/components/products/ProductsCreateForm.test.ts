@@ -112,7 +112,7 @@ describe('ProductsCreateForm', () => {
         description: '',
         price: 1200,
         stock: 10,
-        productType: 'Bebestible',
+        productType: 'Bebestibles',
         unitType: '',
         isActive: true,
         creationDate: '2024-01-01',
@@ -122,7 +122,7 @@ describe('ProductsCreateForm', () => {
 
     // Fill required fields
     await wrapper.find('#name').setValue('Test Product')
-    await wrapper.find('#category').setValue('Bebestible')
+    await wrapper.find('#category').setValue('Bebestibles')
     await wrapper.find('#quantity').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)
@@ -136,12 +136,12 @@ describe('ProductsCreateForm', () => {
       description: '',
       price: 1200, // calculated sale price
       stock: 10, // quantity
-      productType: 'Bebestible', // category
+      productType: 'Bebestibles', // category
       unitType: '',
       isActive: true,
-      category: 'Bebestible',
+      category: 'Bebestibles',
       quantity: 10,
-      priceWithVat: 1000,
+      purchasePrice: 1000,
       profitPercentage: 20,
       salePrice: 1200,
     })
@@ -157,7 +157,7 @@ describe('ProductsCreateForm', () => {
         description: '',
         price: 1200,
         stock: 10,
-        productType: 'Bebestible',
+        productType: 'Bebestibles',
         unitType: '',
         isActive: true,
         creationDate: '2024-01-01',
@@ -166,7 +166,7 @@ describe('ProductsCreateForm', () => {
     })
 
     await wrapper.find('#name').setValue('Test Product')
-    await wrapper.find('#category').setValue('Bebestible')
+    await wrapper.find('#category').setValue('Bebestibles')
     await wrapper.find('#quantity').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)
@@ -188,7 +188,7 @@ describe('ProductsCreateForm', () => {
         description: '',
         price: 1200,
         stock: 10,
-        productType: 'Bebestible',
+        productType: 'Bebestibles',
         unitType: '',
         isActive: true,
         creationDate: '2024-01-01',
@@ -199,7 +199,7 @@ describe('ProductsCreateForm', () => {
     // Fill form
     await wrapper.find('#name').setValue('Test Product')
     await wrapper.find('#barCode').setValue('123456789')
-    await wrapper.find('#category').setValue('Bebestible')
+    await wrapper.find('#category').setValue('Bebestibles')
     await wrapper.find('#quantity').setValue(10)
 
     await wrapper.find('form').trigger('submit.prevent')
@@ -247,7 +247,7 @@ describe('ProductsCreateForm', () => {
     vi.mocked(axios.post).mockRejectedValue(new Error('Network error'))
 
     await wrapper.find('#name').setValue('Test Product')
-    await wrapper.find('#category').setValue('Bebestible')
+    await wrapper.find('#category').setValue('Bebestibles')
     await wrapper.find('#quantity').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)
