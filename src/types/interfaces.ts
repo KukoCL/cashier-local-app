@@ -23,7 +23,7 @@ export interface CreateProductRequest {
   isActive: boolean
   category: string
   quantity: number
-  priceWithVat: number
+  purchasePrice: number
   profitPercentage: number
   salePrice: number
 }

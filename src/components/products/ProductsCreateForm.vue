@@ -74,7 +74,7 @@
         <input
           type="number"
           id="priceWithVat"
-          v-model.number="product.priceWithVat"
+          v-model.number="product.purchasePrice"
           required
           min="0"
           step="1"
@@ -152,19 +152,19 @@ const initialProduct: CreateProductRequest = {
   isActive: true,
   category: '',
   quantity: 0,
-  priceWithVat: 0,
+  purchasePrice: 0,
   profitPercentage: 0,
   salePrice: 0,
 }
 
 const product = ref<CreateProductRequest>({ ...initialProduct })
 
-// Calculate sale price based on price with VAT and profit percentage
+// Calculate sale price based on purchase price and profit percentage
 const calculateSalePrice = () => {
-  if (product.value.priceWithVat && product.value.profitPercentage) {
+  if (product.value.purchasePrice && product.value.profitPercentage) {
     const profit =
-      (product.value.priceWithVat * product.value.profitPercentage) / 100
-    product.value.salePrice = Math.round(product.value.priceWithVat + profit)
+      (product.value.purchasePrice * product.value.profitPercentage) / 100
+    product.value.salePrice = Math.round(product.value.purchasePrice + profit)
   } else {
     product.value.salePrice = 0
   }
