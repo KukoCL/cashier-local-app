@@ -15,16 +15,6 @@ describe('ViewHeader', () => {
     expect(wrapper.classes()).toContain('view-header')
   })
 
-  it('should apply correct CSS classes', () => {
-    const wrapper = mount(ViewHeader, {
-      props: {
-        title: 'Test Title',
-      },
-    })
-
-    expect(wrapper.classes()).toContain('view-header')
-  })
-
   it('should render different titles correctly', () => {
     const testCases = [
       'Home Page',
