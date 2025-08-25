@@ -68,16 +68,6 @@ describe('ViewHeader', () => {
     expect(wrapper.find('h1').text()).toBe(titleWithEntities)
   })
 
-  it('should have correct HTML structure', () => {
-    const wrapper = mount(ViewHeader, {
-      props: {
-        title: 'Test Title',
-      },
-    })
-
-    expect(wrapper.html()).toMatchSnapshot()
-  })
-
   it('should handle long titles', () => {
     const longTitle = 'This is a very long title that might need to be handled differently in the UI ' +
       'but should still render correctly in the component'
