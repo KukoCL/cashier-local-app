@@ -1,7 +1,7 @@
 <template>
   <nav class="top-bar">
     <div class="nav-brand">
-      <h2>Cashier App</h2>
+      <h2>{{ appMessages.app.name }}</h2>
     </div>
     <div class="nav-links">
       <button
@@ -9,14 +9,14 @@
         :class="{ active: currentSection === 'home' }"
         @click="$emit('navigate', 'home')"
       >
-        🏠 Inicio
+        🏠 {{ appMessages.navigation.home }}
       </button>
       <button
         class="nav-button"
         :class="{ active: isProductsActive }"
         @click="$emit('navigate', 'products')"
       >
-        📦 Productos
+        📦 {{ appMessages.navigation.products }}
       </button>
     </div>
   </nav>
@@ -25,6 +25,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { appMessages } from '../../infraestructure/appMessages'
 
 defineEmits<{
   navigate: [section: string]

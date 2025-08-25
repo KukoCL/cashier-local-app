@@ -1,6 +1,12 @@
 export const appMessages = {
   app: {
     title: '🚀 Cashier Local App - Electron.NET + Vue 3 + TypeScript',
+    name: 'Cashier App',
+  },
+
+  navigation: {
+    home: 'Inicio',
+    products: 'Productos',
   },
 
   common: {
