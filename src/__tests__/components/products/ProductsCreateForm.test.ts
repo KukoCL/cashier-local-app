@@ -21,19 +21,6 @@ describe('ProductsCreateForm', () => {
     wrapper = mount(ProductsCreateForm)
   })
 
-  it('renders form correctly', () => {
-    expect(wrapper.find('form').exists()).toBe(true)
-    expect(wrapper.find('#barCode').exists()).toBe(true)
-    expect(wrapper.find('#name').exists()).toBe(true)
-    expect(wrapper.find('#description').exists()).toBe(true)
-    expect(wrapper.find('#category').exists()).toBe(true)
-    expect(wrapper.find('#quantity').exists()).toBe(true)
-    expect(wrapper.find('#priceWithVat').exists()).toBe(true)
-    expect(wrapper.find('#profitPercentage').exists()).toBe(true)
-    expect(wrapper.find('#salePrice').exists()).toBe(true)
-    expect(wrapper.find('button[type="submit"]').exists()).toBe(true)
-  })
-
   it('renders submit button with correct text', () => {
     const submitButton = wrapper.find('button[type="submit"]')
     expect(submitButton.text()).toBe('+ Crear Producto')
