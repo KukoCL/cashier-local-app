@@ -1,19 +1,6 @@
 import { ref } from 'vue'
 import type { CreateProductRequest } from '../types/interfaces'
-
-// Initial form data constant for product creation
-const INITIAL_CREATE_FORM_DATA: CreateProductRequest = {
-  barCode: '',
-  name: '',
-  description: '',
-  price: 0,
-  stock: 0,
-  productType: '',
-  unitType: '',
-  isActive: true,
-  purchasePrice: 0,
-  profitPercentage: 0,
-}
+import { INITIAL_CREATE_FORM_DATA } from '../infraestructure/constants'
 
 export const useProductCreateForm = () => {
   // Form state for ProductsCreateForm

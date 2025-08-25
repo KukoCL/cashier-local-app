@@ -33,11 +33,11 @@
 
     <ConfirmationDialog
       :is-open="showDeleteConfirmation"
-      :title="appMessages.products.list.deleteDialog.title"
-      :message="`${appMessages.products.list.deleteDialog.message} '${product.name}'?`"
-      :details="appMessages.products.list.deleteDialog.details"
-      :confirm-text="appMessages.products.list.deleteDialog.confirm"
-      :cancel-text="appMessages.products.list.deleteDialog.cancel"
+      :title="deleteDialog.title"
+      :message="`${deleteDialog.message} '${product.name}'?`"
+      :details="deleteDialog.details"
+      :confirm-text="deleteDialog.confirm"
+      :cancel-text="deleteDialog.cancel"
       variant="danger"
       :loading="isDeleting"
       @confirm="handleDeleteConfirm"
@@ -53,6 +53,8 @@ import { useCurrencyFormatter } from '../../composables/useCurrencyFormatter'
 import BaseCard from '../BaseCard.vue'
 import ConfirmationDialog from '../ConfirmationDialog.vue'
 import { appMessages } from '../../infraestructure/appMessages'
+
+const deleteDialog = appMessages.products.list.deleteDialog
 
 interface Props {
   product: Product

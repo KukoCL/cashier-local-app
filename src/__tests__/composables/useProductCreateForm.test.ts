@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { useProductCreateForm } from '../../composables/useProductCreateForm'
+import { INITIAL_CREATE_FORM_DATA } from '../../infraestructure/constants'
 
 describe('useProductCreateForm', () => {
   let formComposable: ReturnType<typeof useProductCreateForm>
@@ -12,18 +13,7 @@ describe('useProductCreateForm', () => {
     it('should initialize with default values', () => {
       const { createFormData } = formComposable
 
-      expect(createFormData.value).toEqual({
-        barCode: '',
-        name: '',
-        description: '',
-        price: 0,
-        stock: 0,
-        productType: '',
-        unitType: '',
-        isActive: true,
-        purchasePrice: 0,
-        profitPercentage: 0,
-      })
+      expect(createFormData.value).toEqual(INITIAL_CREATE_FORM_DATA)
     })
   })
 
@@ -66,18 +56,7 @@ describe('useProductCreateForm', () => {
       // Reset form
       resetCreateFormData()
 
-      expect(createFormData.value).toEqual({
-        barCode: '',
-        name: '',
-        description: '',
-        price: 0,
-        stock: 0,
-        productType: '',
-        unitType: '',
-        isActive: true,
-        purchasePrice: 0,
-        profitPercentage: 0,
-      })
+      expect(createFormData.value).toEqual(INITIAL_CREATE_FORM_DATA)
     })
   })
 

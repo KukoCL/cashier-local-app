@@ -1,3 +1,5 @@
+import type { CreateProductRequest } from '../types/interfaces'
+
 // API Endpoints
 export const API_ENDPOINTS = {
   PRODUCTS: '/api/products',
@@ -39,10 +41,25 @@ export const UNIT_TYPES = {
 
 export const UNIT_TYPES_ARRAY = Object.values(UNIT_TYPES)
 
+// Form Initial Data
+export const INITIAL_CREATE_FORM_DATA: CreateProductRequest = {
+  barCode: '',
+  name: '',
+  description: '',
+  price: 0,
+  stock: 0,
+  productType: '',
+  unitType: '',
+  isActive: true,
+  purchasePrice: 0,
+  profitPercentage: 0,
+}
+
 export default {
   API_ENDPOINTS,
   HTTP_STATUS,
   APP_CONFIG,
   PRODUCT_TYPES,
   UNIT_TYPES,
+  INITIAL_CREATE_FORM_DATA,
 }
