@@ -161,7 +161,7 @@ describe('useProductsStore', () => {
         isActive: true,
         category: 'electronics',
         quantity: 5,
-        priceWithVat: 450,
+        purchasePrice: 450,
         profitPercentage: 11,
         salePrice: 500,
       }
@@ -188,7 +188,7 @@ describe('useProductsStore', () => {
         isActive: true,
         category: 'electronics',
         quantity: 5,
-        priceWithVat: 450,
+        purchasePrice: 450,
         profitPercentage: 11,
         salePrice: 500,
       }
@@ -210,7 +210,7 @@ describe('useProductsStore', () => {
         name: 'Updated Product',
         category: mockProduct.productType,
         quantity: mockProduct.stock,
-        priceWithVat: mockProduct.price * 0.9,
+        purchasePrice: mockProduct.price * 0.9,
         profitPercentage: 10,
         salePrice: mockProduct.price,
       }
@@ -232,7 +232,7 @@ describe('useProductsStore', () => {
         name: 'Updated Product',
         category: mockProduct.productType,
         quantity: mockProduct.stock,
-        priceWithVat: mockProduct.price * 0.9,
+        purchasePrice: mockProduct.price * 0.9,
         profitPercentage: 10,
         salePrice: mockProduct.price,
       }
