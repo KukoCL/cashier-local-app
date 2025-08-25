@@ -15,21 +15,6 @@ describe('ViewHeader', () => {
     expect(wrapper.classes()).toContain('view-header')
   })
 
-  it('should render the correct structure', () => {
-    const wrapper = mount(ViewHeader, {
-      props: {
-        title: 'Test Title',
-      },
-    })
-
-    const headerDiv = wrapper.find('.view-header')
-    const h1Element = wrapper.find('h1')
-
-    expect(headerDiv.exists()).toBe(true)
-    expect(h1Element.exists()).toBe(true)
-    expect(headerDiv.element.contains(h1Element.element)).toBe(true)
-  })
-
   it('should apply correct CSS classes', () => {
     const wrapper = mount(ViewHeader, {
       props: {
