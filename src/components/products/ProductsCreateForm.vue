@@ -55,11 +55,11 @@
 
     <div class="form-row">
       <div class="form-group">
-        <label for="quantity">{{ messages.form.quantity.label }}:</label>
+        <label for="stock">{{ messages.form.quantity.label }}:</label>
         <input
           type="number"
-          id="quantity"
-          v-model.number="product.quantity"
+          id="stock"
+          v-model.number="product.stock"
           required
           min="0"
           step="1"
@@ -101,11 +101,11 @@
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label for="salePrice">{{ messages.form.salePrice.label }}:</label>
+        <label for="price">{{ messages.form.salePrice.label }}:</label>
         <input
           type="number"
-          id="salePrice"
-          v-model.number="product.salePrice"
+          id="price"
+          v-model.number="product.price"
           readonly
           :placeholder="messages.form.salePrice.placeholder"
         />
@@ -150,10 +150,8 @@ const initialProduct: CreateProductRequest = {
   productType: '',
   unitType: '',
   isActive: true,
-  quantity: 0,
   purchasePrice: 0,
   profitPercentage: 0,
-  salePrice: 0,
 }
 
 const product = ref<CreateProductRequest>({ ...initialProduct })
@@ -163,9 +161,9 @@ const calculateSalePrice = () => {
   if (product.value.purchasePrice && product.value.profitPercentage) {
     const profit =
       (product.value.purchasePrice * product.value.profitPercentage) / 100
-    product.value.salePrice = Math.round(product.value.purchasePrice + profit)
+    product.value.price = Math.round(product.value.purchasePrice + profit)
   } else {
-    product.value.salePrice = 0
+    product.value.price = 0
   }
 }
 
@@ -177,9 +175,6 @@ const resetForm = () => {
 const handleSubmit = async () => {
   try {
     clearError()
-    // Set backward compatibility fields
-    product.value.price = product.value.salePrice
-    product.value.stock = product.value.quantity
 
     await createProduct(product.value)
     resetForm()

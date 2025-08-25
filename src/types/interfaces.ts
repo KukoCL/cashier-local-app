@@ -21,10 +21,8 @@ export interface CreateProductRequest {
   productType: string
   unitType: string
   isActive: boolean
-  quantity: number
   purchasePrice: number
   profitPercentage: number
-  salePrice: number
 }
 
 export interface UpdateProductRequest extends CreateProductRequest {

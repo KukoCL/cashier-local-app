@@ -34,13 +34,13 @@ describe('ProductsCreateForm', () => {
   it('has required fields marked as required', () => {
     expect(wrapper.find('#name').attributes('required')).toBeDefined()
     expect(wrapper.find('#productType').attributes('required')).toBeDefined()
-    expect(wrapper.find('#quantity').attributes('required')).toBeDefined()
+    expect(wrapper.find('#stock').attributes('required')).toBeDefined()
     expect(wrapper.find('#priceWithVat').attributes('required')).toBeDefined()
     expect(wrapper.find('#profitPercentage').attributes('required')).toBeDefined()
   })
 
-  it('has salePrice field as readonly', () => {
-    expect(wrapper.find('#salePrice').attributes('readonly')).toBeDefined()
+  it('has price field as readonly', () => {
+    expect(wrapper.find('#price').attributes('readonly')).toBeDefined()
   })
 
   it('updates form data when inputs change', async () => {
@@ -60,7 +60,7 @@ describe('ProductsCreateForm', () => {
   it('calculates sale price correctly when priceWithVat and profitPercentage change', async () => {
     const priceWithVatInput = wrapper.find('#priceWithVat')
     const profitPercentageInput = wrapper.find('#profitPercentage')
-    const salePriceInput = wrapper.find('#salePrice')
+    const priceInput = wrapper.find('#price')
 
     // Set price with VAT to 1000 and profit percentage to 20%
     await priceWithVatInput.setValue(1000)
@@ -70,13 +70,13 @@ describe('ProductsCreateForm', () => {
     await nextTick()
 
     // Expected: 1000 + (1000 * 20 / 100) = 1000 + 200 = 1200
-    expect(parseInt((salePriceInput.element as HTMLInputElement).value)).toBe(1200)
+    expect(parseInt((priceInput.element as HTMLInputElement).value)).toBe(1200)
   })
 
   it('sets sale price to 0 when required fields for calculation are empty', async () => {
     const priceWithVatInput = wrapper.find('#priceWithVat')
     const profitPercentageInput = wrapper.find('#profitPercentage')
-    const salePriceInput = wrapper.find('#salePrice')
+    const priceInput = wrapper.find('#price')
 
     // First set values
     await priceWithVatInput.setValue(1000)
@@ -88,7 +88,7 @@ describe('ProductsCreateForm', () => {
     await priceWithVatInput.trigger('input')
     await nextTick()
 
-    expect(parseInt((salePriceInput.element as HTMLInputElement).value) || 0).toBe(0)
+    expect(parseInt((priceInput.element as HTMLInputElement).value) || 0).toBe(0)
   })
 
   it('renders productType options correctly', () => {
@@ -123,7 +123,7 @@ describe('ProductsCreateForm', () => {
     // Fill required fields
     await wrapper.find('#name').setValue('Test Product')
     await wrapper.find('#productType').setValue('Bebestibles')
-    await wrapper.find('#quantity').setValue(10)
+    await wrapper.find('#stock').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)
 
@@ -134,16 +134,13 @@ describe('ProductsCreateForm', () => {
       barCode: '',
       name: 'Test Product',
       description: '',
-      price: 1200, // calculated sale price
-      stock: 10, // quantity
+      price: 1200,
+      stock: 10,
       productType: 'Bebestibles',
       unitType: '',
       isActive: true,
-
-      quantity: 10,
       purchasePrice: 1000,
       profitPercentage: 20,
-      salePrice: 1200,
     })
   })
 
@@ -167,7 +164,7 @@ describe('ProductsCreateForm', () => {
 
     await wrapper.find('#name').setValue('Test Product')
     await wrapper.find('#productType').setValue('Bebestibles')
-    await wrapper.find('#quantity').setValue(10)
+    await wrapper.find('#stock').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)
 
@@ -200,7 +197,7 @@ describe('ProductsCreateForm', () => {
     await wrapper.find('#name').setValue('Test Product')
     await wrapper.find('#barCode').setValue('123456789')
     await wrapper.find('#productType').setValue('Bebestibles')
-    await wrapper.find('#quantity').setValue(10)
+    await wrapper.find('#stock').setValue(10)
 
     await wrapper.find('form').trigger('submit.prevent')
     await nextTick()
@@ -210,7 +207,7 @@ describe('ProductsCreateForm', () => {
     expect((wrapper.find('#name').element as HTMLInputElement).value).toBe('')
     expect((wrapper.find('#barCode').element as HTMLInputElement).value).toBe('')
     expect((wrapper.find('#productType').element as HTMLSelectElement).value).toBe('')
-    expect((wrapper.find('#quantity').element as HTMLInputElement).value).toBe('0')
+    expect((wrapper.find('#stock').element as HTMLInputElement).value).toBe('0')
   })
 
   it('displays loading state on submit button when loading', async () => {
@@ -248,7 +245,7 @@ describe('ProductsCreateForm', () => {
 
     await wrapper.find('#name').setValue('Test Product')
     await wrapper.find('#productType').setValue('Bebestibles')
-    await wrapper.find('#quantity').setValue(10)
+    await wrapper.find('#stock').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)
 
@@ -264,19 +261,19 @@ describe('ProductsCreateForm', () => {
   })
 
   it('has correct input types for numeric fields', () => {
-    expect(wrapper.find('#quantity').attributes('type')).toBe('number')
+    expect(wrapper.find('#stock').attributes('type')).toBe('number')
     expect(wrapper.find('#priceWithVat').attributes('type')).toBe('number')
     expect(wrapper.find('#profitPercentage').attributes('type')).toBe('number')
-    expect(wrapper.find('#salePrice').attributes('type')).toBe('number')
+    expect(wrapper.find('#price').attributes('type')).toBe('number')
   })
 
   it('has correct min and step attributes for numeric inputs', () => {
-    const quantityInput = wrapper.find('#quantity')
+    const stockInput = wrapper.find('#stock')
     const priceWithVatInput = wrapper.find('#priceWithVat')
     const profitPercentageInput = wrapper.find('#profitPercentage')
 
-    expect(quantityInput.attributes('min')).toBe('0')
-    expect(quantityInput.attributes('step')).toBe('1')
+    expect(stockInput.attributes('min')).toBe('0')
+    expect(stockInput.attributes('step')).toBe('1')
 
     expect(priceWithVatInput.attributes('min')).toBe('0')
     expect(priceWithVatInput.attributes('step')).toBe('1')

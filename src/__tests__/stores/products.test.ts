@@ -159,10 +159,8 @@ describe('useProductsStore', () => {
         productType: 'electronics',
         unitType: 'unit',
         isActive: true,
-        quantity: 5,
         purchasePrice: 450,
         profitPercentage: 11,
-        salePrice: 500,
       }
       axiosPost.mockResolvedValue({ data: { ...mockProduct, ...newProduct } })
 
@@ -185,10 +183,8 @@ describe('useProductsStore', () => {
         productType: 'electronics',
         unitType: 'unit',
         isActive: true,
-        quantity: 5,
         purchasePrice: 450,
         profitPercentage: 11,
-        salePrice: 500,
       }
       axiosPost.mockRejectedValue(new Error('Create error'))
 
@@ -207,10 +203,9 @@ describe('useProductsStore', () => {
         ...mockProduct,
         name: 'Updated Product',
 
-        quantity: mockProduct.stock,
         purchasePrice: mockProduct.price * 0.9,
         profitPercentage: 10,
-        salePrice: mockProduct.price,
+
       }
       axiosPut.mockResolvedValue({ data: updateProduct })
 
@@ -229,10 +224,9 @@ describe('useProductsStore', () => {
         ...mockProduct,
         name: 'Updated Product',
 
-        quantity: mockProduct.stock,
         purchasePrice: mockProduct.price * 0.9,
         profitPercentage: 10,
-        salePrice: mockProduct.price,
+
       }
       axiosPut.mockRejectedValue(new Error('Update error'))
 
