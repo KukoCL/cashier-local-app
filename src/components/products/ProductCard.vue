@@ -11,33 +11,33 @@
       </p>
       <div class="product-info">
         <span class="info-item">
-          <strong>Code:</strong> {{ product.barCode || 'No code' }}
+          <strong>{{ appMessages.common.code }}:</strong> {{ product.barCode || 'Sin código' }}
         </span>
         <span class="info-item">
-          <strong>Stock:</strong> {{ product.stock }} {{ product.unitType }}
+          <strong>{{ appMessages.common.stock }}:</strong> {{ product.stock }} {{ product.unitType }}
         </span>
         <span class="info-item">
-          <strong>Category:</strong> {{ product.productType }}
+          <strong>{{ appMessages.common.category }}:</strong> {{ product.productType }}
         </span>
       </div>
     </div>
 
     <div class="product-actions">
       <button class="edit-btn" @click="$emit('edit', product)">
-        ✏️ Edit
+        ✏️ {{ appMessages.common.edit }}
       </button>
       <button class="delete-btn" @click="showDeleteConfirmation = true">
-        🗑️ Delete
+        🗑️ {{ appMessages.common.delete }}
       </button>
     </div>
 
     <ConfirmationDialog
       :is-open="showDeleteConfirmation"
-      title="Delete Product"
-      :message="`Are you sure you want to delete the product '${product.name}'?`"
-      details="This action cannot be undone."
-      confirm-text="Delete"
-      cancel-text="Cancel"
+      :title="appMessages.products.list.deleteDialog.title"
+      :message="`${appMessages.products.list.deleteDialog.message} '${product.name}'?`"
+      :details="appMessages.products.list.deleteDialog.details"
+      :confirm-text="appMessages.products.list.deleteDialog.confirm"
+      :cancel-text="appMessages.products.list.deleteDialog.cancel"
       variant="danger"
       :loading="isDeleting"
       @confirm="handleDeleteConfirm"
@@ -52,6 +52,7 @@ import type { Product } from '../../types/interfaces'
 import { useCurrencyFormatter } from '../../composables/useCurrencyFormatter'
 import BaseCard from '../BaseCard.vue'
 import ConfirmationDialog from '../ConfirmationDialog.vue'
+import { appMessages } from '../../infraestructure/appMessages'
 
 interface Props {
   product: Product

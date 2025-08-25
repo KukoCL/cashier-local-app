@@ -19,7 +19,7 @@ describe('TopBar', () => {
     const wrapper = mount(TopBar)
 
     expect(wrapper.text()).toContain('🏠 Inicio')
-    expect(wrapper.text()).toContain('📦 Products')
+    expect(wrapper.text()).toContain('📦 Productos')
   })
 
   it('should emit navigate event when home button is clicked', async () => {

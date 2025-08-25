@@ -9,9 +9,36 @@ export const appMessages = {
     reset: 'Restablecer',
     required: 'Requerido',
     active: 'Activo',
+    edit: 'Editar',
+    delete: 'Eliminar',
+    refresh: 'Actualizar',
+    code: 'Código',
+    stock: 'Stock',
+    category: 'Categoría',
+    cancel: 'Cancelar',
+    confirm: 'Confirmar',
   },
 
   products: {
+    list: {
+      title: 'Lista de Productos',
+      sidebar: {
+        allProducts: 'Todos los Productos',
+        addProduct: 'Agregar Producto',
+      },
+      actions: {
+        refresh: 'Actualizar',
+        edit: 'Editar',
+        delete: 'Eliminar',
+      },
+      deleteDialog: {
+        title: 'Eliminar Producto',
+        message: '¿Estás seguro de que quieres eliminar el producto',
+        details: 'Esta acción no se puede deshacer.',
+        confirm: 'Eliminar',
+        cancel: 'Cancelar',
+      },
+    },
     create: {
       title: 'Creación de Productos',
       form: {
@@ -67,6 +94,16 @@ export const appMessages = {
       messages: {
         success: 'Producto creado exitosamente',
         error: 'Error al crear el producto',
+      },
+    },
+    store: {
+      errors: {
+        loadingProducts: 'Error al cargar productos',
+        creatingProduct: 'Error al crear producto',
+        updatingProduct: 'Error al actualizar producto',
+        deletingProduct: 'Error al eliminar producto',
+        gettingProduct: 'Error al obtener producto',
+        gettingProductByBarcode: 'Error al obtener producto por código de barras',
       },
     },
   },

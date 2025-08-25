@@ -16,7 +16,7 @@
         :class="{ active: isProductsActive }"
         @click="$emit('navigate', 'products')"
       >
-        📦 Products
+        📦 Productos
       </button>
     </div>
   </nav>
