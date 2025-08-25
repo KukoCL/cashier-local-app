@@ -11,22 +11,7 @@ export const useProductsStore = defineStore('products', () => {
   const loading = ref(false)
   const error = ref<string>('')
 
-  // Initial form data constant
-  const INITIAL_FORM_DATA: CreateProductRequest = {
-    barCode: '',
-    name: '',
-    description: '',
-    price: 0,
-    stock: 0,
-    productType: '',
-    unitType: '',
-    isActive: true,
-    purchasePrice: 0,
-    profitPercentage: 0,
-  }
-
-  // Form state for ProductsCreateForm
-  const formData = ref<CreateProductRequest>({ ...INITIAL_FORM_DATA })  // Getters
+  // Getters
   const activeProducts = computed(() =>
     products.value.filter(product => product.isActive),
   )
@@ -193,37 +178,11 @@ export const useProductsStore = defineStore('products', () => {
     await loadProducts()
   }
 
-  // Form management actions
-  const updateFormData = <K extends keyof CreateProductRequest>(
-    field: K,
-    value: CreateProductRequest[K],
-  ) => {
-    formData.value[field] = value
-  }
-
-  /**
-   * Resets the form data to its initial state by creating a shallow copy of the INITIAL_FORM_DATA.
-   * This function restores all form fields to their default values.
-   */
-  const resetFormData = () => {
-    formData.value = { ...INITIAL_FORM_DATA }
-  }
-
-  const calculateSalePrice = () => {
-    if (formData.value.purchasePrice && formData.value.profitPercentage) {
-      const profit = (formData.value.purchasePrice * formData.value.profitPercentage) / 100
-      formData.value.price = Math.round(formData.value.purchasePrice + profit)
-    } else {
-      formData.value.price = 0
-    }
-  }
-
   return {
     // State
     products,
     loading,
     error,
-    formData,
 
     // Getters
     activeProducts,
@@ -242,10 +201,5 @@ export const useProductsStore = defineStore('products', () => {
     clearError,
     resetStore,
     refreshFromDatabase,
-
-    // Form actions
-    updateFormData,
-    resetFormData,
-    calculateSalePrice,
   }
 })

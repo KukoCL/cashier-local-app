@@ -6,7 +6,7 @@
         <input
           type="text"
           id="barCode"
-          v-model="formData.barCode"
+          v-model="createFormData.barCode"
           :placeholder="messages.form.barCode.placeholder"
         />
       </div>
@@ -18,7 +18,7 @@
         <input
           type="text"
           id="name"
-          v-model="formData.name"
+          v-model="createFormData.name"
           required
           :placeholder="messages.form.name.placeholder"
         />
@@ -32,7 +32,7 @@
         >
         <textarea
           id="description"
-          v-model="formData.description"
+          v-model="createFormData.description"
           rows="3"
           :placeholder="messages.form.description.placeholder"
         ></textarea>
@@ -43,7 +43,7 @@
       <div class="form-group">
         <label for="productType">{{ messages.form.category.label }}:</label>
         <div class="select-wrapper">
-          <select id="productType" v-model="formData.productType" required>
+          <select id="productType" v-model="createFormData.productType" required>
             <option value="" disabled>
               {{ messages.form.category.placeholder }}
             </option>
@@ -61,7 +61,7 @@
         <input
           type="number"
           id="stock"
-          v-model.number="formData.stock"
+          v-model.number="createFormData.stock"
           required
           min="0"
           step="1"
@@ -76,11 +76,11 @@
         <input
           type="number"
           id="priceWithVat"
-          v-model.number="formData.purchasePrice"
+          v-model.number="createFormData.purchasePrice"
           required
           min="0"
           step="1"
-          @input="store.calculateSalePrice"
+          @input="calculateSalePrice"
         />
       </div>
     </div>
@@ -93,11 +93,11 @@
         <input
           type="number"
           id="profitPercentage"
-          v-model.number="formData.profitPercentage"
+          v-model.number="createFormData.profitPercentage"
           required
           min="0"
           step="1"
-          @input="store.calculateSalePrice"
+          @input="calculateSalePrice"
         />
       </div>
     </div>
@@ -107,7 +107,7 @@
         <input
           type="number"
           id="price"
-          v-model.number="formData.price"
+          v-model.number="createFormData.price"
           readonly
           :placeholder="messages.form.salePrice.placeholder"
         />
@@ -132,14 +132,12 @@
 
 <script lang="ts" setup>
 import { useProducts } from '../../composables/useProducts'
-import { useProductsStore } from '../../stores/products'
+import { useProductCreateForm } from '../../composables/useProductCreateForm'
 import { PRODUCT_TYPES_ARRAY } from '../../infraestructure/constants'
 import appMessages from '../../infraestructure/appMessages'
-import { storeToRefs } from 'pinia'
 
 const { createProduct, loading, error, clearError } = useProducts()
-const store = useProductsStore()
-const { formData } = storeToRefs(store)
+const { createFormData, resetCreateFormData, calculateSalePrice } = useProductCreateForm()
 const messages = appMessages.products.create
 
 //TODO: Obtener de Base de datos.
@@ -149,8 +147,8 @@ const handleSubmit = async () => {
   try {
     clearError()
 
-    await createProduct(formData.value)
-    store.resetFormData()
+    await createProduct(createFormData.value)
+    resetCreateFormData()
     console.log(messages.messages.success)
   } catch (err) {
     console.error(`${messages.messages.error}:`, err)
