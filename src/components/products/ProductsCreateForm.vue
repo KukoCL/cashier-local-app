@@ -41,8 +41,8 @@
 
     <div class="form-row">
       <div class="form-group">
-        <label for="category">{{ messages.form.category.label }}:</label>
-        <select id="category" v-model="product.category" required>
+        <label for="productType">{{ messages.form.category.label }}:</label>
+        <select id="productType" v-model="product.productType" required>
           <option value="" disabled>
             {{ messages.form.category.placeholder }}
           </option>
@@ -150,7 +150,6 @@ const initialProduct: CreateProductRequest = {
   productType: '',
   unitType: '',
   isActive: true,
-  category: '',
   quantity: 0,
   purchasePrice: 0,
   profitPercentage: 0,
@@ -181,7 +180,6 @@ const handleSubmit = async () => {
     // Set backward compatibility fields
     product.value.price = product.value.salePrice
     product.value.stock = product.value.quantity
-    product.value.productType = product.value.category
 
     await createProduct(product.value)
     resetForm()

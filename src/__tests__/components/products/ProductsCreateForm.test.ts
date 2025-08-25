@@ -33,7 +33,7 @@ describe('ProductsCreateForm', () => {
 
   it('has required fields marked as required', () => {
     expect(wrapper.find('#name').attributes('required')).toBeDefined()
-    expect(wrapper.find('#category').attributes('required')).toBeDefined()
+    expect(wrapper.find('#productType').attributes('required')).toBeDefined()
     expect(wrapper.find('#quantity').attributes('required')).toBeDefined()
     expect(wrapper.find('#priceWithVat').attributes('required')).toBeDefined()
     expect(wrapper.find('#profitPercentage').attributes('required')).toBeDefined()
@@ -91,9 +91,9 @@ describe('ProductsCreateForm', () => {
     expect(parseInt((salePriceInput.element as HTMLInputElement).value) || 0).toBe(0)
   })
 
-  it('renders category options correctly', () => {
-    const categorySelect = wrapper.find('#category')
-    const options = categorySelect.findAll('option')
+  it('renders productType options correctly', () => {
+    const productTypeSelect = wrapper.find('#productType')
+    const options = productTypeSelect.findAll('option')
 
     // Should have placeholder option plus PRODUCT_TYPES_ARRAY options
     expect(options.length).toBeGreaterThan(1)
@@ -122,7 +122,7 @@ describe('ProductsCreateForm', () => {
 
     // Fill required fields
     await wrapper.find('#name').setValue('Test Product')
-    await wrapper.find('#category').setValue('Bebestibles')
+    await wrapper.find('#productType').setValue('Bebestibles')
     await wrapper.find('#quantity').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)
@@ -136,10 +136,10 @@ describe('ProductsCreateForm', () => {
       description: '',
       price: 1200, // calculated sale price
       stock: 10, // quantity
-      productType: 'Bebestibles', // category
+      productType: 'Bebestibles',
       unitType: '',
       isActive: true,
-      category: 'Bebestibles',
+
       quantity: 10,
       purchasePrice: 1000,
       profitPercentage: 20,
@@ -166,7 +166,7 @@ describe('ProductsCreateForm', () => {
     })
 
     await wrapper.find('#name').setValue('Test Product')
-    await wrapper.find('#category').setValue('Bebestibles')
+    await wrapper.find('#productType').setValue('Bebestibles')
     await wrapper.find('#quantity').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)
@@ -199,7 +199,7 @@ describe('ProductsCreateForm', () => {
     // Fill form
     await wrapper.find('#name').setValue('Test Product')
     await wrapper.find('#barCode').setValue('123456789')
-    await wrapper.find('#category').setValue('Bebestibles')
+    await wrapper.find('#productType').setValue('Bebestibles')
     await wrapper.find('#quantity').setValue(10)
 
     await wrapper.find('form').trigger('submit.prevent')
@@ -209,7 +209,7 @@ describe('ProductsCreateForm', () => {
     // Form should be reset
     expect((wrapper.find('#name').element as HTMLInputElement).value).toBe('')
     expect((wrapper.find('#barCode').element as HTMLInputElement).value).toBe('')
-    expect((wrapper.find('#category').element as HTMLSelectElement).value).toBe('')
+    expect((wrapper.find('#productType').element as HTMLSelectElement).value).toBe('')
     expect((wrapper.find('#quantity').element as HTMLInputElement).value).toBe('0')
   })
 
@@ -247,7 +247,7 @@ describe('ProductsCreateForm', () => {
     vi.mocked(axios.post).mockRejectedValue(new Error('Network error'))
 
     await wrapper.find('#name').setValue('Test Product')
-    await wrapper.find('#category').setValue('Bebestibles')
+    await wrapper.find('#productType').setValue('Bebestibles')
     await wrapper.find('#quantity').setValue(10)
     await wrapper.find('#priceWithVat').setValue(1000)
     await wrapper.find('#profitPercentage').setValue(20)

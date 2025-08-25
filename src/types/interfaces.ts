@@ -21,7 +21,6 @@ export interface CreateProductRequest {
   productType: string
   unitType: string
   isActive: boolean
-  category: string
   quantity: number
   purchasePrice: number
   profitPercentage: number

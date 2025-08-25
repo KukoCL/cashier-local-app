@@ -159,7 +159,6 @@ describe('useProductsStore', () => {
         productType: 'electronics',
         unitType: 'unit',
         isActive: true,
-        category: 'electronics',
         quantity: 5,
         purchasePrice: 450,
         profitPercentage: 11,
@@ -186,7 +185,6 @@ describe('useProductsStore', () => {
         productType: 'electronics',
         unitType: 'unit',
         isActive: true,
-        category: 'electronics',
         quantity: 5,
         purchasePrice: 450,
         profitPercentage: 11,
@@ -208,7 +206,7 @@ describe('useProductsStore', () => {
       const updateProduct: UpdateProductRequest = {
         ...mockProduct,
         name: 'Updated Product',
-        category: mockProduct.productType,
+
         quantity: mockProduct.stock,
         purchasePrice: mockProduct.price * 0.9,
         profitPercentage: 10,
@@ -230,7 +228,7 @@ describe('useProductsStore', () => {
       const updateProduct: UpdateProductRequest = {
         ...mockProduct,
         name: 'Updated Product',
-        category: mockProduct.productType,
+
         quantity: mockProduct.stock,
         purchasePrice: mockProduct.price * 0.9,
         profitPercentage: 10,
