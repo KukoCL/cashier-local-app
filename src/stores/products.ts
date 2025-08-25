@@ -10,8 +10,8 @@ export const useProductsStore = defineStore('products', () => {
   const loading = ref(false)
   const error = ref<string>('')
 
-  // Form state for ProductsCreateForm
-  const formData = ref<CreateProductRequest>({
+  // Initial form data constant
+  const INITIAL_FORM_DATA: CreateProductRequest = {
     barCode: '',
     name: '',
     description: '',
@@ -22,9 +22,10 @@ export const useProductsStore = defineStore('products', () => {
     isActive: true,
     purchasePrice: 0,
     profitPercentage: 0,
-  })
+  }
 
-  // Getters
+  // Form state for ProductsCreateForm
+  const formData = ref<CreateProductRequest>({ ...INITIAL_FORM_DATA })  // Getters
   const activeProducts = computed(() =>
     products.value.filter(product => product.isActive),
   )
@@ -200,18 +201,7 @@ export const useProductsStore = defineStore('products', () => {
   }
 
   const resetFormData = () => {
-    formData.value = {
-      barCode: '',
-      name: '',
-      description: '',
-      price: 0,
-      stock: 0,
-      productType: '',
-      unitType: '',
-      isActive: true,
-      purchasePrice: 0,
-      profitPercentage: 0,
-    }
+    formData.value = { ...INITIAL_FORM_DATA }
   }
 
   const calculateSalePrice = () => {
