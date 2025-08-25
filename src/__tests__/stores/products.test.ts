@@ -295,4 +295,79 @@ describe('useProductsStore', () => {
       expect(store.error).toBe('')
     })
   })
+
+  describe('form management', () => {
+    it('should update form data field', () => {
+      const store = useProductsStore()
+
+      store.updateFormData('name', 'Test Product')
+      store.updateFormData('price', 100)
+      store.updateFormData('isActive', false)
+
+      expect(store.formData.name).toBe('Test Product')
+      expect(store.formData.price).toBe(100)
+      expect(store.formData.isActive).toBe(false)
+    })
+
+    it('should reset form data to initial state', () => {
+      const store = useProductsStore()
+
+      // Set some data first
+      store.formData.name = 'Test Product'
+      store.formData.price = 100
+      store.formData.stock = 5
+
+      store.resetFormData()
+
+      expect(store.formData.name).toBe('')
+      expect(store.formData.price).toBe(0)
+      expect(store.formData.stock).toBe(0)
+      expect(store.formData.productType).toBe('')
+      expect(store.formData.isActive).toBe(true)
+    })
+
+    it('should calculate sale price correctly', () => {
+      const store = useProductsStore()
+
+      store.formData.purchasePrice = 1000
+      store.formData.profitPercentage = 20
+
+      store.calculateSalePrice()
+
+      expect(store.formData.price).toBe(1200) // 1000 + (1000 * 20 / 100)
+    })
+
+    it('should set price to 0 when purchase price is 0', () => {
+      const store = useProductsStore()
+
+      store.formData.purchasePrice = 0
+      store.formData.profitPercentage = 20
+
+      store.calculateSalePrice()
+
+      expect(store.formData.price).toBe(0)
+    })
+
+    it('should set price to 0 when profit percentage is 0', () => {
+      const store = useProductsStore()
+
+      store.formData.purchasePrice = 1000
+      store.formData.profitPercentage = 0
+
+      store.calculateSalePrice()
+
+      expect(store.formData.price).toBe(0)
+    })
+
+    it('should round calculated price correctly', () => {
+      const store = useProductsStore()
+
+      store.formData.purchasePrice = 999
+      store.formData.profitPercentage = 15 // 999 * 0.15 = 149.85
+
+      store.calculateSalePrice()
+
+      expect(store.formData.price).toBe(1149) // Math.round(999 + 149.85)
+    })
+  })
 })

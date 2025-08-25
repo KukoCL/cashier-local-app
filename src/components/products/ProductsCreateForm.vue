@@ -6,7 +6,7 @@
         <input
           type="text"
           id="barCode"
-          v-model="product.barCode"
+          v-model="formData.barCode"
           :placeholder="messages.form.barCode.placeholder"
         />
       </div>
@@ -18,7 +18,7 @@
         <input
           type="text"
           id="name"
-          v-model="product.name"
+          v-model="formData.name"
           required
           :placeholder="messages.form.name.placeholder"
         />
@@ -32,7 +32,7 @@
         >
         <textarea
           id="description"
-          v-model="product.description"
+          v-model="formData.description"
           rows="3"
           :placeholder="messages.form.description.placeholder"
         ></textarea>
@@ -43,7 +43,7 @@
       <div class="form-group">
         <label for="productType">{{ messages.form.category.label }}:</label>
         <div class="select-wrapper">
-          <select id="productType" v-model="product.productType" required>
+          <select id="productType" v-model="formData.productType" required>
             <option value="" disabled>
               {{ messages.form.category.placeholder }}
             </option>
@@ -61,7 +61,7 @@
         <input
           type="number"
           id="stock"
-          v-model.number="product.stock"
+          v-model.number="formData.stock"
           required
           min="0"
           step="1"
@@ -76,11 +76,11 @@
         <input
           type="number"
           id="priceWithVat"
-          v-model.number="product.purchasePrice"
+          v-model.number="formData.purchasePrice"
           required
           min="0"
           step="1"
-          @input="calculateSalePrice"
+          @input="store.calculateSalePrice"
         />
       </div>
     </div>
@@ -93,11 +93,11 @@
         <input
           type="number"
           id="profitPercentage"
-          v-model.number="product.profitPercentage"
+          v-model.number="formData.profitPercentage"
           required
           min="0"
           step="1"
-          @input="calculateSalePrice"
+          @input="store.calculateSalePrice"
         />
       </div>
     </div>
@@ -107,7 +107,7 @@
         <input
           type="number"
           id="price"
-          v-model.number="product.price"
+          v-model.number="formData.price"
           readonly
           :placeholder="messages.form.salePrice.placeholder"
         />
@@ -131,55 +131,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useProducts } from '../../composables/useProducts'
+import { useProductsStore } from '../../stores/products'
 import { PRODUCT_TYPES_ARRAY } from '../../infraestructure/constants'
 import appMessages from '../../infraestructure/appMessages'
-import type { CreateProductRequest } from '../../types/interfaces'
+import { storeToRefs } from 'pinia'
 
 const { createProduct, loading, error, clearError } = useProducts()
+const store = useProductsStore()
+const { formData } = storeToRefs(store)
 const messages = appMessages.products.create
 
 //TODO: Obtener de Base de datos.
 const productTypes = PRODUCT_TYPES_ARRAY
 
-const initialProduct: CreateProductRequest = {
-  barCode: '',
-  name: '',
-  description: '',
-  price: 0,
-  stock: 0,
-  productType: '',
-  unitType: '',
-  isActive: true,
-  purchasePrice: 0,
-  profitPercentage: 0,
-}
-
-const product = ref<CreateProductRequest>({ ...initialProduct })
-
-// Calculate sale price based on purchase price and profit percentage
-const calculateSalePrice = () => {
-  if (product.value.purchasePrice && product.value.profitPercentage) {
-    const profit =
-      (product.value.purchasePrice * product.value.profitPercentage) / 100
-    product.value.price = Math.round(product.value.purchasePrice + profit)
-  } else {
-    product.value.price = 0
-  }
-}
-
-const resetForm = () => {
-  product.value = { ...initialProduct }
-  clearError()
-}
-
 const handleSubmit = async () => {
   try {
     clearError()
 
-    await createProduct(product.value)
-    resetForm()
+    await createProduct(formData.value)
+    store.resetFormData()
     console.log(messages.messages.success)
   } catch (err) {
     console.error(`${messages.messages.error}:`, err)
