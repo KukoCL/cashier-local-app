@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import type { Product, CreateProductRequest, UpdateProductRequest } from '../types/interfaces'
 import { API_ENDPOINTS } from '../infraestructure/constants'
+import { appMessages } from '../infraestructure/appMessages'
 
 export const useProductsStore = defineStore('products', () => {
   // State
@@ -38,7 +39,7 @@ export const useProductsStore = defineStore('products', () => {
       // Update store with fresh data from database
       products.value = response.data
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error loading products'
+      const errorMessage = err instanceof Error ? err.message : appMessages.products.store.errors.loadingProducts
       error.value = errorMessage
       console.error('Error loading products:', err)
     } finally {
@@ -62,7 +63,7 @@ export const useProductsStore = defineStore('products', () => {
 
       return product
     } catch (err) {
-      console.error('Error getting product:', err)
+      console.error(appMessages.products.store.errors.gettingProduct, err)
       return null
     }
   }
@@ -83,7 +84,7 @@ export const useProductsStore = defineStore('products', () => {
 
       return product
     } catch (err) {
-      console.error('Error getting product by barcode:', err)
+      console.error(appMessages.products.store.errors.gettingProductByBarcode, err)
       return null
     }
   }
@@ -102,9 +103,9 @@ export const useProductsStore = defineStore('products', () => {
 
       return true
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error creating product'
+      const errorMessage = err instanceof Error ? err.message : appMessages.products.store.errors.creatingProduct
       error.value = errorMessage
-      console.error('Error creating product:', err)
+      console.error(appMessages.products.store.errors.creatingProduct, err)
       return false
     } finally {
       loading.value = false
@@ -128,9 +129,9 @@ export const useProductsStore = defineStore('products', () => {
 
       return true
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error updating product'
+      const errorMessage = err instanceof Error ? err.message : appMessages.products.store.errors.updatingProduct
       error.value = errorMessage
-      console.error('Error updating product:', err)
+      console.error(appMessages.products.store.errors.updatingProduct, err)
       return false
     } finally {
       loading.value = false
@@ -153,9 +154,9 @@ export const useProductsStore = defineStore('products', () => {
 
       return true
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error deleting product'
+      const errorMessage = err instanceof Error ? err.message : appMessages.products.store.errors.deletingProduct
       error.value = errorMessage
-      console.error('Error deleting product:', err)
+      console.error(appMessages.products.store.errors.deletingProduct, err)
       return false
     } finally {
       loading.value = false

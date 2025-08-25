@@ -105,7 +105,7 @@ describe('ProductCard', () => {
       },
     })
 
-    expect(wrapper.text()).toContain('No code')
+    expect(wrapper.text()).toContain('Sin código')
   })
 
   it('should handle delete confirmation flow', async () => {

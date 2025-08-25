@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import TopBar from '../../../components/layout/TopBar.vue'
+import { appMessages } from '../../../infraestructure/appMessages'
 
 // Mock vue-router
 const mockRoute = { path: '/products' }
@@ -12,14 +13,14 @@ describe('TopBar', () => {
   it('should render the brand name', () => {
     const wrapper = mount(TopBar)
 
-    expect(wrapper.text()).toContain('Cashier App')
+    expect(wrapper.text()).toContain(appMessages.app.name)
   })
 
   it('should render navigation buttons', () => {
     const wrapper = mount(TopBar)
 
-    expect(wrapper.text()).toContain('🏠 Inicio')
-    expect(wrapper.text()).toContain('📦 Products')
+    expect(wrapper.text()).toContain(`🏠 ${appMessages.navigation.home}`)
+    expect(wrapper.text()).toContain(`📦 ${appMessages.navigation.products}`)
   })
 
   it('should emit navigate event when home button is clicked', async () => {
