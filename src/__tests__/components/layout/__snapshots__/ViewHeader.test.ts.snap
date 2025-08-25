@@ -1,7 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`ViewHeader > should have correct HTML structure 1`] = `
-"<div data-v-66952daf="" class="view-header">
-  <h1 data-v-66952daf="">Test Title</h1>
-</div>"
-`;
