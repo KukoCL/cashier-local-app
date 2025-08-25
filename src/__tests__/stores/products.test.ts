@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { useProductsStore } from '../../stores/products'
 import axios from 'axios'
-import type { Product } from '../../types/interfaces'
+import type { Product, CreateProductRequest, UpdateProductRequest } from '../../types/interfaces'
 
 const mockProduct: Product = {
   id: '1',
@@ -150,7 +150,7 @@ describe('useProductsStore', () => {
     it('should create product successfully', async () => {
       const store = useProductsStore()
       const axiosPost = vi.mocked(axios.post)
-      const newProduct = {
+      const newProduct: CreateProductRequest = {
         name: 'New Product',
         description: 'Description',
         price: 500,
@@ -158,6 +158,9 @@ describe('useProductsStore', () => {
         stock: 5,
         productType: 'electronics',
         unitType: 'unit',
+        isActive: true,
+        purchasePrice: 450,
+        profitPercentage: 11,
       }
       axiosPost.mockResolvedValue({ data: { ...mockProduct, ...newProduct } })
 
@@ -171,7 +174,7 @@ describe('useProductsStore', () => {
     it('should handle create product error', async () => {
       const store = useProductsStore()
       const axiosPost = vi.mocked(axios.post)
-      const newProduct = {
+      const newProduct: CreateProductRequest = {
         name: 'New Product',
         description: 'Description',
         price: 500,
@@ -179,6 +182,9 @@ describe('useProductsStore', () => {
         stock: 5,
         productType: 'electronics',
         unitType: 'unit',
+        isActive: true,
+        purchasePrice: 450,
+        profitPercentage: 11,
       }
       axiosPost.mockRejectedValue(new Error('Create error'))
 
@@ -193,7 +199,14 @@ describe('useProductsStore', () => {
       const store = useProductsStore()
       store.products = [mockProduct]
       const axiosPut = vi.mocked(axios.put)
-      const updateProduct = { ...mockProduct, name: 'Updated Product' }
+      const updateProduct: UpdateProductRequest = {
+        ...mockProduct,
+        name: 'Updated Product',
+
+        purchasePrice: mockProduct.price * 0.9,
+        profitPercentage: 10,
+
+      }
       axiosPut.mockResolvedValue({ data: updateProduct })
 
       const result = await store.updateProduct(updateProduct)
@@ -207,7 +220,14 @@ describe('useProductsStore', () => {
     it('should handle update product error', async () => {
       const store = useProductsStore()
       const axiosPut = vi.mocked(axios.put)
-      const updateProduct = { ...mockProduct, name: 'Updated Product' }
+      const updateProduct: UpdateProductRequest = {
+        ...mockProduct,
+        name: 'Updated Product',
+
+        purchasePrice: mockProduct.price * 0.9,
+        profitPercentage: 10,
+
+      }
       axiosPut.mockRejectedValue(new Error('Update error'))
 
       const result = await store.updateProduct(updateProduct)

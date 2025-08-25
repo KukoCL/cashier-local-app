@@ -1,0 +1,311 @@
+<template>
+  <form @submit.prevent="handleSubmit" class="product-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="barCode">{{ messages.form.barCode.label }}</label>
+        <input
+          type="text"
+          id="barCode"
+          v-model="product.barCode"
+          :placeholder="messages.form.barCode.placeholder"
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">{{ messages.form.name.label }}</label>
+        <input
+          type="text"
+          id="name"
+          v-model="product.name"
+          required
+          :placeholder="messages.form.name.placeholder"
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="description"
+          >{{ messages.form.description.label }}:</label
+        >
+        <textarea
+          id="description"
+          v-model="product.description"
+          rows="3"
+          :placeholder="messages.form.description.placeholder"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="productType">{{ messages.form.category.label }}:</label>
+        <div class="select-wrapper">
+          <select id="productType" v-model="product.productType" required>
+            <option value="" disabled>
+              {{ messages.form.category.placeholder }}
+            </option>
+            <option v-for="type in productTypes" :key="type" :value="type">
+              {{ type }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="stock">{{ messages.form.quantity.label }}:</label>
+        <input
+          type="number"
+          id="stock"
+          v-model.number="product.stock"
+          required
+          min="0"
+          step="1"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="priceWithVat"
+          >{{ messages.form.priceWithVat.label }}:</label
+        >
+        <input
+          type="number"
+          id="priceWithVat"
+          v-model.number="product.purchasePrice"
+          required
+          min="0"
+          step="1"
+          @input="calculateSalePrice"
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="profitPercentage"
+          >{{ messages.form.profitPercentage.label }}:</label
+        >
+        <input
+          type="number"
+          id="profitPercentage"
+          v-model.number="product.profitPercentage"
+          required
+          min="0"
+          step="1"
+          @input="calculateSalePrice"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price">{{ messages.form.salePrice.label }}:</label>
+        <input
+          type="number"
+          id="price"
+          v-model.number="product.price"
+          readonly
+          :placeholder="messages.form.salePrice.placeholder"
+        />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        :disabled="loading"
+        class="btn-primary full-width"
+      >
+        {{ loading ? messages.actions.submitting : messages.actions.submit }}
+      </button>
+    </div>
+
+    <div v-if="error" class="error-message">
+      {{ error }}
+    </div>
+  </form>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { useProducts } from '../../composables/useProducts'
+import { PRODUCT_TYPES_ARRAY } from '../../infraestructure/constants'
+import appMessages from '../../infraestructure/appMessages'
+import type { CreateProductRequest } from '../../types/interfaces'
+
+const { createProduct, loading, error, clearError } = useProducts()
+const messages = appMessages.products.create
+
+//TODO: Obtener de Base de datos.
+const productTypes = PRODUCT_TYPES_ARRAY
+
+const initialProduct: CreateProductRequest = {
+  barCode: '',
+  name: '',
+  description: '',
+  price: 0,
+  stock: 0,
+  productType: '',
+  unitType: '',
+  isActive: true,
+  purchasePrice: 0,
+  profitPercentage: 0,
+}
+
+const product = ref<CreateProductRequest>({ ...initialProduct })
+
+// Calculate sale price based on purchase price and profit percentage
+const calculateSalePrice = () => {
+  if (product.value.purchasePrice && product.value.profitPercentage) {
+    const profit =
+      (product.value.purchasePrice * product.value.profitPercentage) / 100
+    product.value.price = Math.round(product.value.purchasePrice + profit)
+  } else {
+    product.value.price = 0
+  }
+}
+
+const resetForm = () => {
+  product.value = { ...initialProduct }
+  clearError()
+}
+
+const handleSubmit = async () => {
+  try {
+    clearError()
+
+    await createProduct(product.value)
+    resetForm()
+    console.log(messages.messages.success)
+  } catch (err) {
+    console.error(`${messages.messages.error}:`, err)
+  }
+}
+</script>
+
+<style scoped>
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.form-group input[readonly] {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+}
+
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary.full-width {
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #6b7280;
+  pointer-events: none;
+}
+
+select {
+  appearance: none;
+  padding-right: 2.5rem;
+  width: 100%;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  border: 1px solid #f5c6cb;
+}
+</style>

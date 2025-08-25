@@ -17,8 +17,32 @@ export const APP_CONFIG = {
   DEBOUNCE_DELAY: 300,
 } as const
 
+//TODO: Obtener valores desde BD.
+// Product Types
+export const PRODUCT_TYPES = {
+  ARTICULOS_DE_ASEO: 'Articulos de aseo',
+  ALIMENTOS: 'Alimentos',
+  BEBIDAS: 'Bebidas',
+  BEBESTIBLES: 'Bebestibles',
+  EMBUTIDOS: 'Embutidos',
+} as const
+
+export const PRODUCT_TYPES_ARRAY = Object.values(PRODUCT_TYPES)
+
+//TODO: Obtener valores desde BD.
+// Unit Types
+export const UNIT_TYPES = {
+  UNIT: 'Unidad',
+  BOX: 'Caja',
+  GRAMS: 'Gramos',
+} as const
+
+export const UNIT_TYPES_ARRAY = Object.values(UNIT_TYPES)
+
 export default {
   API_ENDPOINTS,
   HTTP_STATUS,
   APP_CONFIG,
+  PRODUCT_TYPES,
+  UNIT_TYPES,
 }

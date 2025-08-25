@@ -20,6 +20,9 @@ export interface CreateProductRequest {
   stock: number
   productType: string
   unitType: string
+  isActive: boolean
+  purchasePrice: number
+  profitPercentage: number
 }
 
 export interface UpdateProductRequest extends CreateProductRequest {
