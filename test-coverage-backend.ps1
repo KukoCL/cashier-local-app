@@ -24,7 +24,7 @@ if ($LASTEXITCODE -ne 0) {
 $coverageFile = Get-ChildItem -Path "TestResults" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
 
 if (-not $coverageFile) {
-    Write-Host "No se encontro el archivo de cobertura" -ForegroundColor Red
+    Write-Host "No se encontró el archivo de cobertura" -ForegroundColor Red
     exit 1
 }
 
