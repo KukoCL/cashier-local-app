@@ -1,329 +1,356 @@
 using Xunit;
 using Moq;
-using System.IO;
-using LiteDB;
 using Shared.Models;
 using Shared.Constants;
-using SystemJson = System.Text.Json;
+using App.Interfaces;
 
 namespace Tests.Services;
 
-public class SeedDataServiceTests : IDisposable
+public class SeedDataServiceTests
 {
-    private readonly string _testDbPath = "test_data.db";
-    private readonly string _testSeedDataPath = "test_seedData.json";
-
-    public SeedDataServiceTests()
-    {
-        // Cleanup any existing test files
-        CleanupTestFiles();
-    }
-
-    public void Dispose()
-    {
-        CleanupTestFiles();
-    }
-
-    private void CleanupTestFiles()
-    {
-        if (File.Exists(_testDbPath))
-            File.Delete(_testDbPath);
-        if (File.Exists(_testSeedDataPath))
-            File.Delete(_testSeedDataPath);
-    }
-
     #region SeedDatabase Tests
 
     [Fact]
     public void SeedDatabase_WithEmptyDatabase_SeedsSuccessfully()
     {
         // Arrange
-        CreateTestSeedDataFile(enabled: true, productCount: 3);
-        var service = new TestSeedDataService(_testDbPath, _testSeedDataPath);
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
+        
+        mockDatabase.Setup(x => x.HasData()).Returns(false);
+        mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetValidSeedDataJson());
+        
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
         // Act
         service.SeedDatabase();
 
         // Assert
-        using var db = new LiteDatabase(_testDbPath);
-        var products = db.GetCollection<Product>("products");
-        var count = products.Count();
-        
-        Assert.Equal(3, count);
-        
-        var firstProduct = products.FindAll().First();
-        Assert.NotEqual(Guid.Empty, firstProduct.Id);
-        Assert.NotEqual(DateTime.MinValue, firstProduct.CreationDate);
-        Assert.NotEqual(DateTime.MinValue, firstProduct.LastUpdateDate);
-        Assert.True(firstProduct.IsActive);
+        mockDatabase.Verify(x => x.HasData(), Times.Once);
+        mockDatabase.Verify(x => x.InsertProducts(It.Is<IEnumerable<Product>>(p => p.Count() == 2)), Times.Once);
     }
 
     [Fact]
     public void SeedDatabase_WithExistingData_DoesNotSeedAgain()
     {
         // Arrange
-        CreateTestSeedDataFile(enabled: true, productCount: 2);
-        var service = new TestSeedDataService(_testDbPath, _testSeedDataPath);
-
-        // Create some existing data
-        using (var db = new LiteDatabase(_testDbPath))
-        {
-            var products = db.GetCollection<Product>("products");
-            products.Insert(new Product { Id = Guid.NewGuid(), Name = "Existing Product" });
-        }
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
+        
+        mockDatabase.Setup(x => x.HasData()).Returns(true);
+        
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
         // Act
         service.SeedDatabase();
 
         // Assert
-        using var db2 = new LiteDatabase(_testDbPath);
-        var products2 = db2.GetCollection<Product>("products");
-        var count = products2.Count();
-        
-        Assert.Equal(1, count); // Should still be 1, not seeded
-        
-        var product = products2.FindAll().First();
-        Assert.Equal("Existing Product", product.Name);
-    }
-
-    [Fact]
-    public void SeedDatabase_WithDisabledSeedData_DoesNotSeed()
-    {
-        // Arrange
-        CreateTestSeedDataFile(enabled: false, productCount: 3);
-        var service = new TestSeedDataService(_testDbPath, _testSeedDataPath);
-
-        // Act
-        service.SeedDatabase();
-
-        // Assert
-        using var db = new LiteDatabase(_testDbPath);
-        var products = db.GetCollection<Product>("products");
-        var count = products.Count();
-        
-        Assert.Equal(0, count);
+        mockDatabase.Verify(x => x.HasData(), Times.Once);
+        mockDatabase.Verify(x => x.InsertProducts(It.IsAny<IEnumerable<Product>>()), Times.Never);
+        mockFileService.Verify(x => x.Exists(It.IsAny<string>()), Times.Never);
     }
 
     [Fact]
     public void SeedDatabase_WithMissingSeedDataFile_DoesNotSeed()
     {
         // Arrange
-        var service = new TestSeedDataService(_testDbPath, "nonexistent_file.json");
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
+        
+        mockDatabase.Setup(x => x.HasData()).Returns(false);
+        mockFileService.Setup(x => x.Exists("seedData.json")).Returns(false);
+        
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
         // Act
         service.SeedDatabase();
 
         // Assert
-        using var db = new LiteDatabase(_testDbPath);
-        var products = db.GetCollection<Product>("products");
-        var count = products.Count();
+        mockDatabase.Verify(x => x.HasData(), Times.Once);
+        mockDatabase.Verify(x => x.InsertProducts(It.IsAny<IEnumerable<Product>>()), Times.Never);
+        mockFileService.Verify(x => x.Exists("seedData.json"), Times.Once);
+    }
+
+    [Fact]
+    public void SeedDatabase_WithDisabledSeedData_DoesNotSeed()
+    {
+        // Arrange
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
         
-        Assert.Equal(0, count);
+        mockDatabase.Setup(x => x.HasData()).Returns(false);
+        mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetDisabledSeedDataJson());
+        
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
+
+        // Act
+        service.SeedDatabase();
+
+        // Assert
+        mockDatabase.Verify(x => x.HasData(), Times.Once);
+        mockDatabase.Verify(x => x.InsertProducts(It.IsAny<IEnumerable<Product>>()), Times.Never);
     }
 
     [Fact]
     public void SeedDatabase_WithInvalidJsonFile_DoesNotSeed()
     {
         // Arrange
-        File.WriteAllText(_testSeedDataPath, "invalid json content");
-        var service = new TestSeedDataService(_testDbPath, _testSeedDataPath);
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
+        
+        mockDatabase.Setup(x => x.HasData()).Returns(false);
+        mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns("invalid json content");
+        
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
         // Act
         service.SeedDatabase();
 
         // Assert
-        using var db = new LiteDatabase(_testDbPath);
-        var products = db.GetCollection<Product>("products");
-        var count = products.Count();
-        
-        Assert.Equal(0, count);
+        mockDatabase.Verify(x => x.HasData(), Times.Once);
+        mockDatabase.Verify(x => x.InsertProducts(It.IsAny<IEnumerable<Product>>()), Times.Never);
     }
 
     [Fact]
     public void SeedDatabase_WithEmptyProductsList_DoesNotSeed()
     {
         // Arrange
-        CreateTestSeedDataFile(enabled: true, productCount: 0);
-        var service = new TestSeedDataService(_testDbPath, _testSeedDataPath);
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
+        
+        mockDatabase.Setup(x => x.HasData()).Returns(false);
+        mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetEmptyProductsSeedDataJson());
+        
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
         // Act
         service.SeedDatabase();
 
         // Assert
-        using var db = new LiteDatabase(_testDbPath);
-        var products = db.GetCollection<Product>("products");
-        var count = products.Count();
-        
-        Assert.Equal(0, count);
+        mockDatabase.Verify(x => x.HasData(), Times.Once);
+        mockDatabase.Verify(x => x.InsertProducts(It.IsAny<IEnumerable<Product>>()), Times.Never);
     }
-
-    #endregion
-
-    #region Data Validation Tests
 
     [Fact]
     public void SeedDatabase_CreatesProductsWithCorrectData()
     {
         // Arrange
-        CreateTestSeedDataFile(enabled: true, productCount: 1);
-        var service = new TestSeedDataService(_testDbPath, _testSeedDataPath);
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
+        
+        mockDatabase.Setup(x => x.HasData()).Returns(false);
+        mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetValidSeedDataJson());
+        
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
         // Act
         service.SeedDatabase();
 
         // Assert
-        using var db = new LiteDatabase(_testDbPath);
-        var products = db.GetCollection<Product>("products");
-        var product = products.FindAll().First();
-        
-        Assert.Equal("Test Product 0", product.Name);
-        Assert.Equal("Test Description 0", product.Description);
-        Assert.Equal(1000, product.Price);
-        Assert.Equal("TEST000", product.BarCode);
-        Assert.Equal(10, product.Stock);
-        Assert.Equal(ProductTypes.Alimentos, product.ProductType);
-        Assert.Equal(UnitTypes.Unit, product.UnitType);
-        Assert.True(product.IsActive);
-        Assert.NotEqual(Guid.Empty, product.Id);
+        mockDatabase.Verify(x => x.InsertProducts(It.Is<IEnumerable<Product>>(products => 
+            products.Any(p => p.Name == "Product 1" && p.Price == 1100 && p.IsActive)
+        )), Times.Once);
     }
 
     [Fact]
     public void SeedDatabase_SetsCorrectTimestamps()
     {
         // Arrange
-        var beforeSeed = DateTime.Now.AddSeconds(-1);
-        CreateTestSeedDataFile(enabled: true, productCount: 1);
-        var service = new TestSeedDataService(_testDbPath, _testSeedDataPath);
+        var beforeSeeding = DateTime.Now.AddSeconds(-1);
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
+        
+        mockDatabase.Setup(x => x.HasData()).Returns(false);
+        mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetValidSeedDataJson());
+        
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
         // Act
         service.SeedDatabase();
-        var afterSeed = DateTime.Now.AddSeconds(1);
+        var afterSeeding = DateTime.Now.AddSeconds(1);
 
         // Assert
-        using var db = new LiteDatabase(_testDbPath);
-        var products = db.GetCollection<Product>("products");
-        var product = products.FindAll().First();
+        mockDatabase.Verify(x => x.InsertProducts(It.Is<IEnumerable<Product>>(products => 
+            products.All(p => p.CreationDate >= beforeSeeding && p.CreationDate <= afterSeeding &&
+                             p.LastUpdateDate >= beforeSeeding && p.LastUpdateDate <= afterSeeding)
+        )), Times.Once);
+    }
+
+    #endregion
+
+    #region Constructor Tests
+
+    [Fact]
+    public void Constructor_WithNullDatabaseService_ThrowsArgumentNullException()
+    {
+        // Arrange
+        var mockFileService = new Mock<IFileService>();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => new SeedDataService(null!, mockFileService.Object));
+    }
+
+    [Fact]
+    public void Constructor_WithNullFileService_ThrowsArgumentNullException()
+    {
+        // Arrange
+        var mockDatabase = new Mock<IDatabaseService>();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => new SeedDataService(mockDatabase.Object, null!));
+    }
+
+    [Fact]
+    public void Constructor_WithValidDependencies_CreatesInstance()
+    {
+        // Arrange
+        var mockDatabase = new Mock<IDatabaseService>();
+        var mockFileService = new Mock<IFileService>();
+
+        // Act
+        var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
+
+        // Assert
+        Assert.NotNull(service);
+    }
+
+    #endregion
+
+    #region Configuration Classes Tests
+
+    [Fact]
+    public void SeedDataConfig_DefaultValues_ShouldBeCorrect()
+    {
+        // Act
+        var config = new SeedDataConfig();
+
+        // Assert
+        Assert.NotNull(config.SeedData);
+        Assert.False(config.SeedData.Enabled);
+        Assert.Empty(config.SeedData.Products);
+    }
+
+    [Fact]
+    public void SeedDataSettings_DefaultValues_ShouldBeCorrect()
+    {
+        // Act
+        var settings = new SeedDataSettings();
+
+        // Assert
+        Assert.False(settings.Enabled);
+        Assert.NotNull(settings.Products);
+        Assert.Empty(settings.Products);
+    }
+
+    [Fact]
+    public void SeedProduct_DefaultValues_ShouldBeCorrect()
+    {
+        // Act
+        var seedProduct = new SeedProduct();
+
+        // Assert
+        Assert.Equal(string.Empty, seedProduct.Name);
+        Assert.Equal(string.Empty, seedProduct.Description);
+        Assert.Equal(0, seedProduct.Price);
+        Assert.Equal(string.Empty, seedProduct.BarCode);
+        Assert.Equal(0, seedProduct.Stock);
+        Assert.Equal(string.Empty, seedProduct.ProductType);
+        Assert.Equal(string.Empty, seedProduct.UnitType);
+    }
+
+    [Fact]
+    public void SeedProduct_PropertySetters_ShouldWork()
+    {
+        // Arrange
+        var seedProduct = new SeedProduct();
         
-        Assert.True(product.CreationDate >= beforeSeed);
-        Assert.True(product.CreationDate <= afterSeed);
-        Assert.True(product.LastUpdateDate >= beforeSeed);
-        Assert.True(product.LastUpdateDate <= afterSeed);
-        Assert.Equal(product.CreationDate, product.LastUpdateDate);
+        // Act
+        seedProduct.Name = "Test Product";
+        seedProduct.Description = "Test Description";
+        seedProduct.Price = 1500;
+        seedProduct.BarCode = "TEST123";
+        seedProduct.Stock = 100;
+        seedProduct.ProductType = ProductTypes.Alimentos;
+        seedProduct.UnitType = UnitTypes.Unit;
+
+        // Assert
+        Assert.Equal("Test Product", seedProduct.Name);
+        Assert.Equal("Test Description", seedProduct.Description);
+        Assert.Equal(1500, seedProduct.Price);
+        Assert.Equal("TEST123", seedProduct.BarCode);
+        Assert.Equal(100, seedProduct.Stock);
+        Assert.Equal(ProductTypes.Alimentos, seedProduct.ProductType);
+        Assert.Equal(UnitTypes.Unit, seedProduct.UnitType);
     }
 
     #endregion
 
     #region Helper Methods
 
-    private void CreateTestSeedDataFile(bool enabled, int productCount)
+    private static string GetValidSeedDataJson()
     {
-        var seedProducts = new List<SeedProduct>();
-        
-        for (int i = 0; i < productCount; i++)
-        {
-            seedProducts.Add(new SeedProduct
-            {
-                Name = $"Test Product {i}",
-                Description = $"Test Description {i}",
-                Price = 1000 + (i * 100),
-                BarCode = $"TEST{i:000}",
-                Stock = 10 + i,
-                ProductType = ProductTypes.Alimentos,
-                UnitType = UnitTypes.Unit
-            });
-        }
-
-        var seedConfig = new SeedDataConfig
-        {
-            SeedData = new SeedDataSettings
-            {
-                Enabled = enabled,
-                Products = seedProducts
+        return @"{
+            ""seedData"": {
+                ""enabled"": true,
+                ""products"": [
+                    {
+                        ""name"": ""Product 1"",
+                        ""description"": ""Description for Product 1"",
+                        ""price"": 1100,
+                        ""barCode"": ""BC001"",
+                        ""stock"": 11,
+                        ""productType"": ""Alimentos"",
+                        ""unitType"": ""Unidad""
+                    },
+                    {
+                        ""name"": ""Product 2"",
+                        ""description"": ""Description for Product 2"",
+                        ""price"": 1200,
+                        ""barCode"": ""BC002"",
+                        ""stock"": 12,
+                        ""productType"": ""Bebidas"",
+                        ""unitType"": ""Caja""
+                    }
+                ]
             }
-        };
+        }";
+    }
 
-        var json = SystemJson.JsonSerializer.Serialize(seedConfig, new SystemJson.JsonSerializerOptions
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = SystemJson.JsonNamingPolicy.CamelCase
-        });
+    private static string GetDisabledSeedDataJson()
+    {
+        return @"{
+            ""seedData"": {
+                ""enabled"": false,
+                ""products"": [
+                    {
+                        ""name"": ""Product 1"",
+                        ""description"": ""Description for Product 1"",
+                        ""price"": 1100,
+                        ""barCode"": ""BC001"",
+                        ""stock"": 11,
+                        ""productType"": ""Alimentos"",
+                        ""unitType"": ""Unidad""
+                    }
+                ]
+            }
+        }";
+    }
 
-        File.WriteAllText(_testSeedDataPath, json);
+    private static string GetEmptyProductsSeedDataJson()
+    {
+        return @"{
+            ""seedData"": {
+                ""enabled"": true,
+                ""products"": []
+            }
+        }";
     }
 
     #endregion
-}
-
-// Test version of SeedDataService to allow custom paths
-public class TestSeedDataService : SeedDataService
-{
-    private readonly string _testDbPath;
-    private readonly string _testSeedDataPath;
-
-    public TestSeedDataService(string dbPath, string seedDataPath)
-    {
-        _testDbPath = dbPath;
-        _testSeedDataPath = seedDataPath;
-    }
-
-    // Override the paths using reflection or create a new version
-    public new void SeedDatabase()
-    {
-        using var db = new LiteDatabase(_testDbPath);
-        var products = db.GetCollection<Product>("products");
-
-        if (products.Count() > 0)
-        {
-            return;
-        }
-
-        var sampleData = LoadSeedDataFromConfig();
-        
-        if (sampleData.Any())
-        {
-            products.InsertBulk(sampleData);
-        }
-    }
-
-    private List<Product> LoadSeedDataFromConfig()
-    {
-        try
-        {
-            if (!File.Exists(_testSeedDataPath))
-            {
-                return new List<Product>();
-            }
-
-            var jsonContent = File.ReadAllText(_testSeedDataPath);
-            var seedConfig = SystemJson.JsonSerializer.Deserialize<SeedDataConfig>(jsonContent, new SystemJson.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            if (seedConfig?.SeedData?.Enabled != true)
-            {
-                return new List<Product>();
-            }
-
-            var now = DateTime.Now;
-            return seedConfig.SeedData.Products.Select(item => new Product
-            {
-                Id = Guid.NewGuid(),
-                Name = item.Name,
-                Description = item.Description,
-                Price = item.Price,
-                BarCode = item.BarCode,
-                Stock = item.Stock,
-                ProductType = item.ProductType,
-                UnitType = item.UnitType,
-                IsActive = true,
-                CreationDate = now,
-                LastUpdateDate = now
-            }).ToList();
-        }
-        catch (Exception)
-        {
-            return new List<Product>();
-        }
-    }
 }

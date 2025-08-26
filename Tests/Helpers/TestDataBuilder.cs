@@ -20,8 +20,8 @@ public static class TestDataBuilder
                 Stock = 100,
                 BarCode = "TEST123",
                 IsActive = true,
-                ProductType = Shared.Constants.ProductTypes.Alimentos,
-                UnitType = Shared.Constants.UnitTypes.Unit,
+                ProductType = global::Shared.Constants.ProductTypes.Alimentos,
+                UnitType = global::Shared.Constants.UnitTypes.Unit,
                 CreationDate = DateTime.Now,
                 LastUpdateDate = DateTime.Now
             };

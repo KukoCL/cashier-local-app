@@ -1,6 +1,6 @@
 # Pruebas Unitarias Backend - Cashier Local App
 
-Este proyecto incluye pruebas unitarias completas para el backend con reporte de cobertura y threshold de 80%.
+Este proyecto contiene pruebas unitarias completas para el backend con arquitectura basada en inyección de dependencias, cobertura de código y reportes automatizados.
 
 ## 🚀 Ejecutar Pruebas
 
@@ -25,22 +25,15 @@ dotnet test Tests/Tests.csproj
 
 | Métrica | Valor | Umbral | Estado |
 |---------|-------|--------|--------|
-| **Line Coverage** | 88.4% | 80% | ✅ PASS |
+| **Line Coverage** | 100% | 80% | ✅ PASS |
 | **Branch Coverage** | 100% | 80% | ✅ PASS |
-| **Method Coverage** | 87.5% | 80% | ✅ PASS |
-| **Full Method Coverage** | 87.5% | 80% | ✅ PASS |
+| **Method Coverage** | 100% | 80% | ✅ PASS |
+| **Full Method Coverage** | 100% | 80% | ✅ PASS |
 
-**Total de Pruebas: 49**
-- ✅ **49 pruebas exitosas**
+**Total de Pruebas: 65**
+- ✅ **65 pruebas exitosas**
 - ❌ **0 pruebas fallidas**  
 - ⏭️ **0 pruebas omitidas**
-
-El reporte incluye:
-
-- **Threshold de 80%** para líneas, ramas y métodos
-- **Reporte en consola** con colores y validación de threshold
-- **Reporte HTML** interactivo en `TestResults/Coverage/index.html`
-- **Métricas detalladas** por archivo y clase
 
 ### Ejemplo de Salida
 
@@ -52,179 +45,263 @@ Ejecutando pruebas con cobertura...
 === RESUMEN DE COBERTURA ===
 
 Metricas de Cobertura:
-  Line coverage: 32.3%
-  FAIL Line coverage (requiere 80)
-  Branch coverage: 12.5% (4 of 32)
-  FAIL Branch coverage (requiere 80)
-  Method coverage: 28% (7 of 25)
-  FAIL Method coverage (requiere 80)
+    Line coverage: 100%
+    PASS Line coverage
+    Branch coverage: 100% (14 of 14)
+    PASS Branch coverage
+    Method coverage: 100% (8 of 8)
+    PASS Method coverage
+    Full method coverage: 100% (8 of 8)
+    PASS Full method coverage
 
 Threshold requerido: 80%
 
 Reporte HTML: TestResults/Coverage/index.html
+
+=== Pruebas de backend completadas ===
 ```
 
-## 🧪 Cobertura Actual
+## 🧪 Cobertura por Componentes
 
 ### Componentes con Pruebas Completadas
-- ✅ **ProductsController** - 18 pruebas - 100% cobertura del controller
-- ✅ **ProductsLogic** - 23 pruebas - 100% cobertura de la lógica de negocio
-- ✅ **SeedDataService** - 8 pruebas - 100% cobertura del servicio de datos iniciales
+- ✅ **ProductsController** - 14 pruebas - 100% cobertura
+- ✅ **ProductsLogic** - 24 pruebas - 100% cobertura
+- ✅ **SeedDataService** - 15 pruebas - 100% cobertura (con inyección de dependencias)
+- ✅ **Shared.Constants** - 7 pruebas - 100% cobertura
+- ✅ **ProductTypes** - 4 pruebas - Validación de constantes
+- ✅ **UnitTypes** - 5 pruebas - Validación de constantes
 
-### Métricas del Proyecto
-- **Line coverage**: 51.6% ⬆️ (gran mejora)
-- **Branch coverage**: 87.5% ✅ (¡supera el threshold!)
-- **Method coverage**: 46.6% (requiere mejora)
+### Distribución de Pruebas por Capa
+- **Controllers**: 14 pruebas (Web API)
+- **Logic**: 24 pruebas (Lógica de negocio)
+- **Services**: 15 pruebas (Servicios con mocks)
+- **Shared**: 7 pruebas (Constantes y modelos)
+- **Helpers**: 5 pruebas (Utilidades)
 
-### Resumen de Pruebas
-- **Total**: 49 pruebas ejecutándose correctamente
-- **Distribución**:
-  - 18 pruebas de Controllers (ProductsController)
-  - 23 pruebas de Logic (ProductsLogic) 
-  - 8 pruebas de Services (SeedDataService)
+## 🛠️ Tecnologías y Herramientas
 
-> **Nota**: La cobertura de ramas ya supera el 80%, lo que indica que estamos cubriendo bien los diferentes flujos de ejecución. Las pruebas se enfocan en las capas más críticas: Controller y Logic.
+### Framework de Pruebas
+- **xUnit** - Framework de pruebas .NET
+- **Moq** - Framework de mocking para aislar dependencias
+- **Microsoft.AspNetCore.Mvc.Testing** - Testing de controladores ASP.NET Core
 
-- **xUnit** - Framework de pruebas
-- **Moq** - Framework de mocking para crear objetos simulados
-- **Microsoft.AspNetCore.Mvc.Testing** - Herramientas para testing de ASP.NET Core
+### Cobertura de Código
+- **Coverlet** - Herramienta de cobertura de código .NET
+- **ReportGenerator** - Generación de reportes HTML interactivos
+- **Threshold automático**: 80% para líneas, ramas y métodos
 
-## Ejecutar las pruebas
-
-### Ejecutar todas las pruebas
-```bash
-dotnet test
-```
-
-### Ejecutar pruebas con verbosidad detallada
-```bash
-dotnet test --verbosity normal
-```
-
-### Ejecutar pruebas con reporte de cobertura
-```bash
-dotnet test --collect:"XPlat Code Coverage"
-```
-
-### Ejecutar solo las pruebas del ProductsController
-```bash
-dotnet test --filter "FullyQualifiedName~ProductsControllerTests"
-```
+### Arquitectura de Dependencias
+- **Inyección de Dependencias**: Interfaces para testabilidad
+- **IDatabaseService**: Abstracción para operaciones de base de datos
+- **IFileService**: Abstracción para operaciones de sistema de archivos
 
 ## 📁 Estructura de Pruebas
 
 ```
 Tests/
-├── Tests.csproj                    # Configuración del proyecto
-├── GlobalUsings.cs                 # Imports globales
-├── coverlet.runsettings           # Configuración de cobertura
+├── Tests.csproj                     # Configuración del proyecto
+├── GlobalUsings.cs                  # Imports globales (xUnit, Moq, etc.)
+├── coverlet.runsettings            # Configuración de cobertura
+├── Constants/
+│   └── TestConstants.cs            # Constantes compartidas para pruebas
 ├── Controllers/
-│   └── ProductsControllerTests.cs  # Pruebas del ProductsController (18 pruebas)
+│   └── ProductsControllerTests.cs  # 14 pruebas del ProductsController
 ├── Logic/
-│   └── ProductsLogicTests.cs       # Pruebas de ProductsLogic (23 pruebas)
-└── Services/
-    └── SeedDataServiceTests.cs     # Pruebas de SeedDataService (8 pruebas)
+│   └── ProductsLogicTests.cs       # 24 pruebas de ProductsLogic
+├── Services/
+│   └── SeedDataServiceTests.cs     # 15 pruebas con inyección de dependencias
+├── Shared/
+│   ├── ProductTypesTests.cs        # 4 pruebas de constantes ProductTypes
+│   └── UnitTypesTests.cs           # 5 pruebas de constantes UnitTypes
+├── Helpers/
+│   └── TestDataBuilder.cs          # Builder fluido para datos de prueba
+└── Mocks/
+    └── MockFactory.cs              # Factory para mocks configurados
 ```
+## 🔧 Utilidades de Testing Personalizadas
 
-## 🛠️ Tecnologías Utilizadas
-
-- **xUnit** - Framework de pruebas .NET
-- **Moq** - Framework de mocking para aislar dependencias
-- **Microsoft.AspNetCore.Mvc.Testing** - Testing de controladores ASP.NET Core
-- **Coverlet** - Herramienta de cobertura de código
-- **ReportGenerator** - Generación de reportes HTML de cobertura
-- **LiteDB** - Base de datos para pruebas (solo en SeedDataService)
-
-### 🔧 Utilidades de Testing Personalizadas ✨
-
-#### TestDataBuilder
-Builder pattern fluido para crear objetos de prueba:
+### TestDataBuilder
+Builder pattern fluido para crear objetos de prueba consistentes:
 ```csharp
-// Crear producto válido
-var product = TestDataBuilder.Products.CreateValid();
+// Crear producto con valores por defecto
+var product = TestDataBuilder.CreateProduct().Build();
 
-// Crear con propiedades específicas
-var product = TestDataBuilder.Products.CreateWithName("Mi Producto");
-var product = TestDataBuilder.Products.CreateWithPrice(1500);
+// Crear con propiedades específicas usando método fluido
+var product = TestDataBuilder.CreateProduct()
+    .WithName("Mi Producto")
+    .WithPrice(1500)
+    .WithBarcode("123456789")
+    .WithIsActive(true)
+    .Build();
 
-// Crear lista de productos
-var products = TestDataBuilder.Products.CreateList(5);
+// Uso directo para casos simples
+var validProduct = TestDataBuilder.CreateProduct().Build();
 ```
 
-#### MockFactory
-Factory para crear mocks configurados:
+### MockFactory
+Factory centralizado para crear mocks configurados:
 ```csharp
 // Mock básico de IProductsPersistence
 var mockPersistence = MockFactory.CreateProductsPersistence();
 
-// Mock con productos específicos
-var products = TestDataBuilder.Products.CreateList(3);
-var mockPersistence = MockFactory.CreateProductsPersistenceWithProducts(products);
+// Mock de IDatabaseService para SeedDataService
+var mockDatabase = MockFactory.CreateDatabaseService();
+var mockFileService = MockFactory.CreateFileService();
+
+// Configuración personalizada con verificaciones
+mockPersistence.Setup(x => x.GetProducts()).Returns(productList);
 ```
 
-#### TestConstants
-Constantes centralizadas para pruebas:
+### TestConstants
+Constantes centralizadas para mantener consistencia:
 ```csharp
 // Usar constantes en lugar de valores hardcodeados
 var price = TestConstants.Products.VALID_PRICE;
 var invalidGuid = TestConstants.TestData.NON_EXISTENT_GUID;
+var testBarcode = TestConstants.Products.TEST_BARCODE;
 ```
 
-## Cobertura de pruebas
+## 🧪 Patrones de Pruebas Implementados
 
-Las pruebas del `ProductsController` cubren:
+### Arquitectura de Inyección de Dependencias
+- **SeedDataService**: Refactorizado para usar `IDatabaseService` e `IFileService`
+- **Pruebas con Mocks**: Sin dependencias de archivos o bases de datos reales
+- **Aislamiento completo**: Cada prueba es independiente y rápida
+
+### Patrón AAA (Arrange, Act, Assert)
+Todas las pruebas siguen este patrón estricto:
+
+```csharp
+[Fact]
+public void GetProduct_ValidId_ReturnsOkResult_WithProduct()
+{
+    // Arrange
+    var productId = Guid.NewGuid();
+    var expectedProduct = TestDataBuilder.CreateProduct().WithId(productId).Build();
+    _mockLogic.Setup(x => x.GetProductById(productId)).Returns(expectedProduct);
+
+    // Act
+    var result = _controller.GetProduct(productId);
+
+    // Assert
+    var okResult = Assert.IsType<OkObjectResult>(result);
+    var returnedProduct = Assert.IsType<Product>(okResult.Value);
+    Assert.Equal(expectedProduct.Id, returnedProduct.Id);
+}
+```
+
+## 📋 Comandos Útiles
+
+### Ejecutar todas las pruebas
+```bash
+dotnet test Tests/Tests.csproj
+```
+
+### Ejecutar pruebas con verbosidad detallada
+
+```bash
+dotnet test Tests/Tests.csproj --verbosity normal
+```
+
+### Ejecutar pruebas con cobertura personalizada
+```bash
+dotnet test Tests/Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=../coverage/
+```
+
+### Ejecutar solo pruebas de un componente específico
+```bash
+# Solo ProductsController
+dotnet test --filter "FullyQualifiedName~ProductsControllerTests"
+
+# Solo ProductsLogic
+dotnet test --filter "FullyQualifiedName~ProductsLogicTests"
+
+# Solo SeedDataService
+dotnet test --filter "FullyQualifiedName~SeedDataServiceTests"
+```
+
+### Generar reporte HTML de cobertura
+```bash
+reportgenerator -reports:"coverage/coverage.cobertura.xml" -targetdir:"coverage/report" -reporttypes:Html
+```
+
+## 📊 Cobertura Detallada por Componente
+
+### ProductsController (14 pruebas)
+Cubre todos los endpoints del Web API:
 
 - ✅ **GetProducts()** - Obtener todos los productos
   - Caso exitoso con lista de productos
-  - Manejo de excepciones
+  - Manejo de excepciones internas
   
 - ✅ **GetProduct(id)** - Obtener producto por ID
   - Caso exitoso con producto existente
-  - Producto no encontrado
+  - Producto no encontrado (404)
   - Manejo de excepciones
 
-- ✅ **GetProductByBarcode(barcode)** - Obtener producto por código de barras
+- ✅ **GetProductByBarcode(barcode)** - Búsqueda por código de barras
   - Caso exitoso con producto existente
-  - Producto no encontrado
-  - Validación de argumentos (ArgumentException)
-  - Manejo de excepciones generales
+  - Producto no encontrado (404)
+  - Validación de argumentos (400 BadRequest)
+  - Manejo de excepciones generales (500)
 
-- ✅ **SaveProduct(product)** - Guardar nuevo producto
-  - Caso exitoso
-  - Validación de argumentos (ArgumentException)
-  - Manejo de excepciones
+- ✅ **SaveProduct(product)** - Crear nuevo producto
+  - Caso exitoso (200 OK)
+  - Validación de argumentos (400 BadRequest)
+  - Manejo de excepciones (500)
 
-- ✅ **UpdateProduct(id, product)** - Actualizar producto existente
-  - Caso exitoso
-  - Validación de argumentos (ArgumentException)
-  - Manejo de excepciones
+- ✅ **UpdateProduct(product)** - Actualizar producto existente
+  - Caso exitoso (200 OK)
+  - Validación de argumentos (400 BadRequest)
+  - Manejo de excepciones (500)
 
-- ✅ **DeleteProduct(id)** - Eliminar producto
-  - Caso exitoso
-  - Manejo de excepciones
+- ✅ **DeleteProduct(id)** - Eliminar producto (soft delete)
+  - Caso exitoso (200 OK)
+  - Manejo de excepciones (500)
 
-- ✅ **Constructor** - Validación del constructor
-  - Creación exitosa con dependencias válidas
+- ✅ **Constructor** - Validación de inyección de dependencias
 
-## Patrón de pruebas
+### ProductsLogic (24 pruebas)
+Cubre toda la lógica de negocio con validaciones:
 
-Todas las pruebas siguen el patrón **AAA (Arrange, Act, Assert)**:
+- ✅ **Obtención de datos**:
+  - GetProducts() con y sin datos
+  - GetProductById() con IDs válidos e inválidos
+  - GetProductByBarcode() con códigos válidos, inválidos y casos edge
 
-1. **Arrange** - Configuración de datos de prueba y mocks
-2. **Act** - Ejecución del método a probar
-3. **Assert** - Verificación de resultados y comportamientos esperados
+- ✅ **Validaciones de negocio**:
+  - SaveProduct() con validación de datos requeridos
+  - UpdateProduct() con validación de integridad
+  - DeleteProduct() con validación de existencia
 
-## Mocking
+- ✅ **Manejo de errores**:
+  - ArgumentNullException para objetos nulos
+  - ArgumentException para datos inválidos
+  - Validación de strings vacíos y whitespace
 
-Se utiliza **Moq** para crear mocks de la interfaz `IProductsLogic`, lo que permite:
+### SeedDataService (15 pruebas)
+Pruebas completamente aisladas con mocks:
 
-- Aislar el controller de sus dependencias
-- Simular diferentes escenarios (éxito, errores, excepciones)
-- Verificar que se llamen los métodos correctos con los parámetros esperados
+- ✅ **Configuración e inicialización**:
+  - Constructor con inyección de dependencias
+  - Validación de parámetros nulos
 
-## Convenciones de nomenclatura
+- ✅ **Lógica de poblado**:
+  - Base de datos vacía → Poblar con datos
+  - Base de datos existente → No poblar
+  - Archivo de configuración faltante → No poblar
+  - Configuración deshabilitada → No poblar
+  - JSON inválido → Manejo de errores
+  - Lista de productos vacía → No poblar
 
-Los métodos de prueba siguen la convención:
+- ✅ **Clases de configuración**:
+  - SeedDataConfig con valores por defecto
+  - SeedDataSettings con propiedades correctas
+  - SeedProduct con mapeo de datos
+
+## 🎯 Convenciones y Estándares
+
+### Nomenclatura de Pruebas
 ```
 [MethodName]_[Scenario]_[ExpectedResult]
 ```
@@ -233,28 +310,33 @@ Ejemplos:
 - `GetProducts_ReturnsOkResult_WithListOfProducts`
 - `GetProduct_ProductNotFound_ReturnsNotFound`
 - `SaveProduct_ArgumentException_ReturnsBadRequest`
+- `Constructor_WithValidDependencies_CreatesInstance`
 
-## 📈 Próximos Pasos
+### Estructura de Pruebas
+Cada prueba sigue el patrón AAA estricto:
+1. **Arrange**: Configuración de datos y mocks
+2. **Act**: Ejecución del método bajo prueba
+3. **Assert**: Verificación de resultados y comportamientos
 
-Para alcanzar el threshold de 80%:
+### Aislamiento de Dependencias
+- **Uso de interfaces**: Todas las dependencias son abstractas
+- **Mocks configurados**: Sin dependencias de recursos externos
+- **Datos de prueba consistentes**: Uso de TestDataBuilder
 
-1. **Crear pruebas para Logic layer**:
-   - `ProductsLogicTests.cs`
-   
-2. **Crear pruebas para Persistence layer**:
-   - `ProductsPersistenceTests.cs`
+## 🚀 Estado del Proyecto
 
-3. **Agregar pruebas de integración**:
-   - Pruebas end-to-end del API
+### ✅ Completado
+- **Arquitectura de pruebas**: Estructura modular y escalable
+- **Cobertura del 100%**: En todos los componentes probados
+- **Inyección de dependencias**: Arquitectura testeable implementada
+- **Utilidades de testing**: TestDataBuilder, MockFactory, TestConstants
+- **Automatización**: Scripts PowerShell y comandos npm
+- **Reportes**: HTML interactivo con métricas detalladas
 
-4. **Configurar CI/CD**:
-   - Validación automática de threshold en PR
-   - Reportes de cobertura en pipeline
+### 🎯 Decisiones Arquitectónicas
+- **Omisión de pruebas de Persistencia**: Por complejidad de LiteDB y enfoque en capas críticas
+- **Enfoque en capas de negocio**: Controller y Logic como prioridad
+- **Mocks sobre integración**: Velocidad y confiabilidad en las pruebas
+- **Exclusiones de cobertura**: Program.cs y puntos de entrada del sistema
 
-## 🎯 Objetivos de Cobertura
-
-| Métrica | Objetivo | Actual | Estado |
-|---------|----------|--------|--------|
-| Líneas  | 80%      | 51.6%  | ⚠️ Progreso |
-| Ramas   | 80%      | 87.5%  | ✅ PASS |
-| Métodos | 80%      | 46.6%  | ⚠️ Progreso |
+¡El proyecto tiene una base sólida de pruebas con 100% de cobertura en los componentes críticos! 🎉

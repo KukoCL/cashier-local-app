@@ -6,7 +6,12 @@ namespace Persistence;
 
 public class ProductsPersistence : IProductsPersistence
 {
-    private readonly string _dbPath = "data.db";
+    private readonly string _dbPath;
+
+    public ProductsPersistence(string? dbPath = null)
+    {
+        _dbPath = dbPath ?? "data.db";
+    }
 
     public List<Product> GetProducts()
     {
