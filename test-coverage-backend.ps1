@@ -43,7 +43,7 @@ $summaryFile = "TestResults/Coverage/Summary.txt"
 if (Test-Path $summaryFile) {
     $content = Get-Content $summaryFile
     
-    Write-Host "Metricas de Cobertura:" -ForegroundColor Cyan
+    Write-Host "Métricas de Cobertura:" -ForegroundColor Cyan
     foreach ($line in $content) {
         if ($line -match "Line coverage:|Branch coverage:|Method coverage:") {
             Write-Host "  $line" -ForegroundColor White
