@@ -54,6 +54,11 @@ lerna-debug.log*
 # Test coverage
 coverage/
 *.lcov
+TestResults/
+*.cobertura.xml
+*.opencover.xml
+coverage.json
+coverage.info
 
 # Database files
 data.db
