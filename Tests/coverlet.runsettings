@@ -18,6 +18,7 @@
           <Threshold>80</Threshold>
           <ThresholdType>line,branch,method</ThresholdType>
           <ThresholdStat>minimum</ThresholdStat>
+          <DoesNotReturnAttribute>DoesNotReturnAttribute</DoesNotReturnAttribute>
         </Configuration>
       </DataCollector>
     </DataCollectors>

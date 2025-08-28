@@ -71,7 +71,7 @@ jobs:
   build-backend:
     name: Build Backend (.NET)
     runs-on: ubuntu-latest
-    needs: [lint, test]
+    needs: [lint, test, test-backend]
     
     steps:
     - name: Checkout code
@@ -87,4 +87,78 @@ jobs:
       
     - name: Build .NET projects
       run: dotnet build --no-restore --configuration Release
+
+  test-backend:
+    name: Backend Tests & Coverage
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+        
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+        
+    - name: Restore .NET dependencies
+      run: dotnet restore
+      
+    - name: Run backend tests with coverage
+      run: |
+        dotnet test Tests/Tests.csproj --collect:"XPlat Code Coverage" --results-directory TestResults --settings Tests/coverlet.runsettings --verbosity normal
+        
+    - name: Generate coverage report and check thresholds
+      run: |
+        # Buscar el archivo de cobertura
+        COVERAGE_FILE=$(find TestResults -name "coverage.cobertura.xml" | head -1)
+        
+        if [ -z "$COVERAGE_FILE" ]; then
+          echo "No se encontró el archivo de cobertura"
+          exit 1
+        fi
+        
+        # Generar reporte
+        reportgenerator -reports:"$COVERAGE_FILE" -targetdir:"TestResults/Coverage" -reporttypes:"TextSummary" -verbosity:Warning
+        
+        # Verificar umbrales
+        SUMMARY_FILE="TestResults/Coverage/Summary.txt"
+        if [ -f "$SUMMARY_FILE" ]; then
+          echo "=== RESUMEN DE COBERTURA ==="
+          cat "$SUMMARY_FILE"
+          echo ""
+          
+          # Verificar threshold de 80%
+          FAILED=false
+          
+          while IFS= read -r line; do
+            if [[ $line =~ "Line coverage:" ]] || [[ $line =~ "Branch coverage:" ]] || [[ $line =~ "Method coverage:" ]]; then
+              echo "Checking: $line"
+              
+              if [[ $line =~ ([0-9]+\.?[0-9]*)% ]]; then
+                PERCENT="${BASH_REMATCH[1]}"
+                METRIC=$(echo "$line" | cut -d':' -f1 | xargs)
+                
+                if (( $(echo "$PERCENT >= 80" | bc -l) )); then
+                  echo "✅ PASS $METRIC ($PERCENT%)"
+                else
+                  echo "❌ FAIL $METRIC ($PERCENT% < 80%)"
+                  FAILED=true
+                fi
+              fi
+            fi
+          done < "$SUMMARY_FILE"
+          
+          if [ "$FAILED" = true ]; then
+            echo ""
+            echo "❌ ERROR: El coverage no cumple con el umbral mínimo del 80%"
+            exit 1
+          else
+            echo ""
+            echo "✅ Todos los umbrales de coverage cumplidos (80%)"
+          fi
+        fi
 
