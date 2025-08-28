@@ -17,6 +17,6 @@ global using Logic.Interfaces;
 global using Persistence.Interfaces;
 
 // Test utilities
-global using Tests.Helpers;
-global using Tests.Mocks;
+global using Tests.Helpers.Products;
+global using Tests.Mocks.Products;
 global using Tests.Constants;

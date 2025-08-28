@@ -1,6 +1,6 @@
 using Shared.Models;
 
-namespace Tests.Helpers;
+namespace Tests.Helpers.Products;
 
 /// <summary>
 /// Builder pattern para crear objetos de prueba de manera fluida

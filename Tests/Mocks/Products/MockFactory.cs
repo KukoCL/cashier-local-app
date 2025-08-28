@@ -2,7 +2,7 @@ using Logic.Interfaces;
 using Persistence.Interfaces;
 using Shared.Models;
 
-namespace Tests.Mocks;
+namespace Tests.Mocks.Products;
 
 /// <summary>
 /// Factory para crear mocks configurados comúnmente utilizados en pruebas
