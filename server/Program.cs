@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IProductsPersistence, ProductsPersistence>();
 builder.Services.AddSingleton<IProductsLogic, ProductsLogic>();
-builder.Services.AddSingleton<IDatabaseService, LiteDatabaseService>();
+builder.Services.AddScoped<IDatabaseService, LiteDatabaseService>();
 builder.Services.AddSingleton<IFileService, FileSystemService>();
 builder.Services.AddSingleton<SeedDataService>();
 
