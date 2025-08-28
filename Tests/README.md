@@ -30,8 +30,8 @@ dotnet test Tests/Tests.csproj
 | **Method Coverage** | 100% | 80% | ✅ PASS |
 | **Full Method Coverage** | 100% | 80% | ✅ PASS |
 
-**Total de Pruebas: 65**
-- ✅ **65 pruebas exitosas**
+**Total de Pruebas: 56**
+- ✅ **56 pruebas exitosas**
 - ❌ **0 pruebas fallidas**  
 - ⏭️ **0 pruebas omitidas**
 
@@ -67,15 +67,11 @@ Reporte HTML: TestResults/Coverage/index.html
 - ✅ **ProductsController** - 14 pruebas - 100% cobertura
 - ✅ **ProductsLogic** - 24 pruebas - 100% cobertura
 - ✅ **SeedDataService** - 15 pruebas - 100% cobertura (con inyección de dependencias)
-- ✅ **Shared.Constants** - 7 pruebas - 100% cobertura
-- ✅ **ProductTypes** - 4 pruebas - Validación de constantes
-- ✅ **UnitTypes** - 5 pruebas - Validación de constantes
 
 ### Distribución de Pruebas por Capa
 - **Controllers**: 14 pruebas (Web API)
 - **Logic**: 24 pruebas (Lógica de negocio)
 - **Services**: 15 pruebas (Servicios con mocks)
-- **Shared**: 7 pruebas (Constantes y modelos)
 - **Helpers**: 5 pruebas (Utilidades)
 
 ## 🛠️ Tecnologías y Herramientas
@@ -110,9 +106,6 @@ Tests/
 │   └── ProductsLogicTests.cs       # 24 pruebas de ProductsLogic
 ├── Services/
 │   └── SeedDataServiceTests.cs     # 15 pruebas con inyección de dependencias
-├── Shared/
-│   ├── ProductTypesTests.cs        # 4 pruebas de constantes ProductTypes
-│   └── UnitTypesTests.cs           # 5 pruebas de constantes UnitTypes
 ├── Helpers/
 │   └── TestDataBuilder.cs          # Builder fluido para datos de prueba
 └── Mocks/

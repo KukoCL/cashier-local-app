@@ -1,7 +1,6 @@
 using LiteDB;
 using Shared.Models;
 using App.Interfaces;
-using System.Text.Json;
 
 public class SeedDataService
 {

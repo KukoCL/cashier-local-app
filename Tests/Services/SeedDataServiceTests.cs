@@ -3,6 +3,7 @@ using Moq;
 using Shared.Models;
 using Shared.Constants;
 using App.Interfaces;
+using Tests.Helpers;
 
 namespace Tests.Services;
 
@@ -19,7 +20,7 @@ public class SeedDataServiceTests
         
         mockDatabase.Setup(x => x.HasData()).Returns(false);
         mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
-        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetValidSeedDataJson());
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(TestDataBuilder.SeedDataJson.CreateValidSeedData());
         
         var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
@@ -81,7 +82,7 @@ public class SeedDataServiceTests
         
         mockDatabase.Setup(x => x.HasData()).Returns(false);
         mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
-        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetDisabledSeedDataJson());
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(TestDataBuilder.SeedDataJson.CreateDisabledSeedData());
         
         var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
@@ -102,7 +103,7 @@ public class SeedDataServiceTests
         
         mockDatabase.Setup(x => x.HasData()).Returns(false);
         mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
-        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns("invalid json content");
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(TestDataBuilder.SeedDataJson.CreateInvalidJson());
         
         var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
@@ -123,7 +124,7 @@ public class SeedDataServiceTests
         
         mockDatabase.Setup(x => x.HasData()).Returns(false);
         mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
-        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetEmptyProductsSeedDataJson());
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(TestDataBuilder.SeedDataJson.CreateEmptyProductsSeedData());
         
         var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
@@ -144,7 +145,7 @@ public class SeedDataServiceTests
         
         mockDatabase.Setup(x => x.HasData()).Returns(false);
         mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
-        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetValidSeedDataJson());
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(TestDataBuilder.SeedDataJson.CreateValidSeedData());
         
         var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
@@ -167,7 +168,7 @@ public class SeedDataServiceTests
         
         mockDatabase.Setup(x => x.HasData()).Returns(false);
         mockFileService.Setup(x => x.Exists("seedData.json")).Returns(true);
-        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(GetValidSeedDataJson());
+        mockFileService.Setup(x => x.ReadAllText("seedData.json")).Returns(TestDataBuilder.SeedDataJson.CreateValidSeedData());
         
         var service = new SeedDataService(mockDatabase.Object, mockFileService.Object);
 
@@ -287,69 +288,6 @@ public class SeedDataServiceTests
         Assert.Equal(100, seedProduct.Stock);
         Assert.Equal(ProductTypes.Alimentos, seedProduct.ProductType);
         Assert.Equal(UnitTypes.Unit, seedProduct.UnitType);
-    }
-
-    #endregion
-
-    #region Helper Methods
-
-    private static string GetValidSeedDataJson()
-    {
-        return @"{
-            ""seedData"": {
-                ""enabled"": true,
-                ""products"": [
-                    {
-                        ""name"": ""Product 1"",
-                        ""description"": ""Description for Product 1"",
-                        ""price"": 1100,
-                        ""barCode"": ""BC001"",
-                        ""stock"": 11,
-                        ""productType"": ""Alimentos"",
-                        ""unitType"": ""Unidad""
-                    },
-                    {
-                        ""name"": ""Product 2"",
-                        ""description"": ""Description for Product 2"",
-                        ""price"": 1200,
-                        ""barCode"": ""BC002"",
-                        ""stock"": 12,
-                        ""productType"": ""Bebidas"",
-                        ""unitType"": ""Caja""
-                    }
-                ]
-            }
-        }";
-    }
-
-    private static string GetDisabledSeedDataJson()
-    {
-        return @"{
-            ""seedData"": {
-                ""enabled"": false,
-                ""products"": [
-                    {
-                        ""name"": ""Product 1"",
-                        ""description"": ""Description for Product 1"",
-                        ""price"": 1100,
-                        ""barCode"": ""BC001"",
-                        ""stock"": 11,
-                        ""productType"": ""Alimentos"",
-                        ""unitType"": ""Unidad""
-                    }
-                ]
-            }
-        }";
-    }
-
-    private static string GetEmptyProductsSeedDataJson()
-    {
-        return @"{
-            ""seedData"": {
-                ""enabled"": true,
-                ""products"": []
-            }
-        }";
     }
 
     #endregion

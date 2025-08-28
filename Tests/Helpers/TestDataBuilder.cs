@@ -68,4 +68,71 @@ public static class TestDataBuilder
             return products;
         }
     }
+
+    public static class SeedDataJson
+    {
+        public static string CreateValidSeedData()
+        {
+            return @"{
+                ""seedData"": {
+                    ""enabled"": true,
+                    ""products"": [
+                        {
+                            ""name"": ""Product 1"",
+                            ""description"": ""Description for Product 1"",
+                            ""price"": 1100,
+                            ""barCode"": ""BC001"",
+                            ""stock"": 11,
+                            ""productType"": ""Alimentos"",
+                            ""unitType"": ""Unidad""
+                        },
+                        {
+                            ""name"": ""Product 2"",
+                            ""description"": ""Description for Product 2"",
+                            ""price"": 1200,
+                            ""barCode"": ""BC002"",
+                            ""stock"": 12,
+                            ""productType"": ""Bebidas"",
+                            ""unitType"": ""Caja""
+                        }
+                    ]
+                }
+            }";
+        }
+
+        public static string CreateDisabledSeedData()
+        {
+            return @"{
+                ""seedData"": {
+                    ""enabled"": false,
+                    ""products"": [
+                        {
+                            ""name"": ""Product 1"",
+                            ""description"": ""Description for Product 1"",
+                            ""price"": 1100,
+                            ""barCode"": ""BC001"",
+                            ""stock"": 11,
+                            ""productType"": ""Alimentos"",
+                            ""unitType"": ""Unidad""
+                        }
+                    ]
+                }
+            }";
+        }
+
+        public static string CreateEmptyProductsSeedData()
+        {
+            return @"{
+                ""seedData"": {
+                    ""enabled"": true,
+                    ""products"": []
+                }
+            }";
+        }
+
+        public static string CreateInvalidJson()
+        {
+            return "invalid json content";
+        }
+    }
 }
