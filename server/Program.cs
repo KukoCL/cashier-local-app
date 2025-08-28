@@ -4,6 +4,8 @@ using Logic;
 using Logic.Interfaces;
 using Persistence;
 using Persistence.Interfaces;
+using App.Interfaces;
+using App.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IProductsPersistence, ProductsPersistence>();
 builder.Services.AddSingleton<IProductsLogic, ProductsLogic>();
+builder.Services.AddSingleton<IDatabaseService, LiteDatabaseService>();
+builder.Services.AddSingleton<IFileService, FileSystemService>();
 builder.Services.AddSingleton<SeedDataService>();
 
 // Add Electron.NET
