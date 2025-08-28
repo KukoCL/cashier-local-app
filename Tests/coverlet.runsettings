@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura,json,lcov,opencover</Format>
+          <Exclude>[*.Tests]*,[*]*.Program,[*]*.Startup,[FennecCashierApp]*,[Persistence]*</Exclude>
+          <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+          <ExcludeByFile>**/Migrations/**</ExcludeByFile>
+          <IncludeDirectory>../server/bin/Debug/net9.0/</IncludeDirectory>
+          <SingleHit>false</SingleHit>
+          <UseSourceLink>true</UseSourceLink>
+          <IncludeTestAssembly>false</IncludeTestAssembly>
+          <SkipAutoProps>true</SkipAutoProps>
+          <DeterministicReport>false</DeterministicReport>
+          <ThresholdForCyclomaticComplexity>15</ThresholdForCyclomaticComplexity>
+          <Threshold>80</Threshold>
+          <ThresholdType>line,branch,method</ThresholdType>
+          <ThresholdStat>minimum</ThresholdStat>
+          <DoesNotReturnAttribute>DoesNotReturnAttribute</DoesNotReturnAttribute>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

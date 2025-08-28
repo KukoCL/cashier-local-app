@@ -12,7 +12,8 @@
     "start": "concurrently \"npm run electron:dev\" \"npm run dev\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test:unit": "vitest --config ./vitest.config.mts --run --coverage"
+    "test:unit": "vitest --config ./vitest.config.mts --run --coverage",
+    "test:backend": "powershell -ExecutionPolicy Bypass -File .\\test-coverage-backend.ps1"
   },
   "keywords": [],
   "author": "",

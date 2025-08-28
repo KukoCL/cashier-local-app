@@ -1,18 +1,24 @@
 using LiteDB;
 using Shared.Models;
+using App.Interfaces;
 
 public class SeedDataService
 {
-    private readonly string _dbPath = "data.db";
-    private readonly string _seedDataPath = "seedData.json";
+    private readonly IDatabaseService _databaseService;
+    private readonly IFileService _fileService;
+    private readonly string _seedDataPath;
+
+    public SeedDataService(IDatabaseService databaseService, IFileService fileService, string seedDataPath = "seedData.json")
+    {
+        _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
+        _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+        _seedDataPath = seedDataPath;
+    }
 
     public void SeedDatabase()
     {
-        using var db = new LiteDatabase(_dbPath);
-        var products = db.GetCollection<Product>("products");
-
         // Check if database already has data
-        if (products.Count() > 0)
+        if (_databaseService.HasData())
         {
             return; // Already seeded
         }
@@ -22,7 +28,7 @@ public class SeedDataService
         
         if (sampleData.Any())
         {
-            products.InsertBulk(sampleData);
+            _databaseService.InsertProducts(sampleData);
             Console.WriteLine($"✅ Database seeded with {sampleData.Count} sample products from {_seedDataPath}");
         }
         else
@@ -35,13 +41,13 @@ public class SeedDataService
     {
         try
         {
-            if (!File.Exists(_seedDataPath))
+            if (!_fileService.Exists(_seedDataPath))
             {
                 Console.WriteLine($"⚠️ Seed data file not found: {_seedDataPath}");
                 return new List<Product>();
             }
 
-            var jsonContent = File.ReadAllText(_seedDataPath);
+            var jsonContent = _fileService.ReadAllText(_seedDataPath);
             var seedConfig = System.Text.Json.JsonSerializer.Deserialize<SeedDataConfig>(jsonContent, new System.Text.Json.JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
