@@ -1,13 +1,13 @@
 <template>
   <Teleport to="body">
-    <div v-if="isOpen" class="modal d-block" tabindex="-1" @click="handleOverlayClick" style="background: rgba(0,0,0,.5)">
+    <div v-if="isOpen" class="modal d-block modal-overlay" tabindex="-1" @click="handleOverlayClick" style="background: rgba(0,0,0,.5)">
       <div class="modal-dialog" @click.stop>
         <div class="modal-content">
           <div class="modal-header" v-if="$slots.header || title || showCloseButton">
             <slot name="header">
               <h5 class="modal-title mb-0">{{ title }}</h5>
             </slot>
-            <button v-if="showCloseButton" type="button" class="btn-close" aria-label="Close" @click="$emit('close')"></button>
+            <button v-if="showCloseButton" type="button" class="btn-close modal-close-btn" aria-label="Close" @click="$emit('close')"></button>
           </div>
           <div class="modal-body">
             <slot></slot>

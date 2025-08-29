@@ -17,18 +17,19 @@
 
       <div class="collapse navbar-collapse" id="topbarNav">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+      <li class="nav-item">
             <button
-              class="btn btn-link nav-link"
+        class="btn btn-link nav-link home-btn"
               :class="{ active: currentSection === 'home' }"
               @click="$emit('navigate', 'home')"
             >
               🏠 {{ appMessages.navigation.home }}
             </button>
+            <span class="d-none" aria-hidden="true"></span>
           </li>
           <li class="nav-item">
             <button
-              class="btn btn-link nav-link"
+        class="btn btn-link nav-link products-btn"
               :class="{ active: isProductsActive }"
               @click="$emit('navigate', 'products')"
             >

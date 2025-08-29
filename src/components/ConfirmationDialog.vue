@@ -6,19 +6,19 @@
     :showCloseButton="showCloseButton"
     @close="handleCancel"
   >
-    <div class="d-flex gap-3 align-items-start">
+    <div class="d-flex gap-3 align-items-start confirmation-dialog">
       <div class="flex-shrink-0">
-        <span class="fs-3">{{ icon }}</span>
+        <span class="fs-3 icon" :class="`icon-${variant}`">{{ icon }}</span>
       </div>
       <div class="flex-grow-1">
         <p class="mb-1">{{ message }}</p>
-        <p v-if="details" class="text-muted small mb-0">{{ details }}</p>
+        <p v-if="details" class="text-muted small mb-0 confirmation-details">{{ details }}</p>
       </div>
     </div>
 
     <template #footer>
-      <button class="btn btn-outline-secondary" @click="handleCancel" :disabled="loading">{{ cancelText }}</button>
-      <button :class="confirmButtonClass" @click="handleConfirm" :disabled="loading">
+      <button class="btn btn-outline-secondary cancel-btn" @click="handleCancel" :disabled="loading">{{ cancelText }}</button>
+      <button :class="confirmButtonClass + ' confirm-btn'" @click="handleConfirm" :disabled="loading">
         <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
         {{ loading ? 'Processing...' : confirmText }}
       </button>
@@ -80,7 +80,7 @@ const confirmButtonClass = computed(() => {
   case 'success':
     return 'btn btn-success'
   default:
-    return 'btn btn-primary'
+    return 'btn btn-info'
   }
 })
 

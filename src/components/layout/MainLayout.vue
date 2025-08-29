@@ -1,14 +1,14 @@
 <template>
-  <div class="d-flex flex-column min-vh-100">
+  <div class="d-flex flex-column min-vh-100 main-layout">
     <TopBar @navigate="handleNavigation" />
-    <div class="d-flex flex-grow-1">
+    <div class="d-flex flex-grow-1 layout-content">
       <SideBar
         v-if="showSideBar"
         :sections="sidebarSections"
         @navigate="handleSideNavigation"
         @item-click="handleItemClick"
       />
-      <main class="flex-grow-1 p-3">
+      <main class="flex-grow-1 p-3 main-content">
         <router-view />
       </main>
     </div>

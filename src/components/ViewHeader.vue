@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center mb-3">
+  <div class="d-flex justify-content-center align-items-center mb-3 view-header">
     <h1 class="h3 m-0">{{ title }}</h1>
   </div>
 </template>

@@ -6,7 +6,7 @@
     </div>
 
     <div class="mb-3">
-      <p v-if="product.description" class="text-muted fst-italic mb-2">
+      <p v-if="product.description" class="text-muted fst-italic mb-2 product-description">
         {{ product.description }}
       </p>
       <div class="small d-flex flex-column gap-1">
@@ -23,10 +23,10 @@
     </div>
 
     <div class="d-flex gap-2">
-      <button class="btn btn-sm btn-primary flex-fill" @click="$emit('edit', product)">
+      <button class="btn btn-sm btn-primary flex-fill edit-btn" @click="$emit('edit', product)">
         ✏️ {{ appMessages.common.edit }}
       </button>
-      <button class="btn btn-sm btn-danger flex-fill" @click="showDeleteConfirmation = true">
+      <button class="btn btn-sm btn-danger flex-fill delete-btn" @click="showDeleteConfirmation = true">
         🗑️ {{ appMessages.common.delete }}
       </button>
     </div>
