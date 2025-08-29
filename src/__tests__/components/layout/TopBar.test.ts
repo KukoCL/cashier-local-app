@@ -26,7 +26,7 @@ describe('TopBar', () => {
   it('should emit navigate event when home button is clicked', async () => {
     const wrapper = mount(TopBar)
 
-    const homeButton = wrapper.find('button:first-child')
+    const homeButton = wrapper.find('.home-btn')
     await homeButton.trigger('click')
 
     expect(wrapper.emitted('navigate')).toBeTruthy()
@@ -36,7 +36,7 @@ describe('TopBar', () => {
   it('should emit navigate event when products button is clicked', async () => {
     const wrapper = mount(TopBar)
 
-    const productsButton = wrapper.find('button:last-child')
+    const productsButton = wrapper.find('.products-btn')
     await productsButton.trigger('click')
 
     expect(wrapper.emitted('navigate')).toBeTruthy()
@@ -46,7 +46,7 @@ describe('TopBar', () => {
   it('should mark products button as active when on products page', () => {
     const wrapper = mount(TopBar)
 
-    const productsButton = wrapper.find('button:last-child')
+    const productsButton = wrapper.find('.products-btn')
     expect(productsButton.classes()).toContain('active')
   })
 

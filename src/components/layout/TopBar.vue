@@ -25,7 +25,6 @@
             >
               🏠 {{ appMessages.navigation.home }}
             </button>
-            <span class="d-none" aria-hidden="true"></span>
           </li>
           <li class="nav-item">
             <button
