@@ -4,9 +4,17 @@
 		{
 			"label": "Run Electron App",
 			"type": "shell",
-			"command": "dotnet run",
+			"command": "electronize start",
+			"options": { "cwd": "c:\\Repos\\cashier-local-app\\server" },
 			"isBackground": true,
 			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run Server (App)",
+			"type": "shell",
+			"command": "dotnet run --project \"c:\\Repos\\cashier-local-app\\server\\App.csproj\"",
+			"isBackground": true,
 			"group": "build"
 		}
 	]
