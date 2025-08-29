@@ -17,13 +17,14 @@ const props = withDefaults(defineProps<Props>(), {
   hover: true,
 })
 
-const cardClasses = computed(() => [
-  'card',
-  `card--${props.variant}`,
-  {
-    'card--hover': props.hover,
-  },
-])
+const cardClasses = computed(() => {
+  const classes: string[] = ['card', 'shadow-sm']
+  // content padding wrappers by variant
+  if (props.variant === 'stat' || props.variant === 'product' || props.variant === 'default') {
+    classes.push('p-3')
+  }
+  return classes
+})
 </script>
 
 <!-- Component name will be BaseCard when imported -->

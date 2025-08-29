@@ -1,32 +1,33 @@
 <template>
-  <div class="products-list-view">
-    <div class="view-header">
-      <h1>{{ appMessages.products.list.title }}</h1>
-      <button class="refresh-btn" @click="refreshProducts" :disabled="loading">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="h3 m-0">{{ appMessages.products.list.title }}</h1>
+      <button class="btn btn-primary" @click="refreshProducts" :disabled="loading">
+        <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
         {{ loading ? appMessages.common.loading : `🔄 ${appMessages.products.list.actions.refresh}` }}
       </button>
     </div>
 
-    <div v-if="error" class="error-message">
+    <div v-if="error" class="alert alert-danger" role="alert">
       {{ error }}
     </div>
 
-    <div v-if="loading && products.length === 0" class="loading-message">
+    <div v-if="loading && products.length === 0" class="text-center text-muted py-5">
       {{ appMessages.common.loading }}
     </div>
 
-    <div v-else-if="products.length === 0" class="empty-message">
+    <div v-else-if="products.length === 0" class="alert alert-info" role="alert">
       No hay productos registrados
     </div>
 
-    <div v-else class="products-grid">
-      <ProductCard
-        v-for="product in products"
-        :key="product.id"
-        :product="product"
-        @edit="handleEdit"
-        @delete="handleDelete"
-      />
+    <div v-else class="row g-3">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="product in products" :key="product.id">
+        <ProductCard
+          :product="product"
+          @edit="handleEdit"
+          @delete="handleDelete"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -62,63 +63,3 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.products-list-view {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.view-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.view-header h1 {
-  margin: 0;
-  color: #ffffff;
-}
-
-.refresh-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-}
-
-.refresh-btn:hover:not(:disabled) {
-  background-color: #2980b9;
-}
-
-.refresh-btn:disabled {
-  background-color: #bdc3c7;
-  cursor: not-allowed;
-}
-
-.error-message {
-  background-color: #e74c3c;
-  color: white;
-  padding: 1rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-}
-
-.loading-message,
-.empty-message {
-  text-align: center;
-  padding: 2rem;
-  color: #7f8c8d;
-  font-size: 1.1rem;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-</style>

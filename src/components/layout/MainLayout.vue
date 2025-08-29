@@ -1,18 +1,19 @@
 <template>
-  <div class="main-layout">
+  <div class="d-flex flex-column min-vh-100">
     <TopBar @navigate="handleNavigation" />
-    <div class="layout-content">
+    <div class="d-flex flex-grow-1">
       <SideBar
         v-if="showSideBar"
         :sections="sidebarSections"
         @navigate="handleSideNavigation"
         @item-click="handleItemClick"
       />
-      <main class="main-content" :class="{ 'with-sidebar': showSideBar }">
+      <main class="flex-grow-1 p-3">
         <router-view />
       </main>
     </div>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -81,25 +82,3 @@ watch(() => route.path, () => {
 })
 </script>
 
-<style scoped>
-.main-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.layout-content {
-  flex: 1;
-  display: flex;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-}
-
-.main-content.with-sidebar {
-  margin-left: 0;
-}
-</style>
