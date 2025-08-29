@@ -1,6 +1,6 @@
 <template>
-  <div class="view-header">
-    <h1>{{ title }}</h1>
+  <div class="d-flex justify-content-center align-items-center mb-3 view-header">
+    <h1 class="h3 m-0">{{ title }}</h1>
   </div>
 </template>
 
@@ -9,17 +9,3 @@ defineProps<{
   title: string;
 }>();
 </script>
-
-<style scoped>
-.view-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.view-header h1 {
-  margin: 0;
-  color: #ffffff;
-}
-</style>

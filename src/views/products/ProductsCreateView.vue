@@ -1,8 +1,12 @@
 <template>
-  <ViewHeader :title="messages.title" />
-  <BaseCard variant="default">
-    <ProductsCreateForm />
-  </BaseCard>
+  <div class="container-fluid">
+    <div class="mb-3">
+      <ViewHeader :title="messages.title" />
+    </div>
+    <BaseCard variant="default">
+      <ProductsCreateForm />
+    </BaseCard>
+  </div>
 </template>
 
 <script lang="ts" setup>

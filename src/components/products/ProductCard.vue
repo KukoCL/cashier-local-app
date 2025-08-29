@@ -1,32 +1,32 @@
 <template>
   <BaseCard variant="product">
-    <div class="product-header">
-      <h3 class="product-name">{{ product.name }}</h3>
-      <span class="product-price">{{ formatCLP(product.price) }}</span>
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <h3 class="h5 m-0">{{ product.name }}</h3>
+      <span class="badge text-bg-success">{{ formatCLP(product.price) }}</span>
     </div>
 
-    <div class="product-details">
-      <p v-if="product.description" class="product-description">
+    <div class="mb-3">
+      <p v-if="product.description" class="text-muted fst-italic mb-2 product-description">
         {{ product.description }}
       </p>
-      <div class="product-info">
-        <span class="info-item">
+      <div class="small d-flex flex-column gap-1">
+        <span>
           <strong>{{ appMessages.common.code }}:</strong> {{ product.barCode || 'Sin código' }}
         </span>
-        <span class="info-item">
+        <span>
           <strong>{{ appMessages.common.stock }}:</strong> {{ product.stock }} {{ product.unitType }}
         </span>
-        <span class="info-item">
+        <span>
           <strong>{{ appMessages.common.category }}:</strong> {{ product.productType }}
         </span>
       </div>
     </div>
 
-    <div class="product-actions">
-      <button class="edit-btn" @click="$emit('edit', product)">
+    <div class="d-flex gap-2">
+      <button class="btn btn-sm btn-primary flex-fill edit-btn" @click="$emit('edit', product)">
         ✏️ {{ appMessages.common.edit }}
       </button>
-      <button class="delete-btn" @click="showDeleteConfirmation = true">
+      <button class="btn btn-sm btn-danger flex-fill delete-btn" @click="showDeleteConfirmation = true">
         🗑️ {{ appMessages.common.delete }}
       </button>
     </div>

@@ -1,19 +1,20 @@
 <template>
-  <aside class="sidebar">
-    <div class="sidebar-content">
-      <div v-for="section in sections" :key="section.id" class="sidebar-section">
-        <h3>{{ section.title }}</h3>
-        <ul class="sidebar-menu">
-          <li v-for="item in section.items" :key="item.id">
-            <button
-              class="sidebar-button"
-              :class="{ active: isActiveItem(item) }"
-              @click="handleItemClick(item)"
-            >
-              {{ item.icon }} {{ item.label }}
-            </button>
-          </li>
-        </ul>
+  <aside class="border-end bg-light flex-shrink-0 flex-grow-0 sidebar" style="width: 270px; min-height: calc(100vh - 56px)">
+    <div class="p-3 sidebar-content">
+      <div v-for="section in sections" :key="section.id" class="mb-4 sidebar-section">
+        <h6 class="text-uppercase text-muted fw-bold small mb-2">{{ section.title }}</h6>
+        <div class="list-group">
+          <button
+            v-for="item in section.items"
+            :key="item.id"
+            type="button"
+            class="list-group-item list-group-item-action d-flex align-items-center sidebar-button"
+            :class="{ active: isActiveItem(item) }"
+            @click="handleItemClick(item)"
+          >
+            <span>{{ `${item.icon} ${item.label}` }}</span>
+          </button>
+        </div>
       </div>
     </div>
   </aside>
@@ -67,53 +68,3 @@ const handleItemClick = (item: SidebarItem) => {
 }
 </script>
 
-<style scoped>
-.sidebar {
-  width: 250px;
-  background-color: #ecf0f1;
-  border-right: 1px solid #bdc3c7;
-  min-height: calc(100vh - 80px);
-}
-
-.sidebar-content {
-  padding: 1rem;
-}
-
-.sidebar-section h3 {
-  margin: 0 0 1rem 0;
-  color: #2c3e50;
-  font-size: 1.1rem;
-}
-
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-menu li {
-  margin-bottom: 0.5rem;
-}
-
-.sidebar-button {
-  width: 100%;
-  text-align: left;
-  background: transparent;
-  border: none;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: #2c3e50;
-  transition: all 0.3s ease;
-}
-
-.sidebar-button:hover {
-  background-color: #d5dbdb;
-}
-
-.sidebar-button.active {
-  background-color: #3498db;
-  color: white;
-}
-</style>

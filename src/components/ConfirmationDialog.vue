@@ -6,31 +6,20 @@
     :showCloseButton="showCloseButton"
     @close="handleCancel"
   >
-    <div class="confirmation-content">
-      <div class="confirmation-icon">
-        <span class="icon" :class="iconClass">{{ icon }}</span>
+    <div class="d-flex gap-3 align-items-start confirmation-dialog">
+      <div class="flex-shrink-0">
+        <span class="fs-3 icon" :class="`icon-${variant}`">{{ icon }}</span>
       </div>
-      <div class="confirmation-message">
-        <p>{{ message }}</p>
-        <p v-if="details" class="confirmation-details">{{ details }}</p>
+      <div class="flex-grow-1">
+        <p class="mb-1">{{ message }}</p>
+        <p v-if="details" class="text-muted small mb-0 confirmation-details">{{ details }}</p>
       </div>
     </div>
 
     <template #footer>
-      <button
-        class="cancel-btn"
-        @click="handleCancel"
-        :disabled="loading"
-      >
-        {{ cancelText }}
-      </button>
-      <button
-        class="confirm-btn"
-        :class="confirmButtonClass"
-        @click="handleConfirm"
-        :disabled="loading"
-      >
-        <span v-if="loading" class="loading-spinner">⏳</span>
+      <button class="btn btn-outline-secondary cancel-btn" @click="handleCancel" :disabled="loading">{{ cancelText }}</button>
+      <button :class="confirmButtonClass + ' confirm-btn'" @click="handleConfirm" :disabled="loading">
+        <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
         {{ loading ? 'Processing...' : confirmText }}
       </button>
     </template>
@@ -82,12 +71,17 @@ const icon = computed(() => {
   }
 })
 
-const iconClass = computed(() => {
-  return `icon-${props.variant}`
-})
-
 const confirmButtonClass = computed(() => {
-  return `btn-${props.variant}`
+  switch (props.variant) {
+  case 'danger':
+    return 'btn btn-danger'
+  case 'warning':
+    return 'btn btn-warning'
+  case 'success':
+    return 'btn btn-success'
+  default:
+    return 'btn btn-info'
+  }
 })
 
 const handleConfirm = () => {
@@ -99,139 +93,3 @@ const handleCancel = () => {
 }
 </script>
 
-<style scoped>
-.confirmation-content {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-.confirmation-icon {
-  flex-shrink: 0;
-}
-
-.icon {
-  font-size: 2rem;
-  display: inline-block;
-  padding: 0.5rem;
-  border-radius: 50%;
-}
-
-.icon-danger {
-  background-color: #fef2f2;
-  color: #dc2626;
-}
-
-.icon-warning {
-  background-color: #fffbeb;
-  color: #d97706;
-}
-
-.icon-success {
-  background-color: #f0fdf4;
-  color: #16a34a;
-}
-
-.icon-info {
-  background-color: #eff6ff;
-  color: #2563eb;
-}
-
-.confirmation-message {
-  flex: 1;
-}
-
-.confirmation-message p {
-  margin: 0 0 0.5rem 0;
-  font-size: 1rem;
-  color: #374151;
-}
-
-.confirmation-message p:last-child {
-  margin-bottom: 0;
-}
-
-.confirmation-details {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.cancel-btn,
-.confirm-btn {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.cancel-btn {
-  background-color: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
-}
-
-.cancel-btn:hover:not(:disabled) {
-  background-color: #e5e7eb;
-}
-
-.confirm-btn {
-  color: white;
-}
-
-.btn-danger {
-  background-color: #dc2626;
-}
-
-.btn-danger:hover:not(:disabled) {
-  background-color: #b91c1c;
-}
-
-.btn-warning {
-  background-color: #d97706;
-}
-
-.btn-warning:hover:not(:disabled) {
-  background-color: #b45309;
-}
-
-.btn-success {
-  background-color: #16a34a;
-}
-
-.btn-success:hover:not(:disabled) {
-  background-color: #15803d;
-}
-
-.btn-info {
-  background-color: #2563eb;
-}
-
-.btn-info:hover:not(:disabled) {
-  background-color: #1d4ed8;
-}
-
-.cancel-btn:disabled,
-.confirm-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.loading-spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>
