@@ -42,6 +42,9 @@
 - Don't use snapshots
 - Use `storeToRefs` for accessing store state and getters
 - All information displayed in components should come from the store, and when something needs to be updated, it should be done to the LiteDB database and then refresh the store
+- Always use axios with proper TypeScript typing for API calls
+- All axios calls should be in composables and setting the results into the store
+- Use await/async for asynchronous operations
 - Follow Vue 3 best practices for reactivity and lifecycle
 - Don't allow parent components access child component internals
 - Use global styles in `style.css` for common styles used across multiple components

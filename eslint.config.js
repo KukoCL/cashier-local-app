@@ -39,7 +39,6 @@ export default defineConfigWithVueTs(
         'maxEOF': 1,
         'maxBOF': 0,
       }],
-      'no-trailing-spaces': 'error',
       'quotes': ['error', 'single', { 'avoidEscape': true }],
     },
   },
