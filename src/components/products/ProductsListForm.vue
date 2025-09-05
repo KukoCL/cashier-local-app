@@ -10,7 +10,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Búsqueda"
+              :placeholder="appMessages.products.list.search.placeholder"
               v-model="searchQuery"
               @input="onSearchInput"
             />
@@ -19,18 +19,18 @@
       </div>
       
       <div class="col-md-3">
-        <label class="form-label">Ordenar por</label>
+        <label class="form-label">{{ appMessages.products.list.filters.sortBy.label }}</label>
         <select class="form-select" v-model="sortBy">
-          <option value="alphabetical">Orden alfabético</option>
-          <option value="price-desc">Mayor a menor precio</option>
-          <option value="price-asc">Menor a mayor precio</option>
+          <option value="alphabetical">{{ appMessages.products.list.filters.sortBy.options.alphabetical }}</option>
+          <option value="price-desc">{{ appMessages.products.list.filters.sortBy.options.priceDesc }}</option>
+          <option value="price-asc">{{ appMessages.products.list.filters.sortBy.options.priceAsc }}</option>
         </select>
       </div>
       
       <div class="col-md-3">
-        <label class="form-label">Categoría</label>
+        <label class="form-label">{{ appMessages.products.list.filters.category.label }}</label>
         <select class="form-select" v-model="selectedCategory">
-          <option value="">Todas</option>
+          <option value="">{{ appMessages.products.list.filters.category.all }}</option>
           <option v-for="category in productTypes" :key="category" :value="category">
             {{ category }}
           </option>
@@ -40,7 +40,7 @@
 
     <!-- Products Grid -->
     <div v-if="filteredProducts.length === 0" class="alert alert-info" role="alert">
-      No hay productos que coincidan con los filtros aplicados
+      {{ appMessages.products.list.messages.noProducts }}
     </div>
 
     <div v-else class="row g-3">
@@ -56,11 +56,11 @@
     <!-- Confirmation Dialog -->
     <ConfirmationDialog
       :is-open="showDeleteDialog"
-      title="Eliminar Producto"
-      :message="`¿Está seguro de que desea eliminar el producto '${productToDelete?.name}'?`"
-      details="Esta acción no se puede deshacer."
-      confirm-text="Eliminar"
-      cancel-text="Cancelar"
+      :title="appMessages.products.list.deleteDialog.title"
+      :message="`${appMessages.products.list.deleteDialog.message} '${productToDelete?.name}'?`"
+      :details="appMessages.products.list.deleteDialog.details"
+      :confirm-text="appMessages.products.list.deleteDialog.confirm"
+      :cancel-text="appMessages.products.list.deleteDialog.cancel"
       variant="danger"
       :loading="deleteLoading"
       @confirm="confirmDelete"
@@ -74,7 +74,8 @@ import { ref, toRef } from 'vue'
 import ProductCard from './ProductCard.vue'
 import ConfirmationDialog from '../ConfirmationDialog.vue'
 import type { Product } from '../../types/interfaces'
-import { useProductList } from '../../composables/useProductList'
+import { useProductListForm } from '../../composables/useProductListForm'
+import { appMessages } from '../../infraestructure/appMessages'
 
 interface Props {
   products: Product[]
@@ -96,7 +97,7 @@ const {
   productTypes,
   filteredProducts,
   onSearchInput,
-} = useProductList(toRef(props, 'products'))
+} = useProductListForm(toRef(props, 'products'))
 
 // Delete dialog state
 const showDeleteDialog = ref(false)

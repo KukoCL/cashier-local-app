@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ref } from 'vue'
 import { createPinia, setActivePinia } from 'pinia'
 import axios from 'axios'
-import { useProductList } from '../../composables/useProductList'
+import { useProductListForm } from '../../composables/useProductListForm'
 import type { Product } from '../../types/interfaces'
 
 // Mock axios
@@ -20,7 +20,7 @@ vi.mock('vue', async () => {
   }
 })
 
-describe('useProductList', () => {
+describe('useProductListForm', () => {
   const mockProducts = ref<Product[]>([
     {
       id: '1',
@@ -112,7 +112,7 @@ describe('useProductList', () => {
   })
 
   it('should initialize with default filter values', () => {
-    const { searchQuery, sortBy, selectedCategory } = useProductList(mockProducts)
+    const { searchQuery, sortBy, selectedCategory } = useProductListForm(mockProducts)
 
     expect(searchQuery.value).toBe('')
     expect(sortBy.value).toBe('alphabetical')
@@ -120,7 +120,7 @@ describe('useProductList', () => {
   })
 
   it('should filter products by search query after debounce', async () => {
-    const { searchQuery, filteredProducts, onSearchInput } = useProductList(mockProducts)
+    const { searchQuery, filteredProducts, onSearchInput } = useProductListForm(mockProducts)
 
     searchQuery.value = 'Product A'
     onSearchInput()
@@ -133,7 +133,7 @@ describe('useProductList', () => {
   })
 
   it('should filter products by category', () => {
-    const { selectedCategory, filteredProducts } = useProductList(mockProducts)
+    const { selectedCategory, filteredProducts } = useProductListForm(mockProducts)
 
     selectedCategory.value = 'Alimentos'
 
@@ -142,14 +142,14 @@ describe('useProductList', () => {
   })
 
   it('should sort products alphabetically by default', () => {
-    const { filteredProducts } = useProductList(mockProducts)
+    const { filteredProducts } = useProductListForm(mockProducts)
 
     const sortedNames = filteredProducts.value.map(p => p.name)
     expect(sortedNames).toEqual(['Product A', 'Product B', 'Product C'])
   })
 
   it('should sort products by price descending', () => {
-    const { sortBy, filteredProducts } = useProductList(mockProducts)
+    const { sortBy, filteredProducts } = useProductListForm(mockProducts)
 
     sortBy.value = 'price-desc'
 
@@ -158,7 +158,7 @@ describe('useProductList', () => {
   })
 
   it('should sort products by price ascending', () => {
-    const { sortBy, filteredProducts } = useProductList(mockProducts)
+    const { sortBy, filteredProducts } = useProductListForm(mockProducts)
 
     sortBy.value = 'price-asc'
 
@@ -167,7 +167,7 @@ describe('useProductList', () => {
   })
 
   it('should reset all filters', () => {
-    const { searchQuery, sortBy, selectedCategory, resetFilters } = useProductList(mockProducts)
+    const { searchQuery, sortBy, selectedCategory, resetFilters } = useProductListForm(mockProducts)
 
     // Set some filter values
     searchQuery.value = 'test'
@@ -183,7 +183,7 @@ describe('useProductList', () => {
 
   it('should handle empty products array', () => {
     const emptyProducts = ref<Product[]>([])
-    const { filteredProducts } = useProductList(emptyProducts)
+    const { filteredProducts } = useProductListForm(emptyProducts)
 
     expect(filteredProducts.value).toEqual([])
   })
@@ -194,12 +194,12 @@ describe('useProductList', () => {
     axiosGet.mockResolvedValueOnce({ data: mockProductTypes })
 
     // Since onMounted is mocked to execute immediately, the loadProductTypes will be called
-    const { productTypes } = useProductList(mockProducts)
+    const { productTypes } = useProductListForm(mockProducts)
 
     // Wait for the async operation to complete
     await new Promise(resolve => setTimeout(resolve, 0))
 
-    expect(axiosGet).toHaveBeenCalledWith('/api/ProductTypes')
+    expect(axiosGet).toHaveBeenCalledWith('/api/producttypes')
     expect(productTypes.value).toEqual(mockProductTypes)
   })
 })

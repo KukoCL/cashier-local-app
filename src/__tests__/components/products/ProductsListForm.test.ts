@@ -2,14 +2,15 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref, computed } from 'vue'
 import { createPinia, setActivePinia } from 'pinia'
-import ProductList from '../../../components/products/ProductList.vue'
+import ProductsListForm from '../../../components/products/ProductsListForm.vue'
 import ProductCard from '../../../components/products/ProductCard.vue'
 import ConfirmationDialog from '../../../components/ConfirmationDialog.vue'
 import type { Product } from '../../../types/interfaces'
+import { appMessages } from '../../../infraestructure/appMessages'
 
 // Mock the composable
-vi.mock('../../../composables/useProductList', () => ({
-  useProductList: vi.fn(),
+vi.mock('../../../composables/useProductListForm', () => ({
+  useProductListForm: vi.fn(),
 }))
 
 // Mock axios
@@ -26,7 +27,7 @@ vi.mock('vue', async () => {
   }
 })
 
-describe('ProductList', () => {
+describe('ProductsListForm', () => {
   const mockProducts: Product[] = [
     {
       id: '1',
@@ -76,13 +77,13 @@ describe('ProductList', () => {
     // Reset filtered products
     mockFilteredProducts.value = mockProducts
     
-    // Mock the useProductList composable
-    const { useProductList } = await import('../../../composables/useProductList')
-    vi.mocked(useProductList).mockReturnValue(mockComposableReturn)
+    // Mock the useProductListForm composable
+    const { useProductListForm } = await import('../../../composables/useProductListForm')
+    vi.mocked(useProductListForm).mockReturnValue(mockComposableReturn)
   })
 
   const createWrapper = (props = {}) => {
-    return mount(ProductList, {
+    return mount(ProductsListForm, {
       props: {
         products: mockProducts,
         ...props,
@@ -106,8 +107,9 @@ describe('ProductList', () => {
   it('should render search input with correct placeholder', () => {
     const wrapper = createWrapper()
     
-    const searchInput = wrapper.find('input[placeholder="Búsqueda"]')
+    const searchInput = wrapper.find('input[type="text"]')
     expect(searchInput.exists()).toBe(true)
+    expect(searchInput.attributes('placeholder')).toBe(appMessages.products.list.search.placeholder)
     expect((searchInput.element as HTMLInputElement).value).toBe('')
   })
 
@@ -142,7 +144,7 @@ describe('ProductList', () => {
   it('should call onSearchInput when search input changes', async () => {
     const wrapper = createWrapper()
     
-    const searchInput = wrapper.find('input[placeholder="Búsqueda"]')
+    const searchInput = wrapper.find('input[type="text"]')
     await searchInput.setValue('test')
     await searchInput.trigger('input')
     
@@ -179,10 +181,10 @@ describe('ProductList', () => {
     // Verify dialog props structure
     expect(confirmationDialog.props()).toMatchObject({
       isOpen: false,
-      title: 'Eliminar Producto',
-      details: 'Esta acción no se puede deshacer.',
-      confirmText: 'Eliminar',
-      cancelText: 'Cancelar',
+      title: appMessages.products.list.deleteDialog.title,
+      details: appMessages.products.list.deleteDialog.details,
+      confirmText: appMessages.products.list.deleteDialog.confirm,
+      cancelText: appMessages.products.list.deleteDialog.cancel,
       variant: 'danger',
       loading: false,
     })
@@ -194,7 +196,7 @@ describe('ProductList', () => {
     
     const noProductsAlert = wrapper.find('.alert-info')
     expect(noProductsAlert.exists()).toBe(true)
-    expect(noProductsAlert.text()).toBe('No hay productos que coincidan con los filtros aplicados')
+    expect(noProductsAlert.text()).toBe(appMessages.products.list.messages.noProducts)
   })
 
   it('should not show "no products" message when there are filtered products', () => {
@@ -238,7 +240,7 @@ describe('ProductList', () => {
     mockComposableReturn.searchQuery.value = 'test search'
     const wrapper = createWrapper()
     
-    const searchInput = wrapper.find('input[placeholder="Búsqueda"]')
+    const searchInput = wrapper.find('input[type="text"]')
     expect((searchInput.element as HTMLInputElement).value).toBe('test search')
   })
 
@@ -266,10 +268,10 @@ describe('ProductList', () => {
     const confirmationDialog = wrapper.findComponent(ConfirmationDialog)
     expect(confirmationDialog.props()).toMatchObject({
       isOpen: false,
-      title: 'Eliminar Producto',
-      details: 'Esta acción no se puede deshacer.',
-      confirmText: 'Eliminar',
-      cancelText: 'Cancelar',
+      title: appMessages.products.list.deleteDialog.title,
+      details: appMessages.products.list.deleteDialog.details,
+      confirmText: appMessages.products.list.deleteDialog.confirm,
+      cancelText: appMessages.products.list.deleteDialog.cancel,
       variant: 'danger',
       loading: false,
     })

@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import type { Product } from '../types/interfaces'
 import { useProductTypesStore } from '../stores/productTypes'
 
-export const useProductList = (products: Ref<Product[]>) => {
+export const useProductListForm = (products: Ref<Product[]>) => {
   // Store
   const productTypesStore = useProductTypesStore()
   const { productTypes } = storeToRefs(productTypesStore)
