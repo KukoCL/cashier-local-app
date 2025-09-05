@@ -3,6 +3,7 @@ import type { CreateProductRequest } from '../types/interfaces'
 // API Endpoints
 export const API_ENDPOINTS = {
   PRODUCTS: '/api/products',
+  PRODUCT_TYPES: '/api/producttypes',
 } as const
 
 // HTTP Status Codes

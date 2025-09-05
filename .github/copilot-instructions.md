@@ -34,6 +34,7 @@
 - Group related constants logically
 
 ### Vue 3 Specific
+- Never use hardcoded text strings in components, views or logic
 - Focus on keeping all designs modern, even when provided with pictures as reference it should be modernized
 - Place reusable functions inside composables (`composables/` directory)
 - Use Composition API consistently
@@ -42,6 +43,9 @@
 - Don't use snapshots
 - Use `storeToRefs` for accessing store state and getters
 - All information displayed in components should come from the store, and when something needs to be updated, it should be done to the LiteDB database and then refresh the store
+- Always use axios with proper TypeScript typing for API calls
+- All axios calls should be in composables and setting the results into the store
+- Use await/async for asynchronous operations
 - Follow Vue 3 best practices for reactivity and lifecycle
 - Don't allow parent components access child component internals
 - Use global styles in `style.css` for common styles used across multiple components
@@ -49,8 +53,7 @@
 - All global styles should be made in a way that can simplify applying a "skin" or theme to the application.
 - When creating unit tests remember that `test-setup.ts` is a good place to set up global configurations and mocks, and use shallowMount when possible.
 
-### Internationalization/Messages
-- Never use hardcoded text strings in components or logic
+### Application Messages/Strings
 - All user-facing text must be defined in `appMessages.ts`
 - Use descriptive keys for message identification
 - Group related messages logically within the messages object
