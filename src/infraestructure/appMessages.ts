@@ -56,6 +56,7 @@ export const appMessages = {
         refresh: 'Actualizar',
         edit: 'Editar',
         delete: 'Eliminar',
+        modifyStock: '📦 Modificar stock de Productos',
       },
       deleteDialog: {
         title: 'Eliminar Producto',

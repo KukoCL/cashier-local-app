@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1 class="h3 m-0">{{ appMessages.products.list.title }}</h1>
       <button class="btn btn-primary" @click="navigateToStock">
-        📦 Modificar stock de Productos
+        {{ appMessages.products.list.actions.modifyStock }}
       </button>
     </div>
 
@@ -15,7 +15,7 @@
       {{ appMessages.common.loading }}
     </div>
 
-    <ProductList
+    <ProductsListForm
       v-else
       :products="products"
       @edit="handleEdit"
@@ -28,7 +28,7 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProducts } from '../../composables/useProducts'
-import ProductList from '../../components/products/ProductList.vue'
+import ProductsListForm from '../../components/products/ProductsListForm.vue'
 import type { Product } from '../../types/interfaces'
 import { appMessages } from '../../infraestructure/appMessages'
 
