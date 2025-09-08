@@ -18,6 +18,10 @@ public class ProductsPersistence : IProductsPersistence
     {
         using var db = new LiteDatabase(_dbPath);
         var products = db.GetCollection<Product>(DatabaseConstants.ProductsCollectionName);
+        
+        // Ensure BarCode index exists for better performance
+        products.EnsureIndex(x => x.BarCode);
+        
         return products.FindAll().Where(p => p.IsActive).OrderBy(p => p.Name).ToList();
     }
 
@@ -32,6 +36,10 @@ public class ProductsPersistence : IProductsPersistence
     {
         using var db = new LiteDatabase(_dbPath);
         var products = db.GetCollection<Product>(DatabaseConstants.ProductsCollectionName);
+        
+        // Ensure BarCode index exists for better performance
+        products.EnsureIndex(x => x.BarCode);
+        
         return products.FindOne(p => p.BarCode == barcode && p.IsActive);
     }
 
@@ -39,6 +47,10 @@ public class ProductsPersistence : IProductsPersistence
     {
         using var db = new LiteDatabase(_dbPath);
         var products = db.GetCollection<Product>(DatabaseConstants.ProductsCollectionName);
+        
+        // Ensure BarCode index exists for better performance
+        products.EnsureIndex(x => x.BarCode);
+        
         products.Insert(product);
     }
 

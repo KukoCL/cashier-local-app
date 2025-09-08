@@ -2,7 +2,23 @@
   <div>
     <!-- Search and Filters Row -->
     <div class="row g-3 mb-4">
-      <div class="col-md-4">
+      <div class="col-lg-3">
+        <div class="d-flex flex-column h-100">
+          <label class="form-label">&nbsp;</label>
+          <div class="input-group">
+            <span class="input-group-text">📋</span>
+            <input
+              type="text"
+              class="form-control"
+              :placeholder="appMessages.products.list.barcodeSearch.placeholder"
+              v-model="barcodeSearchQuery"
+              @input="onBarcodeSearchInput"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
         <div class="d-flex flex-column h-100">
           <label class="form-label">&nbsp;</label>
           <div class="input-group">
@@ -17,8 +33,8 @@
           </div>
         </div>
       </div>
-      
-      <div class="col-md-3">
+
+      <div class="col-lg-3">
         <label class="form-label">{{ appMessages.products.list.filters.sortBy.label }}</label>
         <select class="form-select" v-model="sortBy">
           <option value="alphabetical">{{ appMessages.products.list.filters.sortBy.options.alphabetical }}</option>
@@ -27,7 +43,7 @@
         </select>
       </div>
       
-      <div class="col-md-3">
+      <div class="col-lg-3">
         <label class="form-label">{{ appMessages.products.list.filters.category.label }}</label>
         <select class="form-select" v-model="selectedCategory">
           <option value="">{{ appMessages.products.list.filters.category.all }}</option>
@@ -92,11 +108,13 @@ const emit = defineEmits<Emits>()
 // Use the product list composable
 const {
   searchQuery,
+  barcodeSearchQuery,
   sortBy,
   selectedCategory,
   productTypes,
   filteredProducts,
   onSearchInput,
+  onBarcodeSearchInput,
 } = useProductListForm(toRef(props, 'products'))
 
 // Delete dialog state

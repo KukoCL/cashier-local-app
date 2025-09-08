@@ -10,12 +10,15 @@ export const useProductListForm = (products: Ref<Product[]>) => {
 
   // Filter state
   const searchQuery = ref('')
+  const barcodeSearchQuery = ref('')
   const sortBy = ref('alphabetical')
   const selectedCategory = ref('')
 
   // Search debouncing
   let searchTimeout: number | null = null
+  let barcodeSearchTimeout: number | null = null
   const debouncedSearchQuery = ref('')
+  const debouncedBarcodeSearchQuery = ref('')
 
   // Computed filtered products
   const filteredProducts = computed(() => {
@@ -23,7 +26,17 @@ export const useProductListForm = (products: Ref<Product[]>) => {
     
     let filtered = [...products.value]
 
-    // Filter by search query
+    // Filter by barcode search query (takes priority)
+    if (debouncedBarcodeSearchQuery.value.trim()) {
+      const barcodeQuery = debouncedBarcodeSearchQuery.value.toLowerCase().trim()
+      filtered = filtered.filter(product =>
+        product.barCode?.toLowerCase().includes(barcodeQuery),
+      )
+      // When searching by barcode, we don't apply other filters
+      return filtered
+    }
+
+    // Filter by regular search query
     if (debouncedSearchQuery.value.trim()) {
       const query = debouncedSearchQuery.value.toLowerCase().trim()
       filtered = filtered.filter(product =>
@@ -64,13 +77,34 @@ export const useProductListForm = (products: Ref<Product[]>) => {
     }, 300) as unknown as number
   }
 
+  const onBarcodeSearchInput = () => {
+    if (barcodeSearchTimeout) {
+      clearTimeout(barcodeSearchTimeout)
+    }
+    barcodeSearchTimeout = setTimeout(() => {
+      debouncedBarcodeSearchQuery.value = barcodeSearchQuery.value
+      // When searching by barcode, reset other filters to default
+      if (barcodeSearchQuery.value.trim()) {
+        searchQuery.value = ''
+        debouncedSearchQuery.value = ''
+        sortBy.value = 'alphabetical'
+        selectedCategory.value = ''
+      }
+    }, 300) as unknown as number
+  }
+
   const resetFilters = () => {
     searchQuery.value = ''
+    barcodeSearchQuery.value = ''
     debouncedSearchQuery.value = ''
+    debouncedBarcodeSearchQuery.value = ''
     sortBy.value = 'alphabetical'
     selectedCategory.value = ''
     if (searchTimeout) {
       clearTimeout(searchTimeout)
+    }
+    if (barcodeSearchTimeout) {
+      clearTimeout(barcodeSearchTimeout)
     }
   }
 
@@ -82,6 +116,7 @@ export const useProductListForm = (products: Ref<Product[]>) => {
   return {
     // State
     searchQuery,
+    barcodeSearchQuery,
     sortBy,
     selectedCategory,
     productTypes,
@@ -89,6 +124,7 @@ export const useProductListForm = (products: Ref<Product[]>) => {
     
     // Methods
     onSearchInput,
+    onBarcodeSearchInput,
     resetFilters,
     loadProductTypes: productTypesStore.loadProductTypes,
   }

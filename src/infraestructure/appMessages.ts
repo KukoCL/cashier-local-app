@@ -33,7 +33,10 @@ export const appMessages = {
         addProduct: 'Agregar Producto',
       },
       search: {
-        placeholder: 'Búsqueda',
+        placeholder: 'Búsqueda por texto',
+      },
+      barcodeSearch: {
+        placeholder: 'Código de barras',
       },
       filters: {
         sortBy: {

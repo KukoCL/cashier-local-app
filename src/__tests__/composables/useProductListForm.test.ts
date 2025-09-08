@@ -112,9 +112,10 @@ describe('useProductListForm', () => {
   })
 
   it('should initialize with default filter values', () => {
-    const { searchQuery, sortBy, selectedCategory } = useProductListForm(mockProducts)
+    const { searchQuery, barcodeSearchQuery, sortBy, selectedCategory } = useProductListForm(mockProducts)
 
     expect(searchQuery.value).toBe('')
+    expect(barcodeSearchQuery.value).toBe('')
     expect(sortBy.value).toBe('alphabetical')
     expect(selectedCategory.value).toBe('')
   })
@@ -130,6 +131,85 @@ describe('useProductListForm', () => {
 
     expect(filteredProducts.value).toHaveLength(1)
     expect(filteredProducts.value[0].name).toBe('Product A')
+  })
+
+  it('should filter products by barcode search after debounce', async () => {
+    const { barcodeSearchQuery, filteredProducts, onBarcodeSearchInput } = useProductListForm(mockProducts)
+
+    barcodeSearchQuery.value = '123456789'
+    onBarcodeSearchInput()
+
+    // Wait for debounce timeout
+    await new Promise(resolve => setTimeout(resolve, 350))
+
+    expect(filteredProducts.value).toHaveLength(1)
+    expect(filteredProducts.value[0].barCode).toBe('123456789')
+    expect(filteredProducts.value[0].name).toBe('Product A')
+  })
+
+  it('should filter products by partial barcode match', async () => {
+    const { barcodeSearchQuery, filteredProducts, onBarcodeSearchInput } = useProductListForm(mockProducts)
+
+    barcodeSearchQuery.value = '12345'
+    onBarcodeSearchInput()
+
+    // Wait for debounce timeout
+    await new Promise(resolve => setTimeout(resolve, 350))
+
+    expect(filteredProducts.value).toHaveLength(1)
+    expect(filteredProducts.value[0].barCode).toBe('123456789')
+  })
+
+  it('should reset other filters when searching by barcode', async () => {
+    const { 
+      searchQuery, 
+      barcodeSearchQuery, 
+      sortBy, 
+      selectedCategory, 
+      onBarcodeSearchInput,
+    } = useProductListForm(mockProducts)
+
+    // Set some filter values
+    searchQuery.value = 'Product A'
+    sortBy.value = 'price-desc'
+    selectedCategory.value = 'Alimentos'
+
+    // Search by barcode
+    barcodeSearchQuery.value = '987654321'
+    onBarcodeSearchInput()
+
+    // Wait for debounce timeout
+    await new Promise(resolve => setTimeout(resolve, 350))
+
+    // Other filters should be reset
+    expect(searchQuery.value).toBe('')
+    expect(sortBy.value).toBe('alphabetical')
+    expect(selectedCategory.value).toBe('')
+  })
+
+  it('should prioritize barcode search over text search', async () => {
+    const { 
+      searchQuery, 
+      barcodeSearchQuery, 
+      filteredProducts, 
+      onSearchInput,
+      onBarcodeSearchInput,
+    } = useProductListForm(mockProducts)
+
+    // Set text search
+    searchQuery.value = 'Product'
+    onSearchInput()
+
+    // Set barcode search
+    barcodeSearchQuery.value = '123456789'
+    onBarcodeSearchInput()
+
+    // Wait for debounce timeout
+    await new Promise(resolve => setTimeout(resolve, 350))
+
+    // Should only show barcode result, not text search results
+    expect(filteredProducts.value).toHaveLength(1)
+    expect(filteredProducts.value[0].barCode).toBe('123456789')
   })
 
   it('should filter products by category', () => {
@@ -167,16 +247,18 @@ describe('useProductListForm', () => {
   })
 
   it('should reset all filters', () => {
-    const { searchQuery, sortBy, selectedCategory, resetFilters } = useProductListForm(mockProducts)
+    const { searchQuery, barcodeSearchQuery, sortBy, selectedCategory, resetFilters } = useProductListForm(mockProducts)
 
     // Set some filter values
     searchQuery.value = 'test'
+    barcodeSearchQuery.value = '123456789'
     sortBy.value = 'price-desc'
     selectedCategory.value = 'Alimentos'
 
     resetFilters()
 
     expect(searchQuery.value).toBe('')
+    expect(barcodeSearchQuery.value).toBe('')
     expect(sortBy.value).toBe('alphabetical')
     expect(selectedCategory.value).toBe('')
   })
