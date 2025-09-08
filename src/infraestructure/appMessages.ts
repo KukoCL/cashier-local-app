@@ -32,14 +32,38 @@ export const appMessages = {
         allProducts: 'Todos los Productos',
         addProduct: 'Agregar Producto',
       },
+      search: {
+        placeholder: 'Búsqueda por texto',
+      },
+      barcodeSearch: {
+        placeholder: 'Código de barras',
+      },
+      filters: {
+        sortBy: {
+          label: 'Ordenar por',
+          options: {
+            alphabetical: 'Orden alfabético',
+            priceDesc: 'Mayor a menor precio',
+            priceAsc: 'Menor a mayor precio',
+          },
+        },
+        category: {
+          label: 'Categoría',
+          all: 'Todas',
+        },
+      },
+      messages: {
+        noProducts: 'No hay productos que coincidan con los filtros aplicados',
+      },
       actions: {
         refresh: 'Actualizar',
         edit: 'Editar',
         delete: 'Eliminar',
+        modifyStock: '📦 Modificar stock de Productos',
       },
       deleteDialog: {
         title: 'Eliminar Producto',
-        message: '¿Estás seguro de que quieres eliminar el producto',
+        message: '¿Está seguro de que desea eliminar el producto',
         details: 'Esta acción no se puede deshacer.',
         confirm: 'Eliminar',
         cancel: 'Cancelar',
