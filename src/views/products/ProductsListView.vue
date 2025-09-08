@@ -2,9 +2,6 @@
   <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1 class="h3 m-0">{{ appMessages.products.list.title }}</h1>
-      <button class="btn btn-primary" @click="navigateToStock">
-        {{ appMessages.products.list.actions.modifyStock }}
-      </button>
     </div>
 
     <div v-if="error" class="alert alert-danger" role="alert">

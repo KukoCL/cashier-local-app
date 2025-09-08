@@ -65,6 +65,7 @@
           :product="product"
           @edit="handleEdit"
           @delete="handleDelete"
+          @modify-stock="handleModifyStock"
         />
       </div>
     </div>
@@ -82,6 +83,15 @@
       @confirm="confirmDelete"
       @cancel="cancelDelete"
     />
+
+    <!-- Edit Stock Modal -->
+    <EditStock
+      :is-open="showEditStockModal"
+      :product="productToEditStock"
+      :is-loading="stockLoading"
+      @close="closeEditStockModal"
+      @confirm="confirmStockUpdate"
+    />
   </div>
 </template>
 
@@ -89,6 +99,7 @@
 import { ref, toRef } from 'vue'
 import ProductCard from './ProductCard.vue'
 import ConfirmationDialog from '../ConfirmationDialog.vue'
+import EditStock from './EditStock.vue'
 import type { Product } from '../../types/interfaces'
 import { useProductListForm } from '../../composables/useProductListForm'
 import { appMessages } from '../../infraestructure/appMessages'
@@ -123,6 +134,11 @@ const showDeleteDialog = ref(false)
 const productToDelete = ref<Product | null>(null)
 const deleteLoading = ref(false)
 
+// Edit stock modal state
+const showEditStockModal = ref(false)
+const productToEditStock = ref<Product | null>(null)
+const stockLoading = ref(false)
+
 const handleEdit = (product: Product) => {
   emit('edit', product)
 }
@@ -130,6 +146,11 @@ const handleEdit = (product: Product) => {
 const handleDelete = (product: Product) => {
   productToDelete.value = product
   showDeleteDialog.value = true
+}
+
+const handleModifyStock = (product: Product) => {
+  productToEditStock.value = product
+  showEditStockModal.value = true
 }
 
 const confirmDelete = async () => {
@@ -148,5 +169,29 @@ const confirmDelete = async () => {
 const cancelDelete = () => {
   showDeleteDialog.value = false
   productToDelete.value = null
+}
+
+const closeEditStockModal = () => {
+  showEditStockModal.value = false
+  productToEditStock.value = null
+}
+
+const confirmStockUpdate = async (data: {
+  productId: string
+  operationType: 'update' | 'add'
+  quantity: number
+  newTotal: number
+}) => {
+  stockLoading.value = true
+  try {
+    // Here you would call your API to update the stock
+    console.log('Stock update data:', data)
+    
+    // For now, just close the modal
+    // TODO: Implement actual stock update logic
+    closeEditStockModal()
+  } finally {
+    stockLoading.value = false
+  }
 }
 </script>
