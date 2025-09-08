@@ -61,11 +61,13 @@ describe('ProductsListForm', () => {
 
   const mockComposableReturn = {
     searchQuery: ref(''),
+    barcodeSearchQuery: ref(''),
     sortBy: ref('alphabetical'),
     selectedCategory: ref(''),
     productTypes: ref(['Alimentos', 'Bebidas']),
     filteredProducts: computed(() => mockFilteredProducts.value),
     onSearchInput: vi.fn(),
+    onBarcodeSearchInput: vi.fn(),
     resetFilters: vi.fn(),
     loadProductTypes: vi.fn().mockResolvedValue(undefined),
   }
@@ -107,10 +109,21 @@ describe('ProductsListForm', () => {
   it('should render search input with correct placeholder', () => {
     const wrapper = createWrapper()
     
-    const searchInput = wrapper.find('input[type="text"]')
+    const textInputs = wrapper.findAll('input[type="text"]')
+    const searchInput = textInputs[1] // Second input is the search input
     expect(searchInput.exists()).toBe(true)
     expect(searchInput.attributes('placeholder')).toBe(appMessages.products.list.search.placeholder)
     expect((searchInput.element as HTMLInputElement).value).toBe('')
+  })
+
+  it('should render barcode search input with correct placeholder', () => {
+    const wrapper = createWrapper()
+    
+    const textInputs = wrapper.findAll('input[type="text"]')
+    const barcodeSearchInput = textInputs[0] // First input is the barcode search input
+    expect(barcodeSearchInput.exists()).toBe(true)
+    expect(barcodeSearchInput.attributes('placeholder')).toBe(appMessages.products.list.barcodeSearch.placeholder)
+    expect((barcodeSearchInput.element as HTMLInputElement).value).toBe('')
   })
 
   it('should render sort select with correct options', () => {
@@ -144,11 +157,23 @@ describe('ProductsListForm', () => {
   it('should call onSearchInput when search input changes', async () => {
     const wrapper = createWrapper()
     
-    const searchInput = wrapper.find('input[type="text"]')
+    const textInputs = wrapper.findAll('input[type="text"]')
+    const searchInput = textInputs[1] // Second input is the search input
     await searchInput.setValue('test')
     await searchInput.trigger('input')
     
     expect(mockComposableReturn.onSearchInput).toHaveBeenCalled()
+  })
+
+  it('should call onBarcodeSearchInput when barcode search input changes', async () => {
+    const wrapper = createWrapper()
+    
+    const textInputs = wrapper.findAll('input[type="text"]')
+    const barcodeSearchInput = textInputs[0] // First input is the barcode search input
+    await barcodeSearchInput.setValue('123456789')
+    await barcodeSearchInput.trigger('input')
+    
+    expect(mockComposableReturn.onBarcodeSearchInput).toHaveBeenCalled()
   })
 
   it('should render product cards for each filtered product', () => {
@@ -240,8 +265,18 @@ describe('ProductsListForm', () => {
     mockComposableReturn.searchQuery.value = 'test search'
     const wrapper = createWrapper()
     
-    const searchInput = wrapper.find('input[type="text"]')
+    const textInputs = wrapper.findAll('input[type="text"]')
+    const searchInput = textInputs[1] // Second input is the search input
     expect((searchInput.element as HTMLInputElement).value).toBe('test search')
+  })
+
+  it('should bind v-model correctly to barcode search query', async () => {
+    mockComposableReturn.barcodeSearchQuery.value = '123456789'
+    const wrapper = createWrapper()
+    
+    const textInputs = wrapper.findAll('input[type="text"]')
+    const barcodeSearchInput = textInputs[0] // First input is the barcode search input
+    expect((barcodeSearchInput.element as HTMLInputElement).value).toBe('123456789')
   })
 
   it('should bind v-model correctly to sort by', async () => {
