@@ -10,7 +10,7 @@
             <input
               type="text"
               class="form-control"
-              :placeholder="appMessages.products.list.barcodeSearch.placeholder"
+              :placeholder="messages.barcodeSearch.placeholder"
               v-model="barcodeSearchQuery"
               @input="onBarcodeSearchInput"
             />
@@ -26,7 +26,7 @@
             <input
               type="text"
               class="form-control"
-              :placeholder="appMessages.products.list.search.placeholder"
+              :placeholder="messages.search.placeholder"
               v-model="searchQuery"
               @input="onSearchInput"
             />
@@ -35,18 +35,18 @@
       </div>
 
       <div class="col-lg-3">
-        <label class="form-label">{{ appMessages.products.list.filters.sortBy.label }}</label>
+        <label class="form-label">{{ messages.filters.sortBy.label }}</label>
         <select class="form-select" v-model="sortBy">
-          <option value="alphabetical">{{ appMessages.products.list.filters.sortBy.options.alphabetical }}</option>
-          <option value="price-desc">{{ appMessages.products.list.filters.sortBy.options.priceDesc }}</option>
-          <option value="price-asc">{{ appMessages.products.list.filters.sortBy.options.priceAsc }}</option>
+          <option value="alphabetical">{{ messages.filters.sortBy.options.alphabetical }}</option>
+          <option value="price-desc">{{ messages.filters.sortBy.options.priceDesc }}</option>
+          <option value="price-asc">{{ messages.filters.sortBy.options.priceAsc }}</option>
         </select>
       </div>
       
       <div class="col-lg-3">
-        <label class="form-label">{{ appMessages.products.list.filters.category.label }}</label>
+        <label class="form-label">{{ messages.filters.category.label }}</label>
         <select class="form-select" v-model="selectedCategory">
-          <option value="">{{ appMessages.products.list.filters.category.all }}</option>
+          <option value="">{{ messages.filters.category.all }}</option>
           <option v-for="category in productTypes" :key="category" :value="category">
             {{ category }}
           </option>
@@ -56,7 +56,7 @@
 
     <!-- Products Grid -->
     <div v-if="filteredProducts.length === 0" class="alert alert-info" role="alert">
-      {{ appMessages.products.list.messages.noProducts }}
+      {{ messages.messages.noProducts }}
     </div>
 
     <div v-else class="row g-3">
@@ -72,11 +72,11 @@
     <!-- Confirmation Dialog -->
     <ConfirmationDialog
       :is-open="showDeleteDialog"
-      :title="appMessages.products.list.deleteDialog.title"
-      :message="`${appMessages.products.list.deleteDialog.message} '${productToDelete?.name}'?`"
-      :details="appMessages.products.list.deleteDialog.details"
-      :confirm-text="appMessages.products.list.deleteDialog.confirm"
-      :cancel-text="appMessages.products.list.deleteDialog.cancel"
+      :title="messages.deleteDialog.title"
+      :message="`${messages.deleteDialog.message} '${productToDelete?.name}'?`"
+      :details="messages.deleteDialog.details"
+      :confirm-text="messages.deleteDialog.confirm"
+      :cancel-text="messages.deleteDialog.cancel"
       variant="danger"
       :loading="deleteLoading"
       @confirm="confirmDelete"
@@ -102,6 +102,7 @@ interface Emits {
   delete: [product: Product]
 }
 
+const messages = appMessages.products.list;
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
