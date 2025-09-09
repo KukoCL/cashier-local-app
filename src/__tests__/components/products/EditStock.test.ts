@@ -15,7 +15,7 @@ const MockBaseModal = {
 vi.mock('../../../composables/useUnitTypeMapper', () => ({
   useUnitTypeMapper: () => ({
     mapUnitTypeToSpanish: vi.fn((_unitType: string, amount: number) => 
-      amount === 1 ? 'Unidad' : 'Unidades'
+      amount === 1 ? 'Unidad' : 'Unidades',
     ),
   }),
 }))
