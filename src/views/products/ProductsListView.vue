@@ -34,11 +34,6 @@ import { appMessages } from '../../infraestructure/appMessages'
 const router = useRouter()
 const { products, loading, error, loadProducts, deleteProduct } = useProducts()
 
-// Navigation methods
-const navigateToStock = () => {
-  router.push('/products/stock')
-}
-
 // Product management methods
 const handleEdit = (product: Product) => {
   router.push(`/products/edit/${product.id}`)

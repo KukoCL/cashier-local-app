@@ -15,6 +15,8 @@ export default defineConfigWithVueTs(
       '**/obj/**',
       '**/wwwroot/**',
       '**/node_modules/**',
+      '**/TestResults/**',
+      '**/coverage/**',
       '**/*.min.js',
       '**/*.d.ts',
     ],

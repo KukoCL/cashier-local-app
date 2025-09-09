@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { mount, shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import EditStock from '../../../components/products/EditStock.vue'
 import type { Product } from '../../../types/interfaces'
 
