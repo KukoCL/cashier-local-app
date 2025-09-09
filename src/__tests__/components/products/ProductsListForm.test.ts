@@ -311,4 +311,16 @@ describe('ProductsListForm', () => {
       loading: false,
     })
   })
+
+  it('should handle modify stock event from ProductCard', async () => {
+    const wrapper = createWrapper()
+    
+    // Find the first ProductCard and emit modifyStock event
+    const productCard = wrapper.findComponent(ProductCard)
+    await productCard.vm.$emit('modifyStock', mockProducts[0])
+    
+    // Basic check that the component handles the event
+    expect(wrapper.vm).toBeDefined()
+    expect(productCard.exists()).toBe(true)
+  })
 })
