@@ -17,6 +17,7 @@
       :products="products"
       @edit="handleEdit"
       @delete="handleDelete"
+      @stock-updated="handleStockUpdated"
     />
   </div>
 </template>
@@ -49,6 +50,11 @@ const handleDelete = async (product: Product) => {
     console.log('Product deleted successfully')
     await loadProducts() // Refresh the products list
   }
+}
+
+const handleStockUpdated = async () => {
+  console.log('Stock updated successfully')
+  await loadProducts() // Refresh the products list
 }
 
 onMounted(() => {

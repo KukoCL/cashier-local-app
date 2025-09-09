@@ -102,6 +102,7 @@ import ConfirmationDialog from '../ConfirmationDialog.vue'
 import EditStock from './EditStock.vue'
 import type { Product } from '../../types/interfaces'
 import { useProductListForm } from '../../composables/useProductListForm'
+import { useProducts } from '../../composables/useProducts'
 import { appMessages } from '../../infraestructure/appMessages'
 
 interface Props {
@@ -111,13 +112,15 @@ interface Props {
 interface Emits {
   edit: [product: Product]
   delete: [product: Product]
+  stockUpdated: []
 }
 
 const messages = appMessages.products.list;
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-// Use the product list composable
+// Composables
+const { updateProductStock } = useProducts()
 const {
   searchQuery,
   barcodeSearchQuery,
@@ -184,12 +187,18 @@ const confirmStockUpdate = async (data: {
 }) => {
   stockLoading.value = true
   try {
-    // Here you would call your API to update the stock
-    console.log('Stock update data:', data)
+    // Call the API to update the stock
+    const success = await updateProductStock(data.productId, data.newTotal)
     
-    // For now, just close the modal
-    // TODO: Implement actual stock update logic
-    closeEditStockModal()
+    if (success) {
+      // Close the modal on success
+      closeEditStockModal()
+      
+      // Emit an event to refresh the products list in the parent component
+      emit('stockUpdated')
+    }
+  } catch (error) {
+    console.error('Error updating stock:', error)
   } finally {
     stockLoading.value = false
   }

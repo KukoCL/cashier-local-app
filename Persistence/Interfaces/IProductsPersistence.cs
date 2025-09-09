@@ -9,5 +9,6 @@ public interface IProductsPersistence
     Product? GetProductByBarcode(string barcode);
     void SaveProduct(Product product);
     void UpdateProduct(Product product);
+    void UpdateProductStock(Guid productId, int newStock);
     void DeleteProduct(Guid id);
 }

@@ -78,6 +78,22 @@ public class ProductsLogic : IProductsLogic
         _productsPersistence.UpdateProduct(product);
     }
 
+    public void UpdateProductStock(Guid productId, int newStock)
+    {
+        if (newStock < 0)
+        {
+            throw new ArgumentException("Stock cannot be negative", nameof(newStock));
+        }
+
+        var product = _productsPersistence.GetProductById(productId);
+        if (product == null)
+        {
+            throw new ArgumentException("Product not found", nameof(productId));
+        }
+
+        _productsPersistence.UpdateProductStock(productId, newStock);
+    }
+
     public void DeleteProduct(Guid id)
     {
         _productsPersistence.DeleteProduct(id);

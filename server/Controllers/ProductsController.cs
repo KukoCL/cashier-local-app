@@ -106,6 +106,24 @@ public class ProductsController : ControllerBase
         }
     }
 
+    [HttpPut("{id}/stock")]
+    public ActionResult UpdateProductStock(Guid id, [FromBody] UpdateStockRequest request)
+    {
+        try
+        {
+            _productsLogic.UpdateProductStock(id, request.NewStock);
+            return Ok(new { success = true, message = "Product stock updated successfully" });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
+
     [HttpDelete("{id}")]
     public ActionResult DeleteProduct(Guid id)
     {
@@ -119,4 +137,9 @@ public class ProductsController : ControllerBase
             return StatusCode(500, new { error = ex.Message });
         }
     }
+}
+
+public class UpdateStockRequest
+{
+    public int NewStock { get; set; }
 }
