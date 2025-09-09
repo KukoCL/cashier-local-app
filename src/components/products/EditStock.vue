@@ -29,7 +29,7 @@
 
         <!-- Operation Type Selection -->
         <div class="mb-3">
-          <label class="form-label">{{ stockMessages.operationType.label }}</label>
+          <label class="form-label">{{ editStockMessages.operationType.label }}</label>
           <div class="d-flex gap-3">
             <div class="form-check">
               <input
@@ -41,7 +41,7 @@
                 v-model="operationType"
               >
               <label class="form-check-label" for="update">
-                {{ stockMessages.operationType.update }}
+                {{ editStockMessages.operationType.update }}
               </label>
             </div>
             <div class="form-check">
@@ -54,7 +54,7 @@
                 v-model="operationType"
               >
               <label class="form-check-label" for="add">
-                {{ stockMessages.operationType.add }}
+                {{ editStockMessages.operationType.add }}
               </label>
             </div>
           </div>
@@ -62,12 +62,12 @@
 
         <!-- Quantity Input -->
         <div class="mb-3">
-          <label class="form-label">{{ stockMessages.quantity.label }}</label>
+          <label class="form-label">{{ editStockMessages.quantity.label }}</label>
           <input
             type="number"
             class="form-control"
             v-model.number="quantity"
-            :placeholder="stockMessages.quantity.placeholder"
+            :placeholder="editStockMessages.quantity.placeholder"
             min="0"
             step="1"
           >
@@ -75,7 +75,7 @@
 
         <!-- New Total Preview -->
         <div v-if="quantity > 0" class="alert alert-info">
-          <strong>{{ stockMessages.newTotal.label }}:</strong>
+          <strong>{{ editStockMessages.newTotal.label }}:</strong>
           {{ newTotal }} {{ spanishUnitTypeForNewTotal }}
         </div>
       </div>
@@ -97,7 +97,7 @@
           @click="handleConfirm"
         >
           <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-          {{ stockMessages.actions.confirm }}
+          {{ editStockMessages.actions.confirm }}
         </button>
       </div>
     </template>
@@ -110,25 +110,6 @@ import type { Product } from '../../types/interfaces'
 import BaseModal from '../BaseModal.vue'
 import { appMessages } from '../../infraestructure/appMessages'
 import { useUnitTypeMapper } from '../../composables/useUnitTypeMapper'
-
-const stockMessages = {
-  title: 'Modificar Stock',
-  operationType: {
-    label: 'Tipo de operación',
-    update: 'Actualizar (reemplazar stock actual)',
-    add: 'Agregar (sumar al stock actual)',
-  },
-  quantity: {
-    label: 'Cantidad',
-    placeholder: 'Ingrese la cantidad',
-  },
-  newTotal: {
-    label: 'Nuevo total',
-  },
-  actions: {
-    confirm: 'Confirmar cambios',
-  },
-}
 
 interface Props {
   isOpen: boolean
@@ -150,11 +131,15 @@ const emit = defineEmits<Emits>()
 // Unit type mapper composable
 const { mapUnitTypeToSpanish } = useUnitTypeMapper()
 
+// Short reference for editStock messages
+const editStockMessages = appMessages.products.editStock
+
 const operationType = ref<'update' | 'add'>('update')
 const quantity = ref<number>(0)
 
 const modalTitle = computed(() => {
-  return props.product ? `${stockMessages.title} - ${props.product.name}` : stockMessages.title
+  const baseTitle = editStockMessages.title
+  return props.product ? `${baseTitle} - ${props.product.name}` : baseTitle
 })
 
 const spanishUnitType = computed(() => {
