@@ -356,6 +356,91 @@ public class ProductsLogicTests
 
     #endregion
 
+    #region UpdateProductStock Tests
+
+    [Fact]
+    public void UpdateProductStock_ValidRequest_CallsPersistence()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var newStock = 100;
+        var existingProduct = new Product { Id = productId, Name = "Test Product" };
+        
+        _mockPersistence.Setup(x => x.GetProductById(productId)).Returns(existingProduct);
+        _mockPersistence.Setup(x => x.UpdateProductStock(productId, newStock));
+
+        // Act
+        _logic.UpdateProductStock(productId, newStock);
+
+        // Assert
+        _mockPersistence.Verify(x => x.GetProductById(productId), Times.Once);
+        _mockPersistence.Verify(x => x.UpdateProductStock(productId, newStock), Times.Once);
+    }
+
+    [Fact]
+    public void UpdateProductStock_NegativeStock_ThrowsArgumentException()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var invalidStock = -1;
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => _logic.UpdateProductStock(productId, invalidStock));
+        Assert.Contains("Stock cannot be negative", exception.Message);
+        _mockPersistence.Verify(x => x.UpdateProductStock(It.IsAny<Guid>(), It.IsAny<int>()), Times.Never);
+    }
+
+    [Fact]
+    public void UpdateProductStock_EmptyGuid_ThrowsArgumentException()
+    {
+        // Arrange
+        var emptyGuid = Guid.Empty;
+        var validStock = 50;
+        _mockPersistence.Setup(x => x.GetProductById(emptyGuid)).Returns((Product?)null);
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => _logic.UpdateProductStock(emptyGuid, validStock));
+        Assert.Contains("Product not found", exception.Message);
+        _mockPersistence.Verify(x => x.GetProductById(emptyGuid), Times.Once);
+        _mockPersistence.Verify(x => x.UpdateProductStock(It.IsAny<Guid>(), It.IsAny<int>()), Times.Never);
+    }
+
+    [Fact]
+    public void UpdateProductStock_ProductNotFound_ThrowsArgumentException()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var newStock = 75;
+        _mockPersistence.Setup(x => x.GetProductById(productId)).Returns((Product?)null);
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => _logic.UpdateProductStock(productId, newStock));
+        Assert.Contains("Product not found", exception.Message);
+        _mockPersistence.Verify(x => x.GetProductById(productId), Times.Once);
+        _mockPersistence.Verify(x => x.UpdateProductStock(It.IsAny<Guid>(), It.IsAny<int>()), Times.Never);
+    }
+
+    [Fact]
+    public void UpdateProductStock_PersistenceThrowsException_PropagatesException()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var newStock = 75;
+        var existingProduct = new Product { Id = productId, Name = "Test Product" };
+        
+        _mockPersistence.Setup(x => x.GetProductById(productId)).Returns(existingProduct);
+        _mockPersistence.Setup(x => x.UpdateProductStock(productId, newStock))
+            .Throws(new Exception("Database error"));
+
+        // Act & Assert
+        var exception = Assert.Throws<Exception>(() => _logic.UpdateProductStock(productId, newStock));
+        Assert.Equal("Database error", exception.Message);
+        _mockPersistence.Verify(x => x.GetProductById(productId), Times.Once);
+        _mockPersistence.Verify(x => x.UpdateProductStock(productId, newStock), Times.Once);
+    }
+
+    #endregion
+
     #region Constructor Tests
 
     [Fact]

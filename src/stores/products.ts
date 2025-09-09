@@ -138,6 +138,32 @@ export const useProductsStore = defineStore('products', () => {
     }
   }
 
+  const updateProductStock = async (productId: string, newStock: number): Promise<boolean> => {
+    loading.value = true
+    error.value = ''
+
+    try {
+      // Update product stock in LiteDB database through API
+      await axios.put(`${API_ENDPOINTS.PRODUCTS}/${productId}/stock`, { newStock })
+
+      // After successful database update, update the product in the store
+      const index = products.value.findIndex(p => p.id === productId)
+      if (index !== -1) {
+        products.value[index].stock = newStock
+        products.value[index].lastUpdateDate = new Date().toISOString()
+      }
+
+      return true
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error al actualizar el stock del producto'
+      error.value = errorMessage
+      console.error('Error updating product stock:', err)
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
+
   const deleteProduct = async (id: string): Promise<boolean> => {
     loading.value = true
     error.value = ''
@@ -197,6 +223,7 @@ export const useProductsStore = defineStore('products', () => {
     fetchProductByBarcode,
     createProduct,
     updateProduct,
+    updateProductStock,
     deleteProduct,
     clearError,
     resetStore,

@@ -126,6 +126,24 @@ export const appMessages = {
         error: 'Error al crear el producto',
       },
     },
+    editStock: {
+      title: 'Modificar Stock',
+      operationType: {
+        label: 'Tipo de operación',
+        update: 'Actualizar (reemplazar stock actual)',
+        add: 'Agregar (sumar al stock actual)',
+      },
+      quantity: {
+        label: 'Cantidad',
+        placeholder: 'Ingrese la cantidad',
+      },
+      newTotal: {
+        label: 'Nuevo total',
+      },
+      actions: {
+        confirm: 'Confirmar cambios',
+      },
+    },
     store: {
       errors: {
         loadingProducts: 'Error al cargar productos',

@@ -2,9 +2,6 @@
   <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1 class="h3 m-0">{{ appMessages.products.list.title }}</h1>
-      <button class="btn btn-primary" @click="navigateToStock">
-        {{ appMessages.products.list.actions.modifyStock }}
-      </button>
     </div>
 
     <div v-if="error" class="alert alert-danger" role="alert">
@@ -20,6 +17,7 @@
       :products="products"
       @edit="handleEdit"
       @delete="handleDelete"
+      @stock-updated="handleStockUpdated"
     />
   </div>
 </template>
@@ -36,11 +34,6 @@ import { appMessages } from '../../infraestructure/appMessages'
 const router = useRouter()
 const { products, loading, error, loadProducts, deleteProduct } = useProducts()
 
-// Navigation methods
-const navigateToStock = () => {
-  router.push('/products/stock')
-}
-
 // Product management methods
 const handleEdit = (product: Product) => {
   router.push(`/products/edit/${product.id}`)
@@ -52,6 +45,11 @@ const handleDelete = async (product: Product) => {
     console.log('Product deleted successfully')
     await loadProducts() // Refresh the products list
   }
+}
+
+const handleStockUpdated = async () => {
+  console.log('Stock updated successfully')
+  await loadProducts() // Refresh the products list
 }
 
 onMounted(() => {

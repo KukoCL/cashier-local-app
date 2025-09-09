@@ -22,6 +22,7 @@ describe('useProducts', () => {
       fetchProductByBarcode,
       createProduct,
       updateProduct,
+      updateProductStock,
       deleteProduct,
       clearError,
       resetStore,
@@ -42,6 +43,7 @@ describe('useProducts', () => {
     expect(typeof fetchProductByBarcode).toBe('function')
     expect(typeof createProduct).toBe('function')
     expect(typeof updateProduct).toBe('function')
+    expect(typeof updateProductStock).toBe('function')
     expect(typeof deleteProduct).toBe('function')
     expect(typeof clearError).toBe('function')
     expect(typeof resetStore).toBe('function')

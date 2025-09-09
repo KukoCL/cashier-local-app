@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Logic.Interfaces;
 using Shared.Models;
+using Shared.Models.Requests;
 
 namespace App.Controllers;
 
@@ -95,6 +96,24 @@ public class ProductsController : ControllerBase
             product.Id = id;
             _productsLogic.UpdateProduct(product);
             return Ok(new { success = true, message = "Product updated successfully" });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
+
+    [HttpPut("{id}/stock")]
+    public ActionResult UpdateProductStock(Guid id, [FromBody] UpdateStockRequest request)
+    {
+        try
+        {
+            _productsLogic.UpdateProductStock(id, request.NewStock);
+            return Ok(new { success = true, message = "Product stock updated successfully" });
         }
         catch (ArgumentException ex)
         {

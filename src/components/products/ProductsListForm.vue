@@ -65,6 +65,7 @@
           :product="product"
           @edit="handleEdit"
           @delete="handleDelete"
+          @modify-stock="handleModifyStock"
         />
       </div>
     </div>
@@ -82,6 +83,15 @@
       @confirm="confirmDelete"
       @cancel="cancelDelete"
     />
+
+    <!-- Edit Stock Modal -->
+    <EditStock
+      :is-open="showEditStockModal"
+      :product="productToEditStock"
+      :is-loading="stockLoading"
+      @close="closeEditStockModal"
+      @confirm="confirmStockUpdate"
+    />
   </div>
 </template>
 
@@ -89,8 +99,10 @@
 import { ref, toRef } from 'vue'
 import ProductCard from './ProductCard.vue'
 import ConfirmationDialog from '../ConfirmationDialog.vue'
+import EditStock from './EditStock.vue'
 import type { Product } from '../../types/interfaces'
 import { useProductListForm } from '../../composables/useProductListForm'
+import { useProducts } from '../../composables/useProducts'
 import { appMessages } from '../../infraestructure/appMessages'
 
 interface Props {
@@ -100,13 +112,15 @@ interface Props {
 interface Emits {
   edit: [product: Product]
   delete: [product: Product]
+  stockUpdated: []
 }
 
 const messages = appMessages.products.list;
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-// Use the product list composable
+// Composables
+const { updateProductStock } = useProducts()
 const {
   searchQuery,
   barcodeSearchQuery,
@@ -123,6 +137,11 @@ const showDeleteDialog = ref(false)
 const productToDelete = ref<Product | null>(null)
 const deleteLoading = ref(false)
 
+// Edit stock modal state
+const showEditStockModal = ref(false)
+const productToEditStock = ref<Product | null>(null)
+const stockLoading = ref(false)
+
 const handleEdit = (product: Product) => {
   emit('edit', product)
 }
@@ -130,6 +149,11 @@ const handleEdit = (product: Product) => {
 const handleDelete = (product: Product) => {
   productToDelete.value = product
   showDeleteDialog.value = true
+}
+
+const handleModifyStock = (product: Product) => {
+  productToEditStock.value = product
+  showEditStockModal.value = true
 }
 
 const confirmDelete = async () => {
@@ -148,5 +172,35 @@ const confirmDelete = async () => {
 const cancelDelete = () => {
   showDeleteDialog.value = false
   productToDelete.value = null
+}
+
+const closeEditStockModal = () => {
+  showEditStockModal.value = false
+  productToEditStock.value = null
+}
+
+const confirmStockUpdate = async (data: {
+  productId: string
+  operationType: 'update' | 'add'
+  quantity: number
+  newTotal: number
+}) => {
+  stockLoading.value = true
+  try {
+    // Call the API to update the stock
+    const success = await updateProductStock(data.productId, data.newTotal)
+    
+    if (success) {
+      // Close the modal on success
+      closeEditStockModal()
+      
+      // Emit an event to refresh the products list in the parent component
+      emit('stockUpdated')
+    }
+  } catch (error) {
+    console.error('Error updating stock:', error)
+  } finally {
+    stockLoading.value = false
+  }
 }
 </script>

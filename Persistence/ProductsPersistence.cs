@@ -61,6 +61,19 @@ public class ProductsPersistence : IProductsPersistence
         products.Update(product);
     }
 
+    public void UpdateProductStock(Guid productId, int newStock)
+    {
+        using var db = new LiteDatabase(_dbPath);
+        var products = db.GetCollection<Product>(DatabaseConstants.ProductsCollectionName);
+        var product = products.FindById(productId);
+        if (product != null)
+        {
+            product.Stock = newStock;
+            product.LastUpdateDate = DateTime.Now;
+            products.Update(product);
+        }
+    }
+
     public void DeleteProduct(Guid id)
     {
         using var db = new LiteDatabase(_dbPath);
