@@ -1,6 +1,7 @@
 using App.Controllers;
 using Logic.Interfaces;
 using Shared.Models;
+using Shared.Models.Requests;
 using Shared.Constants;
 
 namespace Tests.Controllers;

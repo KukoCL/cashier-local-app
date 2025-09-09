@@ -14,7 +14,7 @@
           <strong>{{ appMessages.common.code }}:</strong> {{ product.barCode || 'Sin código' }}
         </span>
         <span>
-          <strong>{{ appMessages.common.stock }}:</strong> {{ product.stock }} {{ product.unitType }}
+          <strong>{{ appMessages.common.stock }}:</strong> {{ product.stock }} {{ mapUnitTypeToSpanish(product.unitType, product.stock) }}
         </span>
         <span>
           <strong>{{ appMessages.common.category }}:</strong> {{ product.productType }}
@@ -55,6 +55,7 @@
 import { ref } from 'vue'
 import type { Product } from '../../types/interfaces'
 import { useCurrencyFormatter } from '../../composables/useCurrencyFormatter'
+import { useUnitTypeMapper } from '../../composables/useUnitTypeMapper'
 import BaseCard from '../BaseCard.vue'
 import ConfirmationDialog from '../ConfirmationDialog.vue'
 import { appMessages } from '../../infraestructure/appMessages'
@@ -74,6 +75,7 @@ const emit = defineEmits<{
 }>()
 
 const { formatCLP } = useCurrencyFormatter()
+const { mapUnitTypeToSpanish } = useUnitTypeMapper()
 
 const showDeleteConfirmation = ref(false)
 const isDeleting = ref(false)

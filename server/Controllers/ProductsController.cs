@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Logic.Interfaces;
 using Shared.Models;
+using Shared.Models.Requests;
 
 namespace App.Controllers;
 
@@ -137,9 +138,4 @@ public class ProductsController : ControllerBase
             return StatusCode(500, new { error = ex.Message });
         }
     }
-}
-
-public class UpdateStockRequest
-{
-    public int NewStock { get; set; }
 }
