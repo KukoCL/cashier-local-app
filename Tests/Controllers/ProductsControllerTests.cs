@@ -338,6 +338,63 @@ public class ProductsControllerTests
 
     #endregion
 
+    #region UpdateProductStock Tests
+
+    [Fact]
+    public void UpdateProductStock_ValidRequest_ReturnsOkResult()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var request = new UpdateStockRequest { NewStock = 50 };
+        _mockProductsLogic.Setup(x => x.UpdateProductStock(productId, request.NewStock));
+
+        // Act
+        var result = _controller.UpdateProductStock(productId, request);
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult.Value);
+        _mockProductsLogic.Verify(x => x.UpdateProductStock(productId, request.NewStock), Times.Once);
+    }
+
+    [Fact]
+    public void UpdateProductStock_ArgumentException_ReturnsBadRequest()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var request = new UpdateStockRequest { NewStock = -1 };
+        _mockProductsLogic.Setup(x => x.UpdateProductStock(productId, request.NewStock))
+            .Throws(new ArgumentException("Invalid stock value"));
+
+        // Act
+        var result = _controller.UpdateProductStock(productId, request);
+
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.NotNull(badRequestResult.Value);
+        _mockProductsLogic.Verify(x => x.UpdateProductStock(productId, request.NewStock), Times.Once);
+    }
+
+    [Fact]
+    public void UpdateProductStock_GeneralException_ReturnsInternalServerError()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+        var request = new UpdateStockRequest { NewStock = 25 };
+        _mockProductsLogic.Setup(x => x.UpdateProductStock(productId, request.NewStock))
+            .Throws(new Exception("Database error"));
+
+        // Act
+        var result = _controller.UpdateProductStock(productId, request);
+
+        // Assert
+        var statusCodeResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(500, statusCodeResult.StatusCode);
+        _mockProductsLogic.Verify(x => x.UpdateProductStock(productId, request.NewStock), Times.Once);
+    }
+
+    #endregion
+
     #region Constructor Tests
 
     [Fact]

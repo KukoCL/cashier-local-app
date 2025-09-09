@@ -33,7 +33,7 @@
           <div class="d-flex gap-3">
             <div class="form-check">
               <input
-                class="form-check-input"
+                class="form-check-input radio-update"
                 type="radio"
                 name="operationType"
                 id="update"
@@ -46,7 +46,7 @@
             </div>
             <div class="form-check">
               <input
-                class="form-check-input"
+                class="form-check-input radio-add"
                 type="radio"
                 name="operationType"
                 id="add"
