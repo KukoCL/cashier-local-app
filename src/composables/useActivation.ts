@@ -41,7 +41,7 @@ export const useActivation = () => {
             'Content-Type': 'application/json',
           },
           timeout: 30000, // 30 seconds timeout
-        }
+        },
       )
 
       if (response.data.success) {

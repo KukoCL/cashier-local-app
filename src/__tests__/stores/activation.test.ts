@@ -69,7 +69,7 @@ describe('useActivationStore', () => {
     expect(store.activationStatus).toEqual(mockStatus)
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       'activation_status',
-      JSON.stringify(mockStatus)
+      JSON.stringify(mockStatus),
     )
   })
 

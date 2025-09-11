@@ -31,7 +31,7 @@ export const useComputerFingerprint = () => {
       const maxTouchPoints = navigator.maxTouchPoints || 0
 
       // Additional entropy sources
-      const memoryInfo = (navigator as any).deviceMemory || 'unknown'
+      const memoryInfo = (navigator as Navigator & { deviceMemory?: number }).deviceMemory || 'unknown'
       const cookieEnabled = navigator.cookieEnabled
       const doNotTrack = navigator.doNotTrack || 'unknown'
 

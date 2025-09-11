@@ -175,7 +175,8 @@ export const appMessages = {
       invalidKey: 'Clave de activación inválida',
       networkError: 'Error de conexión. Verifique su conexión a internet.',
     },
-    description: 'Para utilizar esta aplicación, necesita una clave de activación válida. Contacte al administrador si no tiene una clave.',
+    description: 'Para utilizar esta aplicación, necesita una clave de activación válida. ' +
+      'Contacte al administrador si no tiene una clave.',
   },
 }
 
