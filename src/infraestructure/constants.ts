@@ -4,6 +4,13 @@ import type { CreateProductRequest } from '../types/interfaces'
 export const API_ENDPOINTS = {
   PRODUCTS: '/api/products',
   PRODUCT_TYPES: '/api/producttypes',
+  ACTIVATION: '/api/activation',
+} as const
+
+// AWS Configuration
+export const AWS_CONFIG = {
+  LAMBDA_ENDPOINT: process.env.VITE_AWS_LAMBDA_ENDPOINT || 'https://your-lambda-endpoint.amazonaws.com/activate',
+  REGION: process.env.VITE_AWS_REGION || 'us-east-1',
 } as const
 
 // HTTP Status Codes
@@ -63,4 +70,5 @@ export default {
   PRODUCT_TYPES,
   UNIT_TYPES,
   INITIAL_CREATE_FORM_DATA,
+  AWS_CONFIG,
 }
