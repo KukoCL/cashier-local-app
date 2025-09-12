@@ -54,17 +54,7 @@ export interface ActivationResponse {
   success: boolean
   message: string
   activatedAt?: string
-}
-
-export interface ComputerFingerprint {
-  userAgent: string
-  screenResolution: string
-  timezone: string
-  language: string
-  platform: string
-  hardwareConcurrency: number
-  maxTouchPoints: number
-  hash: string
+  expirationDate?: string
 }
 
 export interface ActivationStatus {
@@ -72,4 +62,5 @@ export interface ActivationStatus {
   activationKey?: string
   activatedAt?: string
   computerFingerprint?: string
+  expirationDate?: string
 }

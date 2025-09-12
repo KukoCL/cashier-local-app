@@ -27,14 +27,14 @@
         <form @submit.prevent="handleSubmit">
           <div class="mb-4">
             <label for="activationKey" class="form-label">
-              {{ appMessages.activation.form.activationKey.label }}
+              {{ form.activationKey.label }}
             </label>
             <input
               id="activationKey"
               v-model="activationKey"
               type="text"
               class="form-control form-control-lg"
-              :placeholder="appMessages.activation.form.activationKey.placeholder"
+              :placeholder="form.activationKey.placeholder"
               :disabled="isActivating"
               required
               autocomplete="off"
@@ -51,7 +51,7 @@
               <span v-if="isActivating" class="spinner-border spinner-border-sm me-2" role="status">
                 <span class="visually-hidden">{{ appMessages.common.loading }}</span>
               </span>
-              {{ isActivating ? appMessages.activation.actions.activating : appMessages.activation.actions.activate }}
+              {{ isActivating ? actions.activating : actions.activate }}
             </button>
           </div>
         </form>
@@ -74,6 +74,7 @@ import { useActivation } from '../composables/useActivation'
 import appMessages from '../infraestructure/appMessages'
 
 const router = useRouter()
+const { form, actions } = appMessages.activation;
 const { activateApplication, isActivating, error, clearError } = useActivation()
 
 // Form data

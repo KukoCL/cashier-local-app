@@ -1,7 +1,5 @@
 import { ref } from 'vue'
 import axios from 'axios'
-import type { ActivationRequest, ActivationResponse } from '../types/interfaces'
-import { AWS_CONFIG } from '../infraestructure/constants'
 import { useActivationStore } from '../stores/activation'
 import { useComputerFingerprint } from './useComputerFingerprint'
 import appMessages from '../infraestructure/appMessages'
@@ -27,32 +25,21 @@ export const useActivation = () => {
       }
 
       // Prepare activation request
-      const activationRequest: ActivationRequest = {
+      const activationRequest = {
         activationKey: activationKey.trim(),
-        computerFingerprint: fingerprint.hash,
+        computerFingerprint: fingerprint,
       }
 
-      // Send to AWS Lambda
-      const response = await axios.post<ActivationResponse>(
-        AWS_CONFIG.LAMBDA_ENDPOINT,
-        activationRequest,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          timeout: 30000, // 30 seconds timeout
+      // Send to backend for activation (which will save license file)
+      const response = await axios.post('/api/activation/activate', activationRequest, {
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        timeout: 30000, // 30 seconds timeout
+      })
 
       if (response.data.success) {
-        // Store activation status locally
-        activationStore.setActivationStatus({
-          isActivated: true,
-          activationKey: activationKey.trim(),
-          activatedAt: response.data.activatedAt || new Date().toISOString(),
-          computerFingerprint: fingerprint.hash,
-        })
-
+        // License is now saved on the backend, no need to store in frontend store
         return true
       } else {
         throw new Error(response.data.message || appMessages.activation.messages.invalidKey)
@@ -85,11 +72,17 @@ export const useActivation = () => {
 
   const checkActivationStatus = async (): Promise<boolean> => {
     try {
-      // First check local storage
-      activationStore.loadActivationStatus()
+      // Check activation status from backend (which reads the license file)
+      const response = await axios.get('/api/activation/status')
       
-      if (activationStore.activationStatus.isActivated) {
-        // Could add server-side validation here if needed
+      if (response.data.isActivated) {
+        // Update the store for UI purposes, but the real validation is on the backend
+        activationStore.setActivationStatus({
+          isActivated: true,
+          activationKey: response.data.activationKey,
+          activatedAt: response.data.activatedAt,
+          computerFingerprint: response.data.computerFingerprint,
+        })
         return true
       }
       
