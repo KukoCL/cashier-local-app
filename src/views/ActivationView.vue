@@ -86,7 +86,7 @@ const handleSubmit = async () => {
   }
 
   const success = await activateApplication(activationKey.value)
-  
+
   if (success) {
     // Redirect to home page after successful activation
     router.push('/')

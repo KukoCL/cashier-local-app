@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ProductsListView from '../views/products/ProductsListView.vue'
 import ProductsCreateView from '../views/products/ProductsCreateView.vue'
 import ActivationView from '../views/ActivationView.vue'
-import { useActivationStore } from '../stores/activation'
+import { useActivation } from '../composables/useActivation'
 
 const routes = [
   {
@@ -42,25 +42,28 @@ const router = createRouter({
 })
 
 // Navigation guard to check activation status
-router.beforeEach((to, _from, next) => {
-  const activationStore = useActivationStore()
+router.beforeEach(async (to, _from, next) => {
+  const { checkActivationStatus } = useActivation()
   
   // Check if route requires activation
   if (to.meta.requiresActivation) {
-    // Load current activation status
-    activationStore.loadActivationStatus()
+    // Check current activation status from backend (license file)
+    const isActivated = await checkActivationStatus()
     
-    if (!activationStore.activationStatus.isActivated) {
+    if (!isActivated) {
       // Redirect to activation page if not activated
       next('/activation')
       return
     }
   }
   
-  // If going to activation page but already activated, redirect to home
-  if (to.name === 'Activation' && activationStore.activationStatus.isActivated) {
-    next('/')
-    return
+  // If going to activation page, check if already activated
+  if (to.name === 'Activation') {
+    const isActivated = await checkActivationStatus()
+    if (isActivated) {
+      next('/')
+      return
+    }
   }
   
   next()
