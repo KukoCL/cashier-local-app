@@ -19,6 +19,7 @@ This application is designed to help businesses manage their sales, inventory, a
 - ✅ Secure local data storage with LiteDB
 - ✅ Offline-first architecture
 - ✅ Fast and efficient performance
+- ✅ **Application activation system with AWS integration**
 
 ## 💾 Data Management
 
@@ -151,6 +152,139 @@ The application uses **LiteDB** as its database engine, providing robust local d
 - `npm test`: Run unit tests
 
 This creates a distributable Windows executable in the `bin/Desktop` folder.
+
+## 🔐 Activation System
+
+The application includes a robust activation system that validates users through a unique activation key. Here's how it works:
+
+### How Activation Works
+
+1. **First Launch**: When users first open the application, they're prompted to enter an activation key
+2. **Computer Fingerprinting**: The system generates a unique fingerprint based on the user's computer characteristics
+3. **AWS Validation**: The activation key and fingerprint are sent to an AWS Lambda function for validation
+4. **Local Storage**: Upon successful activation, the status is stored locally for future sessions
+5. **Router Protection**: All application routes are protected and require valid activation
+
+### Activation Features
+
+- **Unique Computer Fingerprinting**: Uses browser/system characteristics to create a unique identifier
+- **AWS Lambda Integration**: Secure validation through cloud infrastructure
+- **DynamoDB Storage**: Activation records are stored in AWS DynamoDB
+- **Local Persistence**: Activation status is cached locally for offline use
+- **Route Protection**: Navigation guards prevent access without valid activation
+- **Error Handling**: Comprehensive error messaging for network and validation issues
+
+### AWS Setup for Activation
+
+#### Required AWS Resources
+
+1. **AWS Lambda Function** for activation validation
+2. **DynamoDB Table** for storing activation records
+3. **IAM Roles** with appropriate permissions
+
+#### Environment Configuration
+
+Create a `.env` file in the project root with your AWS configuration:
+
+```bash
+# Copy from .env.example
+cp .env.example .env
+```
+
+Update the values in `.env`:
+
+```bash
+VITE_AWS_LAMBDA_ENDPOINT=https://your-lambda-endpoint.amazonaws.com/activate
+VITE_AWS_REGION=us-east-1
+```
+
+#### DynamoDB Table Schema
+
+Create a DynamoDB table with the following structure:
+
+```json
+{
+  "TableName": "CashierAppActivations",
+  "KeySchema": [
+    {
+      "AttributeName": "activationKey",
+      "KeyType": "HASH"
+    }
+  ],
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "activationKey",
+      "AttributeType": "S"
+    }
+  ],
+  "BillingMode": "PAY_PER_REQUEST"
+}
+```
+
+#### Lambda Function Example
+
+Here's a basic AWS Lambda function structure for handling activation:
+
+```javascript
+exports.handler = async (event) => {
+    const { activationKey, computerFingerprint } = JSON.parse(event.body);
+    
+    // Validate activation key against DynamoDB
+    // Store computer fingerprint
+    // Return success/failure response
+    
+    return {
+        statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            success: true,
+            message: 'Activation successful',
+            activatedAt: new Date().toISOString()
+        })
+    };
+};
+```
+
+#### IAM Permissions
+
+The Lambda function needs the following IAM permissions:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:Query"
+            ],
+            "Resource": "arn:aws:dynamodb:region:account:table/CashierAppActivations"
+        }
+    ]
+}
+```
+
+### Development Mode
+
+For development and testing, you can temporarily bypass activation by:
+
+1. Setting a development flag in the router guard
+2. Using mock activation endpoints
+3. Pre-populating localStorage with activation status
+
+### Security Considerations
+
+- Activation keys should be generated securely and be unique
+- Computer fingerprints provide additional security but aren't foolproof
+- Consider implementing activation limits per key
+- Use HTTPS for all AWS communications
+- Regularly rotate AWS credentials and keys
 
 ## 🔧 Development
 

@@ -155,6 +155,29 @@ export const appMessages = {
       },
     },
   },
+
+  activation: {
+    title: 'Activación de Aplicación',
+    subtitle: 'Ingrese su clave de activación para continuar',
+    form: {
+      activationKey: {
+        label: 'Clave de Activación',
+        placeholder: 'Ingrese su clave de activación',
+      },
+    },
+    actions: {
+      activate: 'Activar',
+      activating: 'Activando...',
+    },
+    messages: {
+      success: 'Aplicación activada exitosamente',
+      error: 'Error al activar la aplicación',
+      invalidKey: 'Clave de activación inválida',
+      networkError: 'Error de conexión. Verifique su conexión a internet.',
+    },
+    description: 'Para utilizar esta aplicación, necesita una clave de activación válida. ' +
+      'Contacte al administrador si no tiene una clave.',
+  },
 }
 
 export default appMessages

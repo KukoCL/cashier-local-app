@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column min-vh-100 main-layout">
-    <TopBar @navigate="handleNavigation" />
+    <TopBar v-if="showTopBar" @navigate="handleNavigation" />
     <div class="d-flex flex-grow-1 layout-content">
       <SideBar
         v-if="showSideBar"
@@ -29,7 +29,13 @@ const router = useRouter()
 const currentSection = ref<string>('')
 
 const showSideBar = computed(() => {
-  return currentSection.value !== '' && currentSection.value !== 'home'
+  return currentSection.value !== ''
+    && currentSection.value !== 'home'
+    && currentSection.value !== 'activation'
+})
+
+const showTopBar = computed(() => {
+  return currentSection.value !== 'activation'
 })
 
 const sidebarSections = computed(() => {

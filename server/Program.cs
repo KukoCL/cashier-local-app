@@ -13,8 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IProductsPersistence, ProductsPersistence>();
 builder.Services.AddSingleton<IProductsLogic, ProductsLogic>();
+builder.Services.AddSingleton<IActivationPersistence, ActivationPersistence>();
+builder.Services.AddSingleton<IActivationLogic, ActivationLogic>();
 builder.Services.AddScoped<IDatabaseService, LiteDatabaseService>();
 builder.Services.AddSingleton<IFileService, FileSystemService>();
+builder.Services.AddSingleton<ILicenseService, LicenseService>();
 builder.Services.AddSingleton<SeedDataService>();
 
 // Add Electron.NET

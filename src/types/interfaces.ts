@@ -43,3 +43,24 @@ export interface SidebarSection {
   title: string
   items: SidebarItem[]
 }
+
+// Activation interfaces
+export interface ActivationRequest {
+  activationKey: string
+  computerFingerprint: string
+}
+
+export interface ActivationResponse {
+  success: boolean
+  message: string
+  activatedAt?: string
+  expirationDate?: string
+}
+
+export interface ActivationStatus {
+  isActivated: boolean
+  activationKey?: string
+  activatedAt?: string
+  computerFingerprint?: string
+  expirationDate?: string
+}
